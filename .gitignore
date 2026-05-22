@@ -27,12 +27,18 @@ dist/
 logs/
 outputs/
 runtime/
+temp/
+tmp/
+output_images/
 test_output/
 test_outputs/
 /data/
 /outputs/
 system_server/data/
 system_server/outputs/
+system_server/services/*/temp/
+system_server/services/*/tmp/
+system_server/services/*/output_images/
 textMSA/runtime/
 textMSA/data/
 textMSA/uploads/
@@ -49,3 +55,7 @@ textMSA/textmsa/config/config.json
 
 # OS / misc
 coverage/
+*.backup
+*.bak
+*.orig
+.ipynb_checkpoints/
