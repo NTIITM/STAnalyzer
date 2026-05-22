@@ -17,7 +17,7 @@ daytona>=0.117.0
 langgraph>=0.2.19
 tiktoken>=0.5.2
 
-# 多源数据检索工具的可选依赖
+# Optional dependencies for multi-source data retrieval tools
 arxiv>=2.1.0
 scholarly>=1.7.0
 googlesearch-python>=1.2.3
