@@ -1,0 +1,148 @@
+{
+  "service_id": "spatial-imputation-tangram-service",
+  "name": "Tangram Spatial Imputation",
+  "description": "Map single-cell reference to spatial transcriptomics with Tangram to impute expression and mapping scores (cells mode). Outputs imputed spatial h5ad, mapping scores, run metrics, and optional visualizations.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:56985",
+  "port": 56985,
+  "service_suffix": "/api/impute",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "spatial_file_type": "auto",
+    "single_cell_file_type": "auto",
+    "n_epochs": 250,
+    "learning_rate": 0.005,
+    "lambda_dreg": 5.0,
+    "top_genes": 3000,
+    "seed": 1234
+  },
+  "parameter_schema": {
+    "spatial_file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Spatial transcriptomics file type",
+      "required": true
+    },
+    "single_cell_file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Single-cell reference file type",
+      "required": true
+    },
+    "n_epochs": {
+      "type": "discrete",
+      "default_value": 250,
+      "min_value": 10,
+      "max_value": 2000,
+      "description": "Training epochs",
+      "required": false
+    },
+    "learning_rate": {
+      "type": "continuous",
+      "default_value": 0.005,
+      "min_value": 1e-05,
+      "max_value": 1.0,
+      "description": "Learning rate",
+      "required": false
+    },
+    "lambda_dreg": {
+      "type": "continuous",
+      "default_value": 5.0,
+      "min_value": 0.0,
+      "max_value": 50.0,
+      "description": "Regularization strength lambda_dreg",
+      "required": false
+    },
+    "top_genes": {
+      "type": "discrete",
+      "default_value": 3000,
+      "min_value": 100,
+      "max_value": 20000,
+      "description": "Number of HV/intersection genes to use",
+      "required": false
+    },
+    "seed": {
+      "type": "discrete",
+      "default_value": 1234,
+      "min_value": 0,
+      "max_value": 999999,
+      "description": "Random seed",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "spatial_file": {
+      "file_type_ids": [
+        "spatial_rna_seq_data"
+      ],
+      "description": "Preprocessed spatial transcriptomics data (h5ad) with spatial coordinates; raw spatial_rna_seq_data must be preprocessed first."
+    },
+    "single_cell_file": {
+      "file_type_ids": [
+        "single_cell_rna_seq_data"
+      ],
+      "description": "Preprocessed or clustered single-cell reference (h5ad), optionally with cluster labels;"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs Tangram mapping/imputation results, mapping scores, run metrics, and optional visuals.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "imputed_spatial_data.h5ad",
+        "description": "AnnData object (h5ad format) containing Tangram-imputed spatial transcriptomics data. Attributes: 'X' (imputed expression matrix, spots/cells x genes, where genes are from single-cell reference), 'obs' (spot/cell metadata matching spatial input with spatial coordinates and annotations), 'var' (gene metadata with gene identifiers from the intersection of spatial and single-cell data), 'obsm' (spatial coordinates preserved from input, Tangram mapping matrix if available), 'uns' (unsupervised annotations including Tangram parameters, gene intersection information, mapping statistics, and training metrics)",
+        "file_type_id": "spatial_rna_seq_data"
+      },
+      {
+        "type": "file",
+        "filename": "mapping_scores.csv",
+        "description": "CSV file containing Tangram mapping scores for spatial locations. Columns: 'spot_id' (spatial location identifier), 'mapping_score' (confidence score for the mapping, higher indicates better match), 'n_mapped_cells' (number of single-cell reference cells mapped to this spot, for cells mode), 'mapped_cluster' (cluster assignment if clusters mode was used), 'mapping_entropy' (entropy of mapping distribution, lower indicates more confident mapping)",
+        "file_type_id": "mapping_scores_csv"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing all service statistics and summary information including: analysis parameters (mode, epochs, learning rate, etc.), data statistics (spatial/single-cell data shapes, training genes count and source, overlap genes count), mapping statistics (mapping score summary: min, max, mean, median), and other run metrics",
+        "file_type_id": "txt_report"
+      },
+      {
+        "type": "file",
+        "filename": "mapping_score_distribution.png",
+        "description": "Histogram showing the distribution of mapping scores (sum of weights per spot). Generated for all modes.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "training_scores.png",
+        "description": "Training gene scores visualization (cells mode only). Four-panel plot showing: 1) histogram of similarity scores for training genes, 2) training score vs scRNA-seq sparsity, 3) training score vs spatial data sparsity, 4) training score vs sparsity difference. Based on tutorial Cell 25.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "auc_validation.png",
+        "description": "AUC validation plot (cells mode only). Most important validation plot showing gene scores vs spatial data sparsity for all genes. Used to evaluate mapping quality. Based on tutorial Cell 43.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "imputation_qc.png",
+        "description": "Legacy alias for mapping_score_distribution.png. Optional QC/visualization when produced.",
+        "file_type_id": "generic_png"
+      }
+    ]
+  }
+}

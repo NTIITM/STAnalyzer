@@ -1,0 +1,156 @@
+{
+  "service_id": "spatial-deconvolution-cell2location-service",
+  "name": "cell2location Spatial Deconvolution",
+  "description": "Estimate cell-type abundances per spatial location using cell2location with a single-cell reference. Outputs abundance matrices (mean/q05), posterior h5ad, and run statistics/QC.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:49533",
+  "port": 49533,
+  "service_suffix": "/api/deconvolve",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "spatial_file_type": "auto",
+    "single_cell_file_type": "auto",
+    "cell_type_col": "cell_type",
+    "sc_batch_key": null,
+    "sp_batch_key": null,
+    "N_cells_per_location": 30.0,
+    "detection_alpha": 200.0,
+    "max_epochs_ref": 250,
+    "max_epochs_spatial": 300,
+    "use_gpu": false
+  },
+  "parameter_schema": {
+    "spatial_file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Spatial transcriptomics file type",
+      "required": true
+    },
+    "single_cell_file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Single-cell reference file type",
+      "required": true
+    },
+    "cell_type_col": {
+      "type": "string",
+      "default_value": "cell_type",
+      "description": "Column in single-cell obs storing cell type labels",
+      "required": true
+    },
+    "sc_batch_key": {
+      "type": "string",
+      "default_value": null,
+      "description": "Batch column in single-cell reference (optional)",
+      "required": false
+    },
+    "sp_batch_key": {
+      "type": "string",
+      "default_value": null,
+      "description": "Batch column in spatial data (optional)",
+      "required": false
+    },
+    "N_cells_per_location": {
+      "type": "continuous",
+      "default_value": 30.0,
+      "min_value": 1.0,
+      "max_value": 500.0,
+      "description": "Prior expected number of cells per spot/location",
+      "required": false
+    },
+    "detection_alpha": {
+      "type": "continuous",
+      "default_value": 200.0,
+      "min_value": 1.0,
+      "max_value": 1000.0,
+      "description": "Hyperparameter controlling detection overdispersion",
+      "required": false
+    },
+    "max_epochs_ref": {
+      "type": "discrete",
+      "default_value": 250,
+      "min_value": 10,
+      "max_value": 2000,
+      "description": "Training epochs for reference RegressionModel",
+      "required": false
+    },
+    "max_epochs_spatial": {
+      "type": "discrete",
+      "default_value": 300,
+      "min_value": 10,
+      "max_value": 2500,
+      "description": "Training epochs for spatial Cell2location model",
+      "required": false
+    },
+    "use_gpu": {
+      "type": "boolean",
+      "default_value": false,
+      "description": "Use GPU if available for training",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "spatial_file": {
+      "file_type_ids": [
+        "preprocessed_spatial_data"
+      ],
+      "description": "Preprocessed spatial transcriptomics data (h5ad) with counts and spatial coordinates; other intermediate forms must be standardized via preprocessing first."
+    },
+    "single_cell_file": {
+      "file_type_ids": [
+        "preprocessed_single_cell_data",
+        "clustered_single_cell_data"
+      ],
+      "description": "Preprocessed or clustered single-cell reference (h5ad) with cell-type annotations; raw single-cell data must be processed by single-cell preprocessing first."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs cell2location posterior, abundance matrices (mean/q05), stats, and optional QC plot.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "cell2location_results.h5ad",
+        "description": "Posterior AnnData containing inferred abundances and metadata (obsm: means/q05_cell_abundance_w_sf, var/obs preserved).",
+        "file_type_id": "deconvolved_spatial_data"
+      },
+      {
+        "type": "file",
+        "filename": "cell_abundance.csv",
+        "description": "Mean cell-type abundance per location; rows=locations, cols=cell types.",
+        "file_type_id": "cell_abundance_matrix_csv"
+      },
+      {
+        "type": "file",
+        "filename": "cell_abundance_q05.csv",
+        "description": "q05 cell-type abundance per location; rows=locations, cols=cell types.",
+        "file_type_id": "cell_abundance_matrix_csv"
+      },
+      {
+        "type": "file",
+        "filename": "run_stats.json",
+        "description": "Run parameters, device info, gene intersection, and abundance summaries.",
+        "file_type_id": "qc_summary_json"
+      },
+      {
+        "type": "file",
+        "filename": "abundance_qc.png",
+        "description": "Histogram of total inferred cells per location.",
+        "file_type_id": "generic_png"
+      }
+    ]
+  }
+}

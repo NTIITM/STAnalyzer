@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+scanpy
+anndata
+pandas
+numpy
+matplotlib
+pot
+paste-bio

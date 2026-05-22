@@ -1,0 +1,69 @@
+{
+  "name": "空间转录组预处理",
+  "description": "对空间转录组数据进行预处理和质量控制",
+  "version": "1.0.0",
+  "baseurl": "https://api.example.com",
+  "service_suffix": "/api/service",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "normalize": true,
+    "qc_threshold": 0.3,
+    "min_genes": 200,
+    "max_genes": 5000
+  },
+  "visibility": "private",
+  "parameter_schema": {
+    "normalize": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "是否进行标准化",
+      "required": false
+    },
+    "qc_threshold": {
+      "type": "continuous",
+      "default_value": 0.3,
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "description": "质量控制阈值",
+      "required": true
+    },
+    "min_genes": {
+      "type": "discrete",
+      "default_value": 200,
+      "min_value": 0,
+      "max_value": 10000,
+      "description": "最小基因数",
+      "required": true
+    },
+    "max_genes": {
+      "type": "discrete",
+      "default_value": 5000,
+      "min_value": 0,
+      "max_value": 50000,
+      "description": "最大基因数",
+      "required": true
+    },
+    "method": {
+      "type": "enum",
+      "default_value": "standard",
+      "enum_values": ["standard", "robust"],
+      "description": "标准化方法",
+      "required": true
+    }
+  },
+  "output_config": {
+    "collection_description": "输出预处理后的数据文件和处理结果",
+    "items": [
+      {
+        "type": "file",
+        "filename": "preprocessed_data.h5ad",
+        "description": "预处理后的数据文件，包含质量控制后的数据和标准化结果"
+      },
+      {
+        "type": "text",
+        "filename": "处理状态摘要",
+        "description": "包含质量控制统计、标准化统计和最终数据维度等信息"
+      }
+    ]
+  }
+}

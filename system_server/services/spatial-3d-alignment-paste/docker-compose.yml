@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  paste-alignment:
+    build: .
+    container_name: paste
+    ports:
+      - "51805:51805"
+    volumes:
+      - ./outputs:/app/outputs
+    environment:
+      - PORT=51805
+      - OUTPUT_DIR=/app/outputs
+    restart: unless-stopped

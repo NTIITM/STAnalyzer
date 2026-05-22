@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  gene-enrichment-analysis:
+    image: gene-enrichment-analysis:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gene-enrichment-analysis
+    ports:
+      - "58471:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+      - USE_LOCAL_GMT=true
+      - GMT_DIR=/app/gmt
+    volumes:
+      - ./outputs:/app/outputs
+      - ./gmt:/app/gmt
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge

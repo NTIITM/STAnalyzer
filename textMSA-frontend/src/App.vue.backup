@@ -1,0 +1,310 @@
+<template>
+  <div class="app-wrapper">
+    <!-- 顶部状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-left">
+        <div class="app-logo">
+          <Icon name="logo" size="lg" class="logo-icon" />
+          <span class="logo-text">{{ $t('app.brand') }}</span>
+        </div>
+      </div>
+      <div class="status-bar-center">
+        <!-- 导航栏 -->
+        <nav class="main-nav">
+          <router-link 
+            to="/analysis" 
+            class="nav-item"
+            :class="{ active: $route.path === '/analysis' || $route.path === '/' }"
+          >
+            <Icon name="analysis" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.analysis') }}</span>
+          </router-link>
+          <router-link 
+            to="/data-analysis" 
+            class="nav-item"
+            :class="{ active: $route.path.startsWith('/data-analysis') }"
+          >
+            <Icon name="diagram" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.dataAnalysis') }}</span>
+          </router-link>
+          <!-- <router-link 
+            to="/knowledge" 
+            class="nav-item"
+            :class="{ active: $route.path.startsWith('/knowledge') && !$route.path.startsWith('/knowledge-search') }"
+          >
+            <Icon name="knowledge" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.knowledge') }}</span>
+          </router-link> -->
+          <!-- <router-link 
+            to="/knowledge-search" 
+            class="nav-item"
+            :class="{ active: $route.path.startsWith('/knowledge-search') }"
+          >
+            <Icon name="search" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.knowledgeSearch') }}</span>
+          </router-link> -->
+          <router-link 
+            to="/services" 
+            class="nav-item"
+            :class="{ active: isServiceRoute }"
+          >
+            <Icon name="services" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.services') }}</span>
+          </router-link>
+          <router-link 
+            to="/executions" 
+            class="nav-item"
+            :class="{ active: $route.path === '/executions' }"
+          >
+            <Icon name="timeline" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.executions') }}</span>
+          </router-link>
+          <router-link 
+            to="/help" 
+            class="nav-item"
+            :class="{ active: $route.path === '/help' }"
+          >
+            <Icon name="help" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.help') }}</span>
+          </router-link>
+          <!-- <router-link 
+            to="/spatial-coexpression" 
+            class="nav-item"
+            :class="{ active: $route.path === '/spatial-coexpression' }"
+          >
+            <Icon name="graph" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.spatialCoexpression') }}</span>
+          </router-link> -->
+          <!-- <router-link 
+            to="/spatial-transcriptomics" 
+            class="nav-item"
+            :class="{ active: $route.path === '/spatial-transcriptomics' }"
+          >
+            <Icon name="diagram" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.spatialTranscriptomics') }}</span>
+          </router-link> -->
+          <!-- <router-link 
+            to="/profile" 
+            class="nav-item"
+            :class="{ active: $route.path === '/profile' }"
+          >
+            <Icon name="user" size="md" class="nav-icon" />
+            <span class="nav-label">{{ $t('navigation.profile') }}</span>
+          </router-link> -->
+        </nav>
+      </div>
+      <div class="status-bar-right">
+        <!-- 语言切换下拉框 -->
+        <div class="language-switcher">
+          <select 
+            :value="currentLocale" 
+            @change="changeLocale(($event.target as HTMLSelectElement).value)"
+            class="lang-select"
+          >
+            <option value="zh-CN">{{ $t('app.languageChinese') }}</option>
+            <option value="en-US">{{ $t('app.languageEnglish') }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 主内容区域：路由视图 -->
+    <div class="app-container">
+      <router-view />
+    </div>
+    
+    <!-- 消息提示组件 -->
+    <MessageToast />
+    
+    <!-- Token 认证弹窗 -->
+    <TokenAuthDialog
+      v-model="authStore.showTokenDialog"
+      @confirm="handleTokenConfirm"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, watch, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import MessageToast from './components/common/MessageToast.vue'
+import Icon from './components/common/Icon.vue'
+import TokenAuthDialog from './components/auth/TokenAuthDialog.vue'
+import { useUserStore } from './stores/userStore'
+import { useAuthStore } from './stores/authStore'
+
+const router = useRouter()
+const { locale } = useI18n()
+const currentLocale = computed(() => locale.value)
+const userStore = useUserStore()
+const authStore = useAuthStore()
+
+// 检查当前路由是否为Service相关页面（包括创建和编辑）
+const isServiceRoute = computed(() => {
+  const path = router.currentRoute.value.path
+  return path === '/services' || path.startsWith('/services/')
+})
+
+/**
+ * 切换语言
+ */
+function changeLocale(lang: string) {
+  locale.value = lang
+  localStorage.setItem('app_locale', lang)
+}
+
+/**
+ * 检查路由并验证 token
+ */
+function checkRouteAuth() {
+  const currentPath = router.currentRoute.value.path
+  
+  // HelpPage 不需要 token
+  if (currentPath === '/help') {
+    return
+  }
+  
+  // 检查是否有 token
+  if (!authStore.checkAuth()) {
+    // 没有 token，显示认证弹窗
+    authStore.showAuthDialog()
+  } else {
+    // 有 token，确保用户信息已加载
+    if (!userStore.profile) {
+      userStore.fetchProfile().catch(err => {
+        console.warn('获取用户信息失败:', err)
+      })
+    }
+  }
+}
+
+/**
+ * Token 确认后的处理
+ */
+async function handleTokenConfirm(_token: string) {
+  try {
+    // 获取用户信息
+    await userStore.fetchProfile()
+  } catch (error) {
+    console.warn('获取用户信息失败:', error)
+  }
+}
+
+/**
+ * 监听路由变化，检查 token
+ */
+watch(
+  () => router.currentRoute.value.path,
+  (newPath) => {
+    // HelpPage 不需要 token 校验，直接跳过
+    if (newPath === '/help') {
+      return
+    }
+    checkRouteAuth()
+  },
+  { immediate: false }
+)
+
+/**
+ * 应用启动时检查认证状态
+ */
+onMounted(() => {
+  // HelpPage 不需要 token 校验，直接跳过
+  if (router.currentRoute.value.path === '/help') {
+    return
+  }
+  checkRouteAuth()
+})
+</script>
+
+<style scoped>
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  gap: 12px;
+  position: relative;
+  z-index: 1000;
+  background: white;
+}
+
+.status-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.status-bar-center {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #303133;
+  white-space: nowrap;
+}
+
+.logo-icon {
+  color: #4050ff;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 10px;
+}
+
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  min-height: 42px;
+  white-space: nowrap;
+}
+
+.status-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.language-switcher .lang-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  background: #fff;
+  color: #606266;
+}
+</style>

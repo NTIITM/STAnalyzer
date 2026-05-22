@@ -1,0 +1,1961 @@
+{
+  "common": {
+    "confirm": "确认",
+    "cancel": "取消",
+    "toggleAoi": "AOI 开关",
+    "selectAll": "全选",
+    "unselectAll": "取消全选",
+    "processingImage": "图像处理中，请稍候…",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "创建",
+    "refresh": "刷新",
+    "close": "关闭",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息",
+    "retry": "重试",
+    "all": "全部",
+    "required": "必填",
+    "optional": "可选",
+    "actions": "操作",
+    "clear": "清除",
+    "back": "返回",
+    "config": "配置",
+    "reset": "重置",
+    "noData": "无数据"
+  },
+  "navigation": {
+    "analysis": "分析流程",
+    "dataAnalysis": "数据分析",
+    "knowledge": "知识工作台",
+    "knowledgeSearch": "知识检索",
+    "services": "服务管理",
+    "executions": "服务执行",
+    "help": "帮助文档",
+    "profile": "用户中心",
+    "spatialCoexpression": "空间共表达网络",
+    "spatialTranscriptomics": "空间转录组分析"
+  },
+  "dataAnalysis": {
+    "toolbar": {
+      "projectLabel": "项目",
+      "projectPlaceholder": "选择项目",
+      "refreshFiles": "刷新文件",
+      "refreshProjects": "刷新项目"
+    },
+    "tabs": {
+      "fileList": "文件列表",
+      "executionList": "执行列表"
+    },
+    "lists": {
+      "fileEmpty": "暂无文件",
+      "executionEmpty": "暂无成功的执行记录"
+    },
+    "preview": {
+      "fileTitle": "文件预览",
+      "executionTitle": "执行预览",
+      "textMode": "文本预览",
+      "visualizationMode": "可视化",
+      "selectFile": "请选择文件",
+      "selectExecution": "请选择执行记录",
+      "unsupported": "该类型暂不支持预览，仍可发起分析",
+      "fallbackFileName": "文件 {id}"
+    },
+    "analysis": {
+      "fileTitle": "文件分析",
+      "executionTitle": "执行分析",
+      "selectFileTip": "请选择文件后发起分析",
+      "selectExecutionTip": "请选择执行记录后发起分析",
+      "questionLabel": "问题 / 查询",
+      "questionPlaceholder": "输入要询问的问题或需要的分析要点",
+      "send": "发送分析",
+      "copy": "复制结果",
+      "resultTitle": "分析结果",
+      "statusLoading": "加载中",
+      "statusError": "失败",
+      "statusSuccess": "成功",
+      "emptyResult": "暂无结果",
+      "loadingFooter": "正在分析...",
+      "success": "分析成功",
+      "failed": "分析失败",
+      "complete": "分析完成",
+      "copySuccess": "结果已复制",
+      "copyFailed": "复制失败",
+      "selectFileWarning": "请选择文件",
+      "selectExecutionWarning": "请选择执行记录",
+      "enterQueryWarning": "请输入问题或查询内容",
+      "collapseLeftPanel": "收起左侧面板",
+      "expandLeftPanel": "展开左侧面板",
+      "collapseRightPanel": "收起右侧面板",
+      "expandRightPanel": "展开右侧面板"
+    },
+    "errors": {
+      "loadProjects": "获取项目列表失败",
+      "loadExecutions": "获取执行列表失败",
+      "loadFiles": "获取文件列表失败",
+      "requestFailed": "请求失败: {status}"
+    },
+    "events": {
+      "expand": "展开",
+      "collapse": "收起",
+      "labels": {
+        "description": "说明",
+        "json": "JSON",
+        "code": "代码",
+        "details": "详情",
+        "files": "文件"
+      },
+      "actions": {
+        "download": "下载"
+      },
+      "downloadFailed": "文件下载失败"
+    }
+  },
+  "execution": {
+    "title": "服务执行",
+    "subtitle": "查看服务执行记录，跟踪状态并查看输入输出详情",
+    "refresh": "刷新",
+    "filters": {
+      "project": "选择项目",
+      "service": "选择服务",
+      "status": "选择状态"
+    },
+    "status": {
+      "pending": "等待中",
+      "running": "运行中",
+      "completed": "已完成",
+      "failed": "失败"
+    },
+    "columns": {
+      "service": "服务",
+      "status": "状态",
+      "executionId": "执行ID",
+      "createdAt": "创建时间",
+      "startedAt": "开始时间",
+      "completedAt": "完成时间",
+      "duration": "耗时"
+    },
+    "detail": {
+      "basic": "基本信息",
+      "serviceId": "服务ID",
+      "userId": "用户ID",
+      "projectId": "项目ID",
+      "executionId": "执行ID",
+      "createdAt": "创建时间",
+      "startedAt": "开始时间",
+      "completedAt": "完成时间",
+      "params": "执行参数",
+      "response": "响应数据",
+      "inputFiles": "输入文件",
+      "outputFiles": "输出文件",
+      "error": "错误信息",
+      "noError": "暂无错误",
+      "empty": "无数据",
+      "selectExecution": "请选择执行记录",
+      "noInputFiles": "无输入文件",
+      "noOutputFiles": "无输出文件",
+      "noParams": "无参数",
+      "noResponse": "无响应数据"
+    },
+    "empty": "暂无执行记录",
+    "error": {
+      "loadFailed": "加载执行记录失败"
+    }
+  },
+  "profile": {
+    "title": "用户信息维护",
+    "subtitle": "账户概览",
+    "description": "查看并维护当前登录账户的基础资料与安全设置。",
+    "actions": {
+      "refresh": "重新拉取",
+      "refreshing": "刷新中...",
+      "loadProfile": "加载用户信息",
+      "saving": "保存中...",
+      "saveProfile": "保存信息",
+      "updatingPassword": "更新密码中...",
+      "updatePassword": "更新密码"
+    },
+    "summary": {
+      "title": "账号概要",
+      "loading": "加载中",
+      "ready": "已同步",
+      "userId": "用户ID",
+      "username": "用户名",
+      "email": "邮箱",
+      "emailEmpty": "未填写",
+      "cachedAt": "缓存时间",
+      "placeholder": "暂未拉取到用户信息"
+    },
+    "form": {
+      "title": "基础资料",
+      "subtitle": "公开展示的信息",
+      "hint": "更新后会同步到当前登录态。",
+      "username": "用户名",
+      "usernamePlaceholder": "请输入新的用户名",
+      "email": "邮箱",
+      "emailPlaceholder": "请输入新的邮箱地址",
+      "disclaimer": "若修改用户名或邮箱，系统将同步更新缓存。"
+    },
+    "security": {
+      "title": "安全设置",
+      "subtitle": "密码管理",
+      "hint": "建议定期更新密码以保护账户安全。",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认新密码",
+      "disclaimer": "密码更新后会立即生效，旧会话可能需要重新登录。"
+    },
+    "messages": {
+      "profileLoaded": "已获取最新用户信息",
+      "profileLoadFailed": "获取用户信息失败",
+      "noChanges": "未检测到需要更新的内容",
+      "profileUpdated": "用户信息已更新",
+      "profileFailed": "用户信息更新失败",
+      "passwordNotMatch": "两次输入的新密码不一致",
+      "passwordUpdated": "密码已更新，请妥善保管",
+      "passwordFailed": "密码更新失败"
+    }
+  },
+  "service": {
+    "management": "服务管理",
+    "create": "创建服务",
+    "edit": "编辑服务",
+    "delete": "删除服务",
+    "execute": {
+      "title": "执行服务",
+      "inputFileId": "输入文件ID",
+      "inputFileIdHint": "要处理的文件ID",
+      "parameters": "执行参数",
+      "noParameters": "该服务没有定义参数Schema，将使用参数模板的默认值",
+      "useDefault": "使用默认值",
+      "yes": "是",
+      "no": "否",
+      "defaultValue": "默认值",
+      "onePerLine": "每行一个元素",
+      "executing": "执行中...",
+      "execute": "执行服务",
+      "reExecute": "重新执行",
+      "result": "执行结果",
+      "executionId": "执行ID",
+      "outputFileId": "输出文件ID",
+      "status": "状态",
+      "error": "错误信息",
+      "fillInputFileId": "请填写输入文件ID",
+      "executeFailed": "执行失败",
+      "range": "范围",
+      "unlimited": "无限制",
+      "availableValues": "可选值",
+      "fileNotFound": "未找到文件：{fileId}",
+      "fileTypeIdMissing": "文件缺少 file_type_id，无法验证文件类型",
+      "fileTypeNotAccepted": "文件类型 {fileTypeId} 不符合服务要求。服务接受的文件类型：{acceptedTypes}",
+      "fileTypeValid": "文件类型验证通过：{fileTypeId}",
+      "fileValidationFailed": "文件类型验证失败：{error}",
+      "multiFileHint": "此服务需要多个输入文件，请为每个文件槽位选择或上传文件",
+      "fileType": "文件类型",
+      "existFile": "选择已有文件",
+      "chooseFile": "请选择文件",
+      "uploadNew": "或上传新文件",
+      "noService": "未找到服务",
+      "fileSelect": "选择或上传文件",
+      "fileSelectHint": "选择符合服务要求的文件，或快速上传新文件",
+      "uploadHintTitle": "拖拽或选择文件",
+      "uploadHintDesc": "将按照上方选择的文件类型上传，成功后自动填充执行表单",
+      "uploadSuccess": "上传成功，已自动填充",
+      "selectedFile": "已选文件",
+      "fileListWithoutProject": "未传入 projectId 时将列出全部可见文件"
+    },
+    "detail": {
+      "basicInfo": "基本信息",
+      "tags": "标签",
+      "requestConfig": "请求配置",
+      "parameterTemplate": "参数模板",
+      "parameterSchema": "参数Schema",
+      "outputConfig": "输出结果配置",
+      "collectionDescription": "集合描述",
+      "fileType": "文件类型",
+      "acceptedFiles": "需要的文件",
+      "noAcceptedFiles": "无文件要求",
+      "textType": "文本类型",
+      "filename": "文件名",
+      "outputDescription": "输出描述",
+      "metadata": "元数据",
+      "createdAt": "创建时间",
+      "updatedAt": "更新时间",
+      "createdBy": "创建者"
+    },
+    "executions": "执行记录",
+    "createFirst": "创建第一个服务",
+    "noServices": "暂无服务",
+    "statusFilter": "状态筛选",
+    "tagFilter": "Tag筛选",
+    "status": {
+      "pending": "待审核",
+      "active": "激活",
+      "inactive": "未激活",
+      "deprecated": "已废弃",
+      "rejected": "已拒绝"
+    },
+    "visibility": {
+      "private": "私有",
+      "public": "公开",
+      "system": "系统"
+    },
+    "form": {
+      "serviceId": "服务ID",
+      "serviceIdHint": "服务的唯一标识符，创建后不可修改",
+      "name": "名称",
+      "description": "描述",
+      "version": "版本",
+      "versionPlaceholder": "1.0.0",
+      "url": "远程服务器URL",
+      "tags": "标签（每行一个）",
+      "visibility": "权限",
+      "status": "状态",
+      "requestConfig": "请求配置（JSON）",
+      "requestConfigHint": "JSON格式，例如：{'{'}\"http_method\": \"POST\", \"timeout_seconds\": 300, \"retry_count\": 0{'}'}",
+      "parameterTemplate": "参数模板（JSON）",
+      "parameterTemplateHint": "JSON格式，默认参数值",
+      "parameterSchema": "参数Schema（JSON，可选）",
+      "parameterSchemaHint": "JSON格式，定义参数类型、范围和约束",
+      "outputConfig": "输出结果配置",
+      "outputConfigHint": "定义服务执行后输出的结果项集合（文件或文本信息）",
+      "noOutputItems": "暂无输出项，点击下方按钮添加",
+      "addFileItem": "添加文件项",
+      "addTextItem": "添加文本项",
+      "inputConfig": "输入参数配置",
+      "noParams": "暂无参数",
+      "addParam": "添加参数",
+      "paramName": "参数名",
+      "paramNamePlaceholder": "如 qc_threshold",
+      "paramDescription": "参数描述",
+      "paramDescriptionPlaceholder": "该参数的用途描述",
+      "paramType": "参数类型",
+      "typePlaceholder": "类型",
+      "defaultValue": "默认值",
+      "defaultPlaceholder": "默认值",
+      "defaultNumberPlaceholder": "默认数值",
+      "defaultEnumPlaceholder": "默认枚举值",
+      "defaultTextPlaceholder": "默认文本",
+      "constraints": "限制（范围/枚举等）",
+      "minValue": "最小值",
+      "maxValue": "最大值",
+      "enumValuesPlaceholder": "枚举值（以逗号分隔）",
+      "noExtraConstraints": "无额外限制",
+      "inputConfigHint": "用于定义服务的输入参数；保存时将写入 parameter_schema 与 parameter_template",
+      "fileType": "文件",
+      "textType": "文本",
+      "filename": "文件名",
+      "filenamePlaceholder": "例如：result.h5ad",
+      "fileTypeId": "文件类型ID",
+      "fileTypeIds": "文件类型ID列表",
+      "fileTypeIdPlaceholder": "例如：h5ad",
+      "fileTypeIdHint": "可选：优先复用上方已出现过的文件类型ID。",
+      "addFileTypeId": "添加文件类型ID",
+      "acceptedFiles": "需要的文件",
+      "acceptedFilesHint": "定义该服务执行所需的输入文件名、文件类型ID列表及描述。",
+      "noAcceptedFiles": "暂无文件要求，点击下方按钮添加",
+      "addAcceptedFile": "添加需要的文件",
+      "newFile": "新文件",
+      "fileDescription": "文件描述",
+      "fileDescriptionPlaceholder": "描述该输入文件的用途或约束",
+      "outputDescription": "输出描述",
+      "outputDescriptionPlaceholder": "描述该结果包含的内容或作用",
+      "collectionDescription": "集合描述",
+      "collectionDescriptionPlaceholder": "描述整个输出结果集合的用途",
+      "jsonUpload": "从JSON文件导入",
+      "jsonUploadHint": "上传JSON文件可自动填充表单字段",
+      "selectJsonFile": "选择JSON文件",
+      "saving": "保存中...",
+      "fillRequired": "请填写必填字段",
+      "saveFailed": "保存失败",
+      "loadFailed": "加载失败",
+      "createSuccess": "创建成功",
+      "updateSuccess": "更新成功",
+      "jsonParseSuccess": "JSON文件解析成功，表单已自动填充",
+      "jsonParseFailed": "JSON解析失败",
+      "fileReadFailed": "文件读取失败",
+      "jsonConfig": "JSON配置",
+      "formatJson": "格式化JSON",
+      "exportJson": "导出JSON",
+      "fullJson": "完整JSON",
+      "validJson": "JSON格式有效",
+      "invalidJson": "JSON格式无效",
+      "jsonFormatted": "JSON已格式化",
+      "formatFailed": "格式化失败",
+      "jsonExported": "JSON已导出",
+      "exportFailed": "导出失败",
+      "downloadExampleJson": "下载示例JSON",
+      "downloadExampleYaml": "下载示例YAML",
+      "configFile": "配置文件",
+      "uploadFile": "上传文件",
+      "unsupportedFile": "不支持的文件格式，请上传JSON或YAML文件",
+      "parseSuccess": "配置文件解析成功",
+      "parseFailed": "配置文件解析失败: {error}",
+      "fileTooLarge": "文件大小不能超过 512MB",
+      "exampleJsonDownloaded": "示例JSON文件下载成功",
+      "exampleYamlDownloaded": "示例YAML文件下载成功",
+      "downloadFailed": "下载失败",
+      "invalidContentCannotConvert": "当前内容格式无效，无法转换",
+      "convertFailed": "格式转换失败: {error}",
+      "invalidJsonFormat": "无效的JSON格式",
+      "invalidYamlFormat": "无效的YAML格式",
+      "jsonPlaceholder": "{'{'}\n  \"name\": \"空间转录组预处理\",\n  \"description\": \"对空间转录组数据进行预处理和质量控制\",\n  \"version\": \"1.0.0\",\n  \"baseurl\": \"https://api.example.com\",\n  \"service_suffix\": \"/api/service\",\n  \"download_suffix\": \"/api/download\",\n  \"visibility\": \"private\",\n  \"parameter_template\": {'{'}\n    \"normalize\": true,\n    \"qc_threshold\": 0.3,\n    \"min_genes\": 200\n  {'}'}\n{'}'}",
+      "yamlPlaceholder": "name: 空间转录组预处理\ndescription: 对空间转录组数据进行预处理和质量控制\nversion: 1.0.0\nbaseurl: https://api.example.com\nservice_suffix: /api/service\ndownload_suffix: /api/download\nvisibility: private\nparameter_template:\n  normalize: true\n  qc_threshold: 0.3\n  min_genes: 200",
+      "validConfig": "配置文件格式有效",
+      "baseurl": "基础服务地址",
+      "baseurlPlaceholder": "例如：https://api.example.com",
+      "baseurlHint": "服务的基础访问地址，所有 URL 将在此前缀下拼接。",
+      "serviceSuffix": "服务接口后缀",
+      "serviceSuffixPlaceholder": "例如：/services/{service_id}",
+      "serviceSuffixHint": "用于拼接单个服务配置/查询的后缀路径，支持占位符 {service_id}。",
+      "downloadSuffix": "下载接口后缀",
+      "downloadSuffixPlaceholder": "例如：/files/{file_id}/download",
+      "downloadSuffixHint": "用于拼接下载结果文件的后缀路径，支持占位符 {file_id}。"
+    },
+    "execution": {
+      "list": "执行记录",
+      "noRecords": "暂无执行记录",
+      "executionId": "执行ID",
+      "inputFile": "输入文件",
+      "outputFile": "输出文件",
+      "duration": "耗时",
+      "error": "错误",
+      "loadFailed": "加载失败",
+      "seconds": "秒",
+      "minutes": "分钟",
+      "hours": "小时",
+      "status": {
+        "pending": "等待中",
+        "running": "运行中",
+        "completed": "已完成",
+        "failed": "失败",
+        "cancelled": "已取消"
+      }
+    },
+    "graph": "关系图",
+    "actions": {
+      "confirmDelete": "确定要删除服务 \"{name}\" 吗？",
+      "deleteFailed": "删除失败"
+    }
+  },
+  "knowledge": {
+    "title": "知识工作台",
+    "subtitle": "在私有 / 公共 / 系统知识之间浏览与维护关系图谱。",
+    "callout": "该页面直接调用后端接口，所有操作都会实时落库。",
+    "actions": {
+      "reset": "刷新列表",
+      "add": "新增知识",
+      "addFirst": "创建第一条知识",
+      "promptCenter": "Prompt 中心"
+    },
+    "searchPlaceholder": "按标题、描述或标签搜索",
+    "filters": {
+      "onlyEdited": "只看我编辑的",
+      "showAll": "显示全部记录",
+      "sortRecent": "按最新更新时间",
+      "sortOldest": "按最早更新时间",
+      "helper": "使用筛选器聚焦当前需要的知识。"
+    },
+    "empty": "该范围暂时没有知识条目。",
+    "scopes": {
+      "private": "私有",
+      "public": "公共",
+      "system": "系统"
+    },
+    "type": {
+      "entity": "实体",
+      "relation": "关系"
+    },
+    "flags": {
+      "userEdited": "已由用户编辑"
+    },
+    "labels": {
+      "relation": "关系描述",
+      "lastUpdated": "更新时间",
+      "source": "来源"
+    },
+    "promptCenter": {
+      "title": "Prompt 中心",
+      "subtitle": "集中管理提示模板并生成/审批新模板。",
+      "refresh": "重新加载",
+      "configTitle": "模板配置",
+      "configDesc": "编辑或保存抽取所需的实体/关系提示。",
+      "generatorTitle": "生成与审批",
+      "generatorDesc": "根据业务需求生成 Prompt，并在同一页面完成审批。",
+      "generate": "生成 Prompt",
+      "generating": "生成中...",
+      "generated": "已生成 Prompt，等待审批。",
+      "generateError": "生成 Prompt 失败",
+      "deleteConfirm": "确认删除模板「{name}」吗？",
+      "deleteSuccess": "模板已删除。",
+      "deleteError": "删除模板失败。",
+      "deleteBlocked": "系统模板不可删除"
+    },
+    "workflow": {
+      "badge": "提取引擎",
+      "title": "文本 / 文献 / Prompt",
+      "textTab": "文本提取",
+      "literatureTab": "文献提取",
+      "promptTab": "生成 Prompt",
+      "textLabel": "输入文本",
+      "placeholder": "可粘贴实验记录、会议笔记或文摘...",
+      "templateLabel": "Prompt 模板",
+      "templateAuto": "使用默认模板",
+      "sourceLabel": "来源标记",
+      "sourcePlaceholder": "例如：实验记录 / PubMed",
+      "literatureQuery": "检索关键词",
+      "literaturePlaceholder": "如：胃癌 AND HER2",
+      "maxResults": "最大条数 (1-50)",
+      "promptQuery": "需求描述",
+      "promptPlaceholder": "例如：生成针对免疫微环境的抽取提示",
+      "promptDescription": "背景说明",
+      "promptDescriptionPlaceholder": "可选：补充背景、限制等",
+      "run": "执行",
+      "generatePrompt": "生成 Prompt",
+      "running": "执行中...",
+      "statusRunning": "处理中...",
+      "statusCompleted": "完成 - {count} 条候选",
+      "statusNoResult": "完成 - 暂无候选",
+      "statusIdle": "等待输入",
+      "promptReady": "Prompt 已生成，可在下方审批",
+      "lastRun": "最近一次"
+    },
+    "results": {
+      "badge": "候选 / 审批",
+      "titleIdle": "等待提取",
+      "titleText": "文本候选",
+      "titleLiterature": "文献候选",
+      "titlePrompt": "待审批 Prompt",
+      "subtitleIdle": "执行一次提取以预览候选。",
+      "subtitleActive": "候选仅保存最近一次执行结果。",
+      "selectAll": "全选",
+      "import": "批量导入",
+      "importing": "导入中...",
+      "empty": "尚未执行提取。",
+      "noTriplets": "暂未获取到三元组。",
+      "noDescription": "暂无描述",
+      "source": "来源",
+      "confidence": "置信度 {value}",
+      "toForm": "导入到表单",
+      "pendingId": "候选 ID",
+      "query": "查询",
+      "description": "描述",
+      "entityPrompt": "实体提示",
+      "relationPrompt": "关系提示",
+      "templateName": "模板名称",
+      "templateNamePlaceholder": "如：免疫微环境模板",
+      "setDefault": "设为默认模板",
+      "approve": "批准并入库",
+      "approving": "审批中...",
+      "noPrompt": "暂无待审批 Prompt",
+      "expandedKeywords": "关键词拓展",
+      "summary": "摘要",
+      "importingError": "导入失败"
+    },
+    "activity": {
+      "badge": "最新动态",
+      "title": "工作区时间线",
+      "empty": "暂无动态，先试着编辑知识吧。"
+    },
+    "prompt": {
+      "badge": "Prompt 配置",
+      "title": "抽取提示词",
+      "subtitle": "描述希望抽取的实体与关系，供 Workflow 参考。",
+      "helper": "根据业务语境自定义提示，提升抽取一致性。",
+      "reset": "恢复模板",
+      "delete": "删除模板",
+      "save": "保存 Prompt",
+      "entityLabel": "实体抽取说明",
+      "relationLabel": "关系抽取说明",
+      "entityPlaceholder": "实体: 描述\n例如：基因: 识别转录因子、受体等",
+      "relationPlaceholder": "关系: 描述\n例如：激活: 需要提供证据句",
+      "textHint": "支持 JSON 或“键: 描述”逐行格式。",
+      "lastSaved": "上次保存 {time}",
+      "hint": "保存后将在后续 Workflow 执行中生效。",
+      "unsaved": "有未保存的更改"
+    },
+    "modal": {
+      "createTitle": "新增知识",
+      "editTitle": "编辑知识",
+      "fields": {
+        "title": "标题",
+        "description": "描述",
+        "relationFrom": "头实体",
+        "relationFromPlaceholder": "例如：Gene A",
+        "relationType": "关系",
+        "relationTypePlaceholder": "例如：激活",
+        "relationTo": "尾实体",
+        "relationToPlaceholder": "例如：Gene B",
+        "tags": "标签",
+        "kind": "类型",
+        "scope": "范围"
+      },
+      "tagsPlaceholder": "使用逗号分隔，例如 chemokine, TLS",
+      "userEditedHint": "一旦手动编辑，系统会永久标记为用户编辑。"
+    },
+    "detail": {
+      "basicInfo": "基本信息"
+    },
+    "form": {
+      "metadataSection": "补充信息",
+      "metadataKey": "键",
+      "metadataValue": "值",
+      "metadataAdd": "添加字段",
+      "prefillSuccess": "已从提取候选填充表单。",
+      "clearPrefill": "清除",
+      "tagsHint": "使用逗号分隔多个标签。",
+      "loadFailed": "加载知识失败",
+      "saveFailed": "保存知识失败",
+      "invalidFields": "请检查必填项是否完整。",
+      "prefillBanner": "来自提取候选的快速填充"
+    },
+    "messages": {
+      "systemLocked": "系统知识为只读。",
+      "missingFields": "请先填写必填项。",
+      "missingRelation": "请完整填写头实体、关系和尾实体。",
+      "activityCreated": "已创建「{title}」。",
+      "activityUpdated": "已更新「{title}」。",
+      "saved": "保存成功。",
+      "createSuccess": "知识创建成功。",
+      "updateSuccess": "知识更新成功。",
+      "confirmDelete": "确认删除「{title}」？仅影响你的工作区。",
+      "activityDeleted": "已删除「{title}」。",
+      "deleted": "已从工作区移除。",
+      "activityShared": "已将「{title}」分享至公共区。",
+      "shared": "现在所有人都可见。",
+      "activityWorkflowReady": "Workflow 抽取完成，候选已生成。",
+      "activityTextExtracted": "文本提取得到 {count} 条候选。",
+      "activityLiteratureExtracted": "文献提取得到 {count} 条候选。",
+      "activityPromptReady": "生成了新的 Prompt 候选。",
+      "activityPromptApproved": "已审批生成的 Prompt。",
+      "selectCandidates": "请至少选择一条候选。",
+      "imported": "已导入 {count} 条候选，作为私有知识。",
+      "activityImported": "导入了 {count} 条 Workflow 候选。",
+      "activityPromptSaved": "Prompt 已更新，后续 Workflow 将使用新配置。",
+      "promptSaved": "Prompt 保存成功。",
+      "promptApproved": "Prompt 已审批并写入模板。",
+      "promptApproveError": "审批 Prompt 失败。",
+      "reset": "演示数据已恢复。",
+      "downloaded": "示例文件已就绪。",
+      "downloadError": "示例文件下载失败。",
+      "importFilePopulate": "示例内容已填入表单，请确认后再保存。",
+      "importFileError": "导入失败，请检查文件内容。",
+      "importFileEmpty": "文件中没有可识别的知识条目。",
+      "importSingleError": "部分候选导入失败，请查看提示。"
+    },
+    "import": {
+      "hint": "支持通过 JSON 或 YAML 批量导入已有笔记。",
+      "helper": "点击或拖拽文件到此处即可上传。",
+      "downloadJson": "示例 JSON",
+      "downloadYaml": "示例 YAML",
+      "downloadJsonHint": "下载 JSON 示例结构",
+      "downloadYamlHint": "下载 YAML 示例结构",
+      "importButton": "导入文件",
+      "importing": "导入中..."
+    },
+    "summary": {
+      "private": "我的笔记",
+      "public": "共享空间",
+      "system": "系统预置"
+    },
+    "composer": {
+      "title": "快速录入知识",
+      "description": "无需离开工作台即可记录新的信号与想法。",
+      "fields": {
+        "title": "标题",
+        "description": "描述",
+        "relation": "关系摘要",
+        "tags": "标签（逗号分隔）",
+        "scope": "范围",
+        "kind": "知识类型"
+      },
+      "actions": {
+        "save": "保存条目",
+        "reset": "重置表单"
+      }
+    },
+    "references": {
+      "title": "参考与来源",
+      "helper": "记录支持该知识的链接或备注。",
+      "add": "新增参考",
+      "empty": "暂无参考，可以添加以标记来源。",
+      "fields": {
+        "label": "标题",
+        "labelPlaceholder": "例如 Nature 2023 - T细胞微环境",
+        "url": "链接",
+        "urlPlaceholder": "https://example.com/article",
+        "notes": "备注",
+        "notesPlaceholder": "关键句或上下文"
+      }
+    }
+  },
+  "messages": {
+    "jsonParseSuccess": "JSON文件解析成功，表单已自动填充",
+    "jsonParseFailed": "JSON解析失败: {error}",
+    "fileReadFailed": "文件读取失败"
+  },
+  "app": {
+    "brand": "STAnalyzer",
+    "addData": "添加数据",
+    "uploadedData": "已上传数据",
+    "noData": "暂无数据",
+    "selectFile": "选择文件",
+    "language": "语言",
+    "languageChinese": "中文",
+    "languageEnglish": "English",
+    "fileName": "文件名（可选）",
+    "fileNamePlaceholder": "留空则使用原文件名",
+    "fileNameHint": "如果留空，将使用上传文件的原始名称",
+    "description": "描述（可选）",
+    "descriptionPlaceholder": "请输入文件描述",
+    "uploading": "上传中...",
+    "upload": "上传",
+    "editFileInfo": "编辑文件信息",
+    "editFileName": "文件名",
+    "editFileNamePlaceholder": "请输入文件名",
+    "saving": "保存中...",
+    "confirmDeleteAnalysis": "确认删除所有分析",
+    "confirmDeleteAnalysisText": "确定要删除文件 {name} 的所有分析数据吗？",
+    "confirmDeleteAnalysisWarning": "此操作不可撤销，将删除该文件的所有分析流程、中间结果和可视化数据，但文件本身不会被删除。",
+    "deletingAnalysis": "删除中...",
+    "confirmDeleteAnalysisAction": "确认删除",
+    "confirmDelete": "确认删除",
+    "confirmDeleteText": "确定要删除文件 {name} 吗？",
+    "confirmDeleteWarning": "此操作不可撤销，文件及其相关分析数据将被永久删除。",
+    "deleting": "删除中...",
+    "confirmDeleteAction": "确认删除",
+    "agentConversation": "Agent对话",
+    "user": "用户",
+    "agent": "Agent",
+    "evidenceSources": "证据来源",
+    "executionTime": "执行时间：{time}",
+    "noConversation": "暂无对话记录",
+    "queryPlaceholder": "输入您的查询...",
+    "send": "发送",
+    "agentReplyPending": "Agent 正在思考...",
+    "agentClarificationNeeded": "需要澄清",
+    "agentClarificationHint": "请补充更多信息，以便 Agent 继续处理。",
+    "agentClarificationReason": "澄清原因：{reason}",
+    "agentConfidenceScore": "置信度：{value}",
+    "agentSendError": "消息发送失败：{error}",
+    "agentPlanTitle": "Agent 计划",
+    "agentPlanStepCount": "{count} 个步骤",
+    "agentPlanStatus": {
+      "pending": "待处理",
+      "approved": "已批准",
+      "executing": "执行中",
+      "completed": "已完成",
+      "failed": "失败",
+      "cancelled": "已取消"
+    },
+    "agentApprovalTitle": "审批请求",
+    "agentApprovalApprove": "批准",
+    "agentApprovalReject": "拒绝",
+    "agentApprovalModify": "修改建议",
+    "agentApprovalEstimatedTime": "预计耗时：{value} 分钟",
+    "agentApprovalEstimatedCost": "预计成本：{value}",
+    "agentApprovalStepCount": "包含 {count} 个步骤",
+    "agentApprovalFeedbackLabel": "审批备注",
+    "agentApprovalStatus": {
+      "pending": "待处理",
+      "approved": "已批准",
+      "rejected": "已拒绝",
+      "modified": "已修改"
+    },
+    "agentApprovalCompletedAt": "审批状态：{status}",
+    "agentApprovalApproved": "计划已批准。",
+    "agentApprovalRejected": "计划已拒绝。",
+    "agentApprovalModified": "已提交修改请求。",
+    "agentApprovalUnauthorized": "您没有执行此审批的权限，请重新登录。",
+    "agentApprovalActionError": "更新审批失败：{error}",
+    "agentConversationLoadFailed": "无法加载最新会话。",
+    "agentConversationLoadFallback": "暂时无法获取会话内容，请重试或切换项目重新连接。",
+    "agentMessageSendFailed": "消息尚未发送。",
+    "agentApprovalDialog": {
+      "commentPlaceholder": "可填写补充说明（可选）",
+      "approve": {
+        "title": "确认批准",
+        "description": "确认批准该计划，可选择填写备注给 Agent。",
+        "confirm": "批准"
+      },
+      "reject": {
+        "title": "确认拒绝",
+        "description": "拒绝该计划，可选择填写拒绝原因。",
+        "confirm": "拒绝"
+      },
+      "modify": {
+        "title": "请求修改",
+        "description": "说明需要调整的内容，Agent 将据此修改计划。",
+        "confirm": "提交请求"
+      }
+    },
+    "moreActions": "更多操作",
+    "deleteAllAnalysis": "删除所有分析",
+    "deleteFile": "删除文件",
+    "viewData": "数据查看",
+    "loading": "加载中...",
+    "noAnalysisData": "暂无可显示的分析流程。",
+    "loadDAGError": "加载分析流程失败，已切换到示例数据。",
+    "dataSwitched": "已切换到数据: {name}",
+    "preparingUpload": "正在准备上传...",
+    "uploadingProgress": "上传中 {progress}%...",
+    "uploadSuccess": "数据文件 {name} 已成功上传！",
+    "uploadSuccessMessage": "上传成功！",
+    "uploadFailed": "上传失败: {error}",
+    "unknownError": "未知错误",
+    "serviceMenuLoading": "服务列表加载中…",
+    "serviceMenuLoadFailed": "服务列表加载失败。",
+    "serviceMenuLoadFallback": "暂未获取到服务列表，可继续使用基础操作，请稍后重试。",
+    "serviceMenuEmpty": "暂无可用服务",
+    "agentResponse1": "正在分析您的查询...",
+    "agentResponse2": "根据当前数据，我建议执行聚类分析以获得更详细的结果。",
+    "agentResponse3": "数据已准备就绪，可以进行进一步分析。",
+    "fileUpdated": "文件信息已更新: {name}",
+    "updateFailed": "更新文件信息失败: {error}",
+    "fileIdMissing": "文件ID不存在",
+    "analysisDeleted": "文件 {name} 的所有分析数据已删除",
+    "deleteAnalysisFailed": "删除分析数据失败: {error}",
+    "fileDeleted": "文件已删除: {name}",
+    "deleteFailed": "删除文件失败: {error}",
+    "welcome": "欢迎使用空间转录组分析系统！",
+    "uploadPrompt": "请点击\"添加数据\"按钮上传文件。",
+    "loadFileListFailed": "加载文件列表失败，请检查网络连接或后端服务。",
+    "fileOperationFailed": "文件未成功创建，禁止操作",
+    "connecting": "连接中…",
+    "reconnecting": "重新连接中…",
+    "connectionLost": "连接已断开",
+    "system": "系统",
+    "agentConversationSelectProjectTitle": "请选择项目以查看对话",
+    "agentConversationSelectProjectSubtitle": "项目确定后，将自动加载对话记录。",
+    "agentConversationSelectProjectHint": "请选择项目后发送",
+    "agentConversationClearing": "清空中…",
+    "agentConversationClear": "清空对话",
+    "agentConversationClearConfirm": "确定要清空当前项目的对话吗？",
+    "agentConversationClearFailed": "清空对话失败",
+    "agentConversationContextTitle": "对话上下文",
+    "agentConversationContextHint": "在 DAG 节点点击\"加入对话上下文\"后将显示已选文件",
+    "agentConversationContextCount": "{count} 个",
+    "agentConversationContextRemoveFileAria": "移除上下文文件",
+    "agentConversationContextAdded": "已加入上下文：{name}",
+    "agentConversationSending": "发送中…",
+    "agentConversationNoContextWarning": "当前没有选择任何上下文文件，确定要发送吗？",
+    "agentConversationNoContextWarningDetail": "没有上下文文件可能会影响 Agent 的理解和分析质量。建议先在 DAG 中选择相关文件加入上下文。"
+  },
+  "analysis": {
+    "title": "文件分析流程",
+    "subtitle": "节点：文件 | 边：算法（点击节点查看详情）",
+    "showErrorItems": "显示错误项",
+    "collapseLeftPanel": "收起左侧面板",
+    "expandLeftPanel": "展开左侧面板",
+    "collapseRightPanel": "收起右侧面板",
+    "expandRightPanel": "展开右侧面板",
+    "legend": {
+      "title": "状态图例",
+      "completed": "已完成",
+      "running": "执行中",
+      "pending": "待执行",
+      "failed": "失败"
+    },
+    "nodeMenu": {
+      "unknownFile": "未知文件",
+      "fileOperations": "文件操作",
+      "fileAnalysis": "文件分析",
+      "furtherAnalysis": "进一步分析",
+      "previewFile": "预览文件",
+      "downloadFile": "下载文件",
+      "editFile": "编辑文件信息",
+      "addToContext": "加入对话上下文",
+      "deleteFile": "删除文件",
+      "deleteFileChildren": "删除子文件",
+      "errors": {
+        "previewFileNotInitialized": "预览文件功能未初始化",
+        "previewFileNotInitializedDetail": "预览文件功能未初始化：handlers.showFilePreview 缺失",
+        "editFileNotInitialized": "编辑文件功能未初始化",
+        "editFileNotInitializedDetail": "编辑文件功能未初始化：handlers.showEditFileDialog 缺失",
+        "addToContextNotInitialized": "加入对话上下文功能未初始化",
+        "addToContextNotInitializedDetail": "加入对话上下文功能未初始化：handlers.addFileToContext 缺失",
+        "deleteFileNotInitialized": "删除文件功能未初始化",
+        "deleteFileNotInitializedDetail": "删除文件功能未初始化：handlers.deleteFileNode 缺失",
+        "deleteFileChildrenNotInitialized": "删除子文件功能未初始化",
+        "deleteFileChildrenNotInitializedDetail": "删除子文件功能未初始化：handlers.deleteFileChildren 缺失",
+        "serviceExecuteNotInitialized": "Service执行对话框功能未初始化",
+        "serviceExecuteNotInitializedDetail": "Service执行对话框功能未初始化：handlers.showServiceExecuteDialog 缺失",
+        "downloadFailed": "下载失败，请稍后重试",
+        "invalidFileId": "无效的文件ID"
+      }
+    },
+    "edgeInfo": {
+      "title": "执行信息",
+      "basicInfo": "基本信息",
+      "executionId": "执行ID",
+      "serviceName": "服务名称",
+      "serviceDescription": "服务描述",
+      "status": "状态",
+      "timeInfo": "时间信息",
+      "createdAt": "创建时间",
+      "startedAt": "开始时间",
+      "completedAt": "完成时间",
+      "duration": "持续时间",
+      "parameters": "参数",
+      "errorInfo": "错误信息",
+      "responseData": "响应数据",
+      "deleteExecution": "删除执行",
+      "deleting": "删除中...",
+      "confirmDelete": "确认删除",
+      "confirmDeleteExecution": "确定要删除执行记录 \"{name}\" 吗？此操作不可撤销。",
+      "deleteExecutionSuccess": "执行记录删除成功",
+      "deleteExecutionFailed": "删除执行记录失败"
+    },
+    "status": {
+      "completed": "✅ 已完成",
+      "running": "🔄 执行中",
+      "pending": "⏳ 待执行",
+      "failed": "❌ 失败",
+      "skipped": "⏭️ 跳过"
+    },
+    "tooltip": {
+      "parameters": "⚙️ 参数",
+      "executionInfo": "📋 执行信息",
+      "executionId": "执行ID",
+      "serviceId": "服务ID",
+      "createdAt": "创建时间",
+      "startedAt": "开始时间",
+      "completedAt": "完成时间",
+      "duration": "持续时间",
+      "errorInfo": "❌ 错误信息"
+    },
+    "homeTooltip": "返回首页",
+    "messages": {
+      "fileDeleted": "文件删除成功",
+      "fileDeleteFailed": "删除文件失败",
+      "unknownService": "未知服务",
+      "noDescription": "无描述",
+      "seconds": "秒",
+      "minutes": "{minutes}分{seconds}秒",
+      "hours": "{hours}小时{minutes}分{seconds}秒",
+      "serviceExecutedSuccess": "Service执行成功",
+      "serviceExecutedFailed": "Service执行失败",
+      "serviceExecutedStatus": "Service执行状态: {status}",
+      "fileInfoNotFound": "文件信息未找到: {fileId}",
+      "dagCanvasNotReady": "dagCanvas ref 未准备好",
+      "destroyGraphInstanceError": "销毁旧图实例时出错",
+      "createGraphInstanceFailed": "创建 G6 图实例失败",
+      "updateGraphDataFailed": "更新图数据失败",
+      "destroyGraphInstanceFailed": "销毁图实例失败",
+      "updateNodeStyleFailed": "更新节点样式失败",
+      "restoreNodeStyleFailed": "恢复节点样式失败",
+      "loadServiceListFailed": "加载Service列表失败",
+      "resizeGraphFailed": "调整图大小失败",
+      "removeTooltipFailed": "移除 tooltip 失败",
+      "executeNodeActionFailed": "执行节点操作失败"
+    },
+    "upload": {
+      "fileTypeLabel": "文件类型",
+      "fileTypeSearchPlaceholder": "搜索类型或扩展名（例如：AnnData 或 .h5ad）",
+      "fileTypePlaceholder": "请选择文件类型",
+      "fileTypesEmpty": "尚未获取到文件类型，请点击刷新或联系管理员。",
+      "fileTypeAutoDetected": "已根据文件扩展名推荐：{type}",
+      "fileTypeAutoDetectedMismatch": "若文件格式特殊，可在确认后继续使用自定义类型。",
+      "fileTypeMismatch": "当前选择的类型「{type}」与文件扩展名「{ext}」可能不匹配，请确认后继续。",
+      "fileTypeRequired": "请选择文件类型后再上传。",
+      "selectFileFirst": "请先选择文件",
+      "selectFileFirstHint": "请先选择文件，系统将根据文件扩展名筛选可用的文件类型",
+      "selectedFileExtension": "已选择文件扩展名：{ext}",
+      "noFileExtension": "所选文件没有扩展名，无法自动匹配文件类型",
+      "noMatchingFileType": "未找到与扩展名 {ext} 匹配的文件类型"
+    }
+  },
+  "help": {
+    "title": "帮助文档",
+    "downloadSampleData": "下载示例数据",
+    "downloading": "下载中...",
+    "downloadSampleDataPrompt": "点击下载示例数据",
+    "common": {
+      "keyPoints": "要点",
+      "steps": "步骤",
+      "navigation": "导航",
+      "prompt": "提示"
+    },
+    "introduction": {
+      "title": "系统介绍",
+      "subtitle": "了解 STAnalyzer 的核心功能和使用方法",
+      "whatIs": {
+        "title": "什么是 STAnalyzer？",
+        "description": "STAnalyzer 是一款专为自动化端到端空间转录组分析而设计的智能多智能体框架，涵盖从原始数据处理到生物学假设生成的全生命周期。超越传统流水线，STAnalyzer 采用人在回路（Human-in-the-Loop）协同智能架构，将自然语言查询转化为严谨的生信工作流，执行多模态自我修正，并基于证据进行交叉验证，从而在数据驱动的相关性与生物学因果之间架起桥梁。"
+      },
+      "coreFeatures": {
+        "title": "核心功能",
+        "projectManagement": {
+          "title": "项目与数据管理",
+          "description": "按项目组织文件、执行记录和结果，支持多项目并行管理"
+        },
+        "dagVisualization": {
+          "title": "执行 DAG 可视化",
+          "description": "自动生成并展示执行图（DAG），呈现文件、执行步骤及其依赖关系"
+        },
+        "multiPerspective": {
+          "title": "多视角数据分析",
+          "description": "支持文件视角、执行视角以及特定数据类型的可视化分析"
+        },
+        "intelligentAgent": {
+          "title": "智能 Agent 对话",
+          "description": "通过自然语言与 Agent 交互，自动生成分析方案、执行服务、解释结果"
+        },
+        "serviceManagement": {
+          "title": "服务管理",
+          "description": "提供服务信息查询和关系图，帮助理解服务与文件类型之间的支持关系"
+        }
+      },
+      "architecture": {
+        "title": "系统架构"
+      },
+      "advantages": {
+        "title": "主要优势",
+        "automation": {
+          "title": "自动化",
+          "description": "通过智能 Agent 自动执行复杂的分析工作流，减少手动操作"
+        },
+        "integration": {
+          "title": "集成化",
+          "description": "将项目管理、数据管理、可视化和智能对话集成在一个平台"
+        },
+        "intelligent": {
+          "title": "智能化",
+          "description": "自然语言与 Agent 交互，自动生成分析方案并解释结果"
+        },
+        "visualization": {
+          "title": "可视化",
+          "description": "丰富的可视化组件，支持多种数据类型和分析视角"
+        }
+      },
+      "frameworkImage": "STAnalyzer 系统架构图",
+      "overview": {
+        "title": "概览与核心概念",
+        "systemIdentity": {
+          "title": "系统定位",
+          "description": "STAnalyzer（Spatial Transcriptomics Analyzer by Multi-agent Analysis System，基于多智能体分析的空间转录组分析器）"
+        },
+        "primaryFunction": {
+          "title": "核心功能",
+          "description": "面向空间转录组（ST）数据的端到端自动化分析全生命周期"
+        },
+        "architecturalParadigm": {
+          "title": "架构范式",
+          "description": "协同智能架构"
+        },
+        "mission": {
+          "title": "使命",
+          "description": "通过消除人工协调瓶颈，弥合复杂原始数据与可验证生物学洞见之间的鸿沟"
+        }
+      },
+      "keyFeatures": {
+        "title": "关键技术特性",
+        "intentDriven": {
+          "title": "意图驱动编排",
+          "description": "自然语言接口（NLI）将用户查询转化为严谨的生物信息学工作流"
+        },
+        "multiModal": {
+          "title": "多模态自我优化",
+          "description": "结合视觉模式（如 UMAP）与统计指标的闭环验证"
+        },
+        "evidenceBased": {
+          "title": "基于证据的交叉验证",
+          "description": "通过外部数据库和文献检索（RAG）将数据驱动的相关性锚定于生物学因果解释"
+        },
+        "fullTraceability": {
+          "title": "全链路可追溯",
+          "description": "执行流程和数据血缘的 DAG（有向无环图）可视化"
+        }
+      },
+      "multiAgent": {
+        "title": "多智能体协同引擎",
+        "orchestrator": {
+          "title": "编排智能体（OA）",
+          "description": "以用户为中心的协调器，将自然语言请求转化为结构化操作，同时维护全局分析一致性。"
+        },
+        "servicePlanner": {
+          "title": "服务规划智能体（SPA）",
+          "description": "通过稳健的闭环容器化框架，解决工具匹配、配置和执行中的生物信息学复杂性。"
+        },
+        "dataInterpretation": {
+          "title": "数据解读智能体（DIA）",
+          "description": "对文本、数值矩阵和图像进行多模态理解，将异构输出转化为生物学结论。"
+        },
+        "knowledgeIntegration": {
+          "title": "知识整合智能体（KIA）",
+          "description": "利用外部数据库和文献检索（RAG）弥合数据相关性与生物学因果之间的鸿沟。"
+        }
+      },
+      "ui": {
+        "title": "用户界面与体验",
+        "interactiveVisualization": {
+          "title": "交互式可视化",
+          "description": "树状工作流展示、全屏图像预览和交互式数据列表"
+        },
+        "serviceManagement": {
+          "title": "服务管理",
+          "description": "「私有/公共/系统」服务分类、实时状态同步和参数校验"
+        },
+        "executionMonitoring": {
+          "title": "执行监控",
+          "description": "完整的日志记录、状态跟踪（成功/失败）和审计追踪（用户 ID、时间戳）"
+        }
+      },
+      "coreAdvantages": {
+        "title": "核心优势",
+        "lowBarrier": {
+          "title": "低技术门槛",
+          "description": "降低复杂 ST 数据分析的准入门槛"
+        },
+        "highEfficiency": {
+          "title": "高效率",
+          "description": "加速数据向发现的转化"
+        },
+        "reproducibility": {
+          "title": "可重复性",
+          "description": "项目持久化保存和完整输入/输出归档（通过 UUID）"
+        }
+      }
+    },
+    "sections": {
+      "gettingStarted": {
+        "title": "快速开始",
+        "description": "使用 STAnalyzer 完成一个完整的分析流程，通常包括以下步骤",
+        "transitionText": "接下来，让我们进一步与 AI 交流。以以下步骤为例，通过 Prompt 体验更强大的功能！",
+        "steps": {
+          "createProject": {
+            "title": "创建项目",
+            "description": "项目是组织分析数据和执行记录的基本单位。每个项目拥有独立的文件列表、DAG 视图和 Agent 对话上下文。",
+            "point0": "选择「分析」页面",
+            "point1": "点击左侧项目列表中的新建项目按钮",
+            "point2": "输入有意义的项目名称",
+            "point3": "点击保存创建项目",
+            "tip": "项目是组织分析数据和执行记录的基本单位"
+          },
+          "uploadData": {
+            "title": "上传数据",
+            "description": "上传数据文件是进行分析的前提。系统支持多种文件格式，包括空间转录组数据、文本文件、配置文件等。",
+            "point1": "选择目标项目",
+            "point2": "点击添加数据按钮打开上传对话框",
+            "point_3": "填写文件信息并选择正确的文件类型",
+            "point3": "选择要上传的文件，系统将自动匹配文件类型和文件名",
+            "point4": "点击上传按钮完成上传",
+            "tip": "正确选择文件类型对后续分析至关重要"
+          },
+          "addContext": {
+            "title": "加入上下文",
+            "description": "将关键文件加入上下文是提升 Agent 分析质量的重要技巧。通过提供相关文件作为上下文，Agent 可以更全面地理解项目背景和任务需求。",
+            "point1": "在 DAG 面板中选择文件",
+            "point2": "点击加入上下文添加文件",
+            "point3": "Agent 会在后续对话中参考这些文件",
+            "tip": "加入上下文有助于 Agent 更好地理解项目背景"
+          },
+          "askAgent": {
+            "title": "与 Agent 对话",
+            "description": "通过自然语言与 Agent 对话，可以自动完成复杂的分析任务。这是 STAnalyzer 的核心功能。",
+            "point1": "用自然语言输入你的分析需求",
+            "point2": "Agent 会自动生成并执行分析计划",
+            "point3": "在对话面板中查看分析结果和报告",
+            "tip": "查询越详细，Agent 的回答越准确"
+          },
+          "viewReport": {
+            "title": "查看报告",
+            "description": "分析完成后，Agent 会在对话面板中输出分析报告",
+            "point1": "关键发现和重要结果",
+            "point2": "结果的生物学解释",
+            "point3": "整体研究结论和建议",
+            "tip": "报告支持 Markdown 格式，便于阅读"
+          },
+          "analysis": {
+            "title": "下游应用分析",
+            "description": "基于预处理后的数据，进行下游应用分析，例如空间转录组处理。这里以使用预处理后的 preprocessed_data.h5ad 文件进行空间转录组处理为例。",
+            "point1": "左键点击节点，然后在「进一步分析」下选择「空间转录组处理」",
+            "point2": "输入参数后，点击「执行服务」",
+            "point3": "点击各个输出节点查看执行结果",
+            "tip": "此过程称为手动执行服务，是除「与 Agent 对话」之外的第二种执行方式。"
+          },
+          "analysis2": {
+            "title": "进行更深入的分析",
+            "description": "对 9 个空间域分别进行详细的细胞类型组成分析和基因富集分析，并以表格形式汇总结果。",
+            "prompt": "请逐个分析这9个空间域各自的主要细胞类型组成（每个空间域包含不只一种细胞类型，而是由多种细胞类型组成的），并对每个空间域分别进行基因富集分析，最后用表格形式分别总结每个空间域的分析结果。",
+            "tip": "对每个空间域进行综合分析有助于更深入地理解细胞异质性。"
+          },
+          "illustrations": {
+            "title": "补充科学可视化",
+            "description": "创建展示各空间域细胞类型组成和富集术语的科学可视化图表。",
+            "prompt": "基于此结果，请绘制每个空间域的细胞类型组成（每个空间域仅需展示前3种细胞类型）以及富集术语。请确保以清晰易懂的方式呈现合适的科研图表。",
+            "tip": "清晰的可视化有助于更好地理解复杂的空间关系和模式。"
+          },
+          "validation": {
+            "title": "分析与验证",
+            "description": "基于已完成的细胞类型注释和富集结果，分析推断各空间区域可能的功能域，并提供可解释的证据。",
+            "prompt": "根据目前已完成的这9个空间域的细胞类型注释和基因富集分析结果，请进一步分析推断各空间域可能归属的功能域（需提供可解释的证据），如基质区域、肿瘤发生区域等。最后形成一张汇总表，直观展示各空间域的特征。",
+            "tip": "提供可解释的证据可增强功能域推断的有效性和可靠性。"
+          },
+          "researchDirections": {
+            "title": "探索有价值的研究方向",
+            "description": "识别空间域之间具有重要意义的研究方向和细胞通讯模式，引导生物学发现。",
+            "prompt": "利用平台探索有价值的研究方向，引导有生物学意义的发现，避免盲目进行大规模分析。对9个空间域进行细胞通讯分析，识别出最具研究意义的两个空间域及其之间的细胞互作，并提供解释性描述和总结报告。",
+            "tip": "聚焦细胞通讯模式可揭示关键的生物学互作和研究机会。"
+          },
+          "multiAgent": {
+            "title": "多智能体协同加速生物学发现",
+            "description": "利用多智能体协同分析适应性免疫与免疫抑制域边界处的亚细胞互作。",
+            "prompt": "目前数据集具备真正精确到亚细胞物理坐标的分辨率。我们之前的分析已成功识别出一个关键的物理通讯边界：Domain 0（以 T 细胞为主导的适应性免疫核心）与 Domain 3（以 Treg 为主导的免疫抑制屏障）。请聚焦于 Domain 0 与 Domain 3 发生物理接触的界面（边界）。从亚细胞分析的角度，推演并提取潜在的新生物学发现。请使用可解释的思维链（Chain of Thought）进行深入分析。",
+            "tip": "多智能体协同可在亚细胞分辨率下实现更全面、可解释的生物学发现。",
+            "subSteps": {
+              "automaticCodeAnalysis": {
+                "title": "自动化代码分析",
+                "description": "自动分析代码以提取关键功能域和细胞互作。"
+              },
+              "mechanismBasedReasoning": {
+                "title": "机制驱动推理",
+                "description": "综合文件元数据、决策历史和已有知识库中的所有可用证据，自动提出深入的、基于机制的推理结果（每个假设都具有可追溯的思维链）："
+              },
+              "summaryReport": {
+                "title": "总结报告",
+                "description": "提供所发现的新生物学现象的总结报告："
+              }
+            }
+          }
+        }
+      },
+      "analysisPage": {
+        "title": "分析页面",
+        "description": "分析页面是 STAnalyzer 的核心工作区域，集成了项目管理、数据可视化、执行流程管理和智能对话等多种功能",
+        "overviewImage": "分析页面概览",
+        "transitionText": "接下来，我们将介绍分析功能，帮助您进行全面的数据分析和可视化。",
+        "pageStructure": {
+          "title": "页面结构"
+        },
+        "leftPanel": {
+          "title": "左侧面板",
+          "description": "项目和数据管理的入口",
+          "projectList": {
+            "title": "项目列表",
+            "feature1": "显示所有已创建的项目",
+            "feature2": "支持项目选择、删除和预览",
+            "feature3": "快速访问项目 DAG 视图"
+          },
+          "fileList": {
+            "title": "文件列表",
+            "feature1": "显示当前项目下的所有文件",
+            "feature2": "支持文件上传、编辑和删除操作",
+            "feature3": "查看文件元数据和详情"
+          }
+        },
+        "middleContent": {
+          "title": "中间内容区",
+          "description": "分析页面的核心显示区域",
+          "dagView": {
+            "title": "DAG 可视化",
+            "description": "默认展示当前项目的执行图（DAG - Directed Acyclic Graph，有向无环图）",
+            "elements": {
+              "nodes": "节点",
+              "nodesDetail1": "执行步骤节点：表示服务调用或分析操作",
+              "nodesDetail2": "文件节点：表示输入或输出的数据文件",
+              "nodesDetail3": "节点颜色表示执行状态",
+              "edges": "边",
+              "edgesDetail1": "箭头方向表示数据流向",
+              "edgesDetail2": "边的样式可能表示不同的关系类型",
+              "files": "关联文件",
+              "filesDesc": "每个节点可以关联多个文件，显示文件的详细信息"
+            }
+          },
+          "dataVisualization": {
+            "title": "数据可视化",
+            "feature1": "根据文件类型自动切换到对应的可视化组件",
+            "feature2": "支持多种可视化类型：表格、图表、交互式图形等",
+            "feature3": "再次点击文件可返回 DAG 视图",
+            "image": "文件预览界面"
+          }
+        },
+        "rightPanel": {
+          "title": "右侧 Agent 面板",
+          "description": "智能分析的核心交互区域",
+          "feature1": "与多智能体系统进行自然语言对话",
+          "feature2": "根据项目上下文自动生成分析方案与解释",
+          "feature3": "支持将文件加入上下文、触发特定分析组件"
+        },
+        "naturalLanguageExecution":{
+          "title": "自然语言执行",
+          "description": "通过 Agent 进行自然语言对话，用户可以用日常语言输入分析问题或请求，系统将根据项目上下文自动生成分析方案与解释"
+        },
+        "manualExecution": {
+          "title": "手动执行服务",
+          "description": "除了使用 Agent 自动执行分析外，系统还支持手动执行服务，让用户有更多的控制权",
+          "step1": {
+            "title": "打开手动执行页面",
+            "description": "在 DAG 视图或文件列表中，找到需要执行的服务，点击执行按钮"
+          },
+          "step2": {
+            "title": "填写执行参数",
+            "description": "系统会自动填入文件 ID，并校验文件类型是否与服务要求匹配"
+          },
+          "step3": {
+            "title": "执行服务",
+            "description": "点击执行按钮开始执行服务，可以查看执行日志"
+          },
+          "step4": {
+            "title": "查看结果",
+            "description": "执行完成后，系统会自动刷新 DAG 视图，新生成的结果文件会添加到文件列表中"
+          }
+        }
+      },
+      "serviceManagement": {
+        "title": "服务管理",
+        "description": "STAnalyzer 提供了一站式的服务注册、调度与可视化管理中心，打破生态孤岛。不仅支持科研人员直观了解并在流程图中灵活调用内置服务，更赋能开发者轻松将自研的生信算法与模型接入平台。",
+        "serviceInfo": {
+          "title": "服务信息查询",
+          "description": "服务信息查询页面提供了系统中所有可用服务的详细信息",
+          "functions": {
+            "title": "功能说明",
+            "function1": "列出系统中所有可用的分析服务",
+            "function2": "展示服务详情：名称、描述、输入输出文件类型、参数等",
+            "function3": "支持搜索和筛选，快速找到特定服务"
+          },
+          "useCases": {
+            "title": "使用场景",
+            "case1": "规划分析流程：在上传新类型数据前，确认是否已有合适的处理服务",
+            "case2": "了解服务能力：在规划整个分析流程时，了解每一步可调用哪些服务",
+            "case3": "参数配置：查看服务支持的参数，为手动执行服务做准备"
+          },
+          "images": {
+            "list": "服务信息查询列表",
+            "detail": "服务信息详情"
+          }
+        },
+        "relationshipGraph": {
+          "title": "关系图查询",
+          "description": "关系图查询以可视化的方式展示服务、文件类型以及它们之间的关系",
+          "functions": {
+            "components": {
+              "title": "关系图组成",
+              "component1": "服务节点：表示系统中的各个分析服务",
+              "component2": "文件类型节点：表示系统支持的各种文件类型",
+              "component3": "关系边：连接服务节点和文件类型节点，表示输入/输出/支持关系"
+            }
+          },
+          "interactions": {
+            "title": "交互功能",
+            "interaction1": "点击节点高亮显示所有相关连接",
+            "interaction2": "追踪从某个文件类型到另一个文件类型的完整路径",
+            "interaction3": "查看某个服务依赖哪些文件类型，或某个文件类型可以被哪些服务处理"
+          },
+          "useCases": {
+            "title": "使用场景",
+            "case1": "流程规划：从全局角度理解数据如何在各服务之间流转",
+            "case2": "依赖分析：了解某个服务需要哪些前置条件，或某个文件类型可以用于哪些后续分析",
+            "case3": "瓶颈识别：发现潜在的流程瓶颈或待补充的服务组件"
+          },
+          "images": {
+            "overview": "关系图概览",
+            "interaction": "关系图交互"
+          }
+        },
+        "serviceUpload": {
+          "title": "服务注册与上传指南",
+          "description": "了解如何将您自己的生信分析算法或模型封装并接入 STAnalyzer 平台。",
+          "downloadBanner": {
+            "title": "示例服务模板下载",
+            "description": "为了帮助您更直观地理解服务配置，您可以下载平台现有的「空间组 PASTE 3D 对齐」示例服务压缩包供参考。",
+            "button": "下载示例包 (.zip)",
+            "goCreateButton": "前往创建服务 →"
+          },
+          "steps": {
+            "step1": {
+              "title": "1. 开始创建新服务",
+              "desc": "在“服务管理”页面右上角点击“新建服务”按钮进入配置表单。"
+            },
+            "step2": {
+              "title": "2. 填写基础信息",
+              "desc": "配置服务名称、描述、版本号，以及将权限设置为私有或公开。"
+            },
+            "step3": {
+              "title": "3. 配置服务通信地址",
+              "desc": "定义您的算法访问地址（Base URL）以及接口路由后缀。"
+            },
+            "step4": {
+              "title": "4. 定义输入参数",
+              "desc": "添加算法执行所需的外部调节参数，可设置数据类型和范围约束。"
+            },
+            "step5": {
+              "title": "5. 定义所需文件",
+              "desc": "指定算法期望接收的文件及其类型ID（如 h5ad），作为前置校验条件。"
+            },
+            "step6": {
+              "title": "6. 配置输出结果",
+              "desc": "配置由于服务执行成功后将会在平台产生哪些返回数据或报告。"
+            },
+            "step7": {
+              "title": "7. 快捷 JSON 导入",
+              "desc": "您可以直接在此使用右侧上传 service_config.json，一键自动填入上述所有配置！"
+            }
+          }
+        }
+      },
+      "executionManagement": {
+        "title": "执行管理",
+        "description": "执行管理页面是查看和管理所有执行记录的中心，提供了执行历史的完整视图",
+        "functions": {
+          "title": "功能说明",
+          "executionList": {
+            "title": "执行列表查看",
+            "feature1": "以表格形式展示所有执行记录",
+            "feature2": "支持按项目、时间、状态、服务等维度筛选",
+            "feature3": "查看执行 ID、状态、时间、时长等信息",
+            "feature4": "支持组合筛选，可同时使用多个筛选条件"
+          },
+          "executionDetails": {
+            "title": "执行详情查看",
+            "feature1": "查看执行参数和输入文件",
+            "feature2": "查看执行生成的所有输出文件",
+            "feature3": "查看完整的执行日志",
+            "feature4": "在 DAG 中高亮显示该执行的路径"
+          },
+          "images": {
+            "list": "执行管理列表",
+            "detail": "执行管理详情"
+          }
+        },
+        "keyInfo": {
+          "title": "关键信息",
+          "status": {
+            "label": "状态",
+            "value": "执行状态：成功、失败、运行中、等待中"
+          },
+          "time": {
+            "label": "时间",
+            "value": "开始时间、结束时间和持续时间"
+          },
+          "service": {
+            "label": "服务",
+            "value": "使用的分析服务"
+          },
+          "files": {
+            "label": "文件",
+            "value": "输入文件和输出文件"
+          }
+        }
+      }
+    }
+  },
+  "project": {
+    "management": "项目管理",
+    "manageProjects": "项目管理",
+    "create": "创建项目",
+    "edit": "编辑项目",
+    "delete": "删除项目",
+    "config": "项目配置",
+    "createFirst": "创建第一个项目",
+    "noProjects": "暂无项目",
+    "projectList": "项目列表",
+    "filesHeader": "可交互数据",
+    "backToProjects": "返回项目列表",
+    "backToAnalysis": "返回分析",
+    "selectProjectPrompt": "请选择一个项目开始分析",
+    "projectSelected": "已选择项目：{name}",
+    "loadProjectFailed": "加载项目失败：{error}",
+    "name": "项目名称",
+    "description": "项目描述",
+    "basicInfo": "基本信息",
+    "knowledgeConfig": "知识配置",
+    "serviceConfig": "服务配置",
+    "knowledgeMode": "知识模式",
+    "serviceMode": "服务模式",
+    "modeAll": "全部可见",
+    "modeWhitelist": "白名单",
+    "selectKnowledge": "选择知识",
+    "selectService": "选择服务",
+    "noKnowledge": "暂无知识",
+    "noServices": "暂无服务",
+    "fileCount": "文件数量",
+    "createdAt": "创建时间",
+    "updatedAt": "更新时间",
+    "deleteProject": "删除项目",
+    "deleteProjectConfirm": "确定要删除项目吗？此操作不可恢复。",
+    "projectDeleted": "项目已删除",
+    "projectDeleteFailed": "删除项目失败",
+    "searchService": "搜索服务...",
+    "noServiceData": "暂无服务数据",
+    "serviceLabel": "服务",
+    "searchKnowledge": "搜索知识...",
+    "noKnowledgeData": "暂无知识数据",
+    "knowledgeLabel": "知识",
+    "noDescription": "无描述",
+    "knowledgePromptConfig": "知识提示配置",
+    "searchConfig": "搜索配置...",
+    "pleaseSelect": "-- 请选择 --",
+    "default": "默认",
+    "actions": {
+      "confirmDelete": "确定要删除项目「{name}」吗？此操作不可恢复。",
+      "deleteSuccess": "项目「{name}」已成功删除",
+      "deleteFailed": "删除项目失败：{error}",
+      "saveSuccess": "项目保存成功",
+      "saveFailed": "保存项目失败",
+      "menu": "操作菜单"
+    },
+    "servicesHeader": "服务列表",
+    "showH5adOnly": "仅看 h5ad",
+    "showAllFiles": "显示全部"
+  },
+  "knowledgeSearch": {
+    "title": "知识检索",
+    "project": "项目",
+    "selectProject": "选择项目",
+    "selectProjectFirst": "请先选择项目",
+    "createSearch": "新建检索",
+    "startSearch": "开始检索",
+    "searchResults": "检索结果",
+    "noDocuments": "暂无文档",
+    "noResults": "暂无检索结果",
+    "documents": "个文档",
+    "query": "查询",
+    "queryPlaceholder": "请输入查询语句，例如：What are the latest advances in machine learning?",
+    "queryRequired": "请输入查询内容",
+    "queryMinLength": "查询内容至少需要1个字符",
+    "projectRequired": "请选择项目",
+    "topK": "返回数量",
+    "topKPlaceholder": "请输入返回数量",
+    "topKHint": "范围：1-100，默认20",
+    "sources": "数据源",
+    "sourcesHint": "可选：PubMed、ArXiv、CrossRef，留空则使用全部",
+    "rewrite": "查询改写",
+    "rewriteHint": "启用后系统会自动优化查询语句",
+    "trace": "调试信息",
+    "traceHint": "启用后返回详细的调试信息",
+    "rewriteQuery": "改写后的查询",
+    "datasourcesUsed": "使用的数据源",
+    "totalDocuments": "文档总数",
+    "authors": "作者",
+    "journal": "期刊/会议",
+    "publisher": "出版商",
+    "publishedAt": "发表时间",
+    "doi": "DOI",
+    "source": "数据源",
+    "snippet": "摘要",
+    "noSnippet": "无摘要",
+    "score": "相关性评分",
+    "saveDocument": "保存文档",
+    "saved": "已保存",
+    "saveSuccess": "文档保存成功",
+    "deleteSuccess": "文档删除成功",
+    "searchSuccess": "检索成功",
+    "confirmDelete": "确认删除文档「{title}」吗？",
+    "errors": {
+      "loadProjectsFailed": "加载项目列表失败",
+      "loadDocumentsFailed": "加载文档列表失败",
+      "searchFailed": "检索失败",
+      "saveFailed": "保存文档失败",
+      "deleteFailed": "删除文档失败"
+    },
+    "common": {
+      "back": "返回",
+      "reset": "重置"
+    }
+  },
+  "spatial": {
+    "visualizationMode": "可视化模式",
+    "scatterPlot": "散点图",
+    "heatmap": "热力图",
+    "geneExpression": "基因表达可视化",
+    "selectGene": "选择基因",
+    "geneSearchPlaceholder": "输入基因名称...",
+    "noGenesFound": "未找到匹配的基因",
+    "expressionRange": "表达范围",
+    "grouping": {
+      "title": "分组设置",
+      "attribute": "分组属性",
+      "selectPlaceholder": "选择分组属性"
+    },
+    "visualizationParams": "可视化参数",
+    "spotSize": "Spot大小",
+    "spotOpacity": "Spot透明度",
+    "imageOpacity": "切片透明度",
+    "heatmapResolution": "热力图分辨率",
+    "colorScheme": "颜色方案",
+    "redBlue": "红蓝渐变",
+    "displayOptions": "显示选项",
+    "showSpots": "显示Spots",
+    "showStatistics": "显示统计分析",
+    "spatialTranscriptomics": "空间转录组可视化",
+    "currentGene": "当前基因",
+    "loadingData": "加载数据中...",
+    "missingFileId": "文件ID缺失",
+    "sliceImage": "切片图像",
+    "expression": "表达量",
+    "position": "位置",
+    "expressionValue": "表达值",
+    "statisticalAnalysis": "统计分析",
+    "expressionDistribution": "表达分布",
+    "expressionByCluster": "按Cluster分组的表达",
+    "clusterDistribution": "Cluster分布",
+    "clusterStatistics": "Cluster统计"
+  },
+  "spatialCoexpression": {
+    "title": "空间共表达网络可视化平台",
+    "subtitle": "基因表达网络与空间分布综合分析工具",
+    "loadSample": "加载示例数据",
+    "export": "导出图像",
+    "dataControl": {
+      "title": "数据控制",
+      "dataset": "数据集选择",
+      "genes": "基因选择",
+      "runAnalysis": "运行共表达分析"
+    },
+    "visualization": {
+      "title": "可视化参数",
+      "layout": "网络布局算法",
+      "nodeSize": "节点大小 (表达量)",
+      "threshold": "连接阈值",
+      "colorScheme": "颜色映射"
+    },
+    "filter": {
+      "title": "筛选与搜索",
+      "search": "搜索基因",
+      "searchPlaceholder": "输入基因名称...",
+      "expressionRange": "表达量范围",
+      "min": "最小值",
+      "max": "最大值",
+      "apply": "应用筛选"
+    },
+    "tabs": {
+      "network": "共表达网络",
+      "spatial": "空间分布图",
+      "heatmap": "表达热图"
+    },
+    "legend": {
+      "low": "低表达",
+      "medium": "中等表达",
+      "high": "高表达"
+    },
+    "tooltip": {
+      "expression": "表达量",
+      "weight": "权重"
+    },
+    "datasets": {
+      "sample1": "小鼠大脑皮层 (示例)",
+      "sample2": "人类心脏组织",
+      "sample3": "斑马鱼胚胎"
+    },
+    "layouts": {
+      "force": "力导向布局",
+      "circular": "环形布局",
+      "grid": "网格布局"
+    },
+    "messages": {
+      "datasetChanged": "数据集已切换",
+      "analysisStarted": "共表达分析已开始",
+      "filterApplied": "筛选已应用",
+      "sampleLoaded": "示例数据加载成功",
+      "exported": "图像导出成功"
+    }
+  },
+  "spatialTranscriptomics": {
+    "title": "空间转录组数据分析平台",
+    "subtitle": "空间转录组数据聚类与可视化分析工具",
+    "loadSample": "加载示例数据",
+    "export": "导出图像",
+    "dataSlice": "数据切片",
+    "sliceSelection": "切片选择:",
+    "displayMode": "显示模式:",
+    "visualizationParams": "可视化参数",
+    "spotSize": "Spot大小:",
+    "opacity": "透明度:",
+    "visualizationType": "可视化类型",
+    "geneFeatureSelection": "基因/特征选择",
+    "searchGene": "搜索基因:",
+    "geneSearchPlaceholder": "输入基因名称...",
+    "adjustParamsHint": "使用左侧控制面板调整参数",
+    "coordinate": "坐标",
+    "topGenes": "Top基因",
+    "spots": "Spots",
+    "genes": "Genes",
+    "clusters": "Clusters",
+    "cluster": "聚类",
+    "slice1": "切片 1",
+    "slice2": "切片 2",
+    "slice3": "切片 3",
+    "spatialDistribution": "空间分布",
+    "violinPlot": "小提琴图",
+    "spatialVisualization": "空间转录组可视化",
+    "algorithm": {
+      "title": "聚类算法",
+      "method": "算法选择",
+      "clusterCount": "聚类数量",
+      "resolution": "分辨率",
+      "runClustering": "运行聚类分析"
+    },
+    "visualization": {
+      "title": "可视化参数",
+      "colorScheme": "颜色方案",
+      "pointSize": "点大小",
+      "opacity": "透明度",
+      "showLabels": "显示标签",
+      "showOutlines": "显示轮廓"
+    },
+    "filter": {
+      "title": "基因表达筛选",
+      "searchGene": "搜索基因",
+      "searchPlaceholder": "输入基因名称...",
+      "selectedGenes": "已选基因",
+      "noGenesSelected": "未选择基因"
+    },
+    "tabs": {
+      "spatial": "空间分布图",
+      "network": "聚类关系图",
+      "heatmap": "表达热图",
+      "dendrogram": "层次聚类树",
+      "umap": "降维可视化"
+    },
+    "heatmap": {
+      "expression": "表达量"
+    },
+    "sliceImage": "切片图像",
+    "expression": "表达量",
+    "position": "位置",
+    "expressionValue": "表达值",
+    "totalSpots": "(共 {count} 个spots)",
+    "sameClusterSpots": "同Cluster Spots",
+    "showingFirst10": "显示前10个...",
+    "stats": {
+      "title": "统计信息",
+      "totalCells": "总细胞数",
+      "clusterCount": "聚类数量",
+      "silhouetteScore": "轮廓系数",
+      "daviesBouldin": "Davies-Bouldin指数"
+    },
+    "tooltip": {
+      "cell": "细胞",
+      "cluster": "聚类",
+      "cells": "细胞数",
+      "similarity": "相似度"
+    },
+    "messages": {
+      "sampleLoaded": "示例数据加载成功",
+      "exported": "图像导出成功",
+      "algorithmChanged": "算法已切换",
+      "clusteringCompleted": "聚类分析完成"
+    }
+  },
+  "clustering": {
+    "params": {
+      "title": "聚类参数",
+      "method": "聚类方法",
+      "resolution": "分辨率"
+    },
+    "filters": {
+      "title": "筛选条件",
+      "minCells": "最小细胞数",
+      "maxCells": "最大细胞数"
+    },
+    "visualization": {
+      "title": "可视化类型"
+    },
+    "actions": {
+      "run": "运行聚类分析"
+    },
+    "stats": {
+      "clusterCount": "聚类数量"
+    },
+    "result": {
+      "empty": "点击“运行聚类分析”开始"
+    }
+  },
+  "fileTypeGraph": {
+    "toolbar": {
+      "project": "项目",
+      "selectProject": "选择项目...",
+      "fileType": "文件类型",
+      "searchFileType": "搜索文件类型...",
+      "depthLimit": "深度限制"
+    },
+    "detail": {
+      "serviceTitle": "服务详情",
+      "fileTypeTitle": "文件类型详情"
+    },
+    "config": {
+      "title": "隐藏文件类型配置",
+      "description": "配置默认不显示的文件类型。这些文件类型在关系图中将被隐藏。",
+      "hint": "提示：每行一个文件类型（不含点号，如：csv、png、txt）"
+    }
+  },
+  "codegen": {
+    "templates": {
+      "title": "已生成模板",
+      "unnamed": "未命名模板",
+      "empty": "暂无模板"
+    },
+    "conversation": {
+      "title": "对话生成代码"
+    },
+    "actions": {
+      "generate": "生成模板",
+      "confirm": "确认模板",
+      "execute": "执行",
+      "submit": "提交生成",
+      "saveEdit": "保存修改"
+    },
+    "form": {
+      "requirementPlaceholder": "描述你的需求（必填）",
+      "questionPlaceholder": "可选：你的问题",
+      "inputFilePlaceholder": "可选：输入文件ID",
+      "envPlaceholder": "环境（如 LG）",
+      "paramsPlaceholder": "可选：参数JSON，例如 {'{'}\"n_components\": 50{'}'}"
+    },
+    "preview": {
+      "title": "代码与模板预览",
+      "code": "代码",
+      "metadata": "参数模板 / Schema / 输出配置"
+    }
+  },
+  "agentMessage": {
+    "extra": {
+      "textContent": "文本内容",
+      "data": "数据",
+      "code": "代码",
+      "copyJson": "复制 JSON",
+      "copyCode": "复制代码",
+      "relatedFiles": "相关文件",
+      "file": "文件",
+      "download": "下载",
+      "downloadFile": "下载文件",
+      "downloading": "下载中...",
+      "executionDetails": "执行详情",
+      "serviceInfo": "服务信息",
+      "service": "服务",
+      "serviceId": "服务 ID",
+      "executionId": "执行 ID",
+      "duration": "耗时",
+      "startTime": "开始时间",
+      "completionTime": "完成时间",
+      "description": "描述",
+      "inputFiles": "输入文件",
+      "outputFiles": "输出文件",
+      "fileDownloadFailed": "文件下载失败",
+      "unknownError": "未知错误",
+      "copyFailed": "复制失败，请手动复制",
+      "seconds": "秒",
+      "minutes": "分钟",
+      "literatureHeader": "相关文献",
+      "doiLabel": "DOI",
+      "link": "链接"
+    }
+  },
+  "dge": {
+    "title": "差异基因表达分析",
+    "subtitle": "Differential Gene Expression Analysis",
+    "log2fcThreshold": "log2FC 阈值",
+    "fdrThreshold": "FDR 阈值",
+    "topN": "Top N",
+    "showThresholdLines": "显示阈值线",
+    "showGeneLabels": "显示基因标签",
+    "totalGenes": "总基因数",
+    "significantGenes": "显著基因",
+    "upregulated": "上调",
+    "downregulated": "下调",
+    "loading": "加载中...",
+    "refreshData": "刷新数据",
+    "loadingData": "正在加载数据...",
+    "retry": "重试",
+    "noData": "暂无数据",
+    "missingFileId": "缺少文件 ID",
+    "loadFailed": "数据加载失败",
+    "tabs": {
+      "volcano": "火山图",
+      "topGenes": "Top 基因",
+      "heatmap": "热图"
+    },
+    "table": {
+      "gene": "基因",
+      "group": "分组",
+      "log2fc": "log2FC",
+      "pvalue": "p-value",
+      "fdr": "FDR"
+    },
+    "legend": {
+      "upregulated": "上调",
+      "downregulated": "下调",
+      "notSignificant": "不显著"
+    }
+  },
+  "cellComm": {
+    "title": "细胞通讯",
+    "subtitle": "配体-受体交互可视化",
+    "visualizationTitle": "细胞通讯可视化",
+    "visualizationSubtitle": "基于 ligand-receptor 交互得分",
+    "filter": "筛选",
+    "minScore": "最小得分",
+    "minNormScore": "最小归一化得分",
+    "senderCells": "发送细胞",
+    "receiverCells": "接收细胞",
+    "ligandReceptorContains": "配体/受体包含",
+    "ligandReceptorPlaceholder": "APOE / LRP2...",
+    "loading": "加载中…",
+    "reload": "重新加载",
+    "reset": "重置",
+    "interactions": "交互数",
+    "uniqueLRPairs": "唯一LR对",
+    "noData": "暂无数据",
+    "missingFileId": "缺少文件 ID",
+    "loadFailed": "数据加载失败",
+    "tabs": {
+      "network": "网络",
+      "heatmap": "热图",
+      "distribution": "分布",
+      "table": "表格"
+    },
+    "networkTitle": "通讯网络",
+    "networkHint": "节点：细胞；边：配体-受体交互，宽度~归一化得分",
+    "heatmapTitle": "发送 × 接收 热图",
+    "heatmapHint": "颜色表示累计得分",
+    "distributionTitle": "得分分布",
+    "distributionHint": "score / normalized_score 直方图",
+    "tableTitle": "明细表",
+    "tableHint": "按得分排序",
+    "score": "score",
+    "chordChart": "通信弦图",
+    "frequency": "频次",
+    "unknown": "未知",
+    "table": {
+      "sender": "发送细胞",
+      "receiver": "接收细胞",
+      "ligand": "配体",
+      "receptor": "受体",
+      "distance": "距离",
+      "score": "得分",
+      "normScore": "归一化得分"
+    }
+  },
+  "auth": {
+    "tokenDialog": {
+      "title": "Token 认证",
+      "hasToken": "我有已有的 Token",
+      "createToken": "创建新的 Token",
+      "inputPlaceholder": "请输入您的 Token",
+      "newTokenLabel": "新 Token",
+      "copyButton": "复制",
+      "copied": "已复制",
+      "confirm": "确认",
+      "cancel": "取消",
+      "warning": "请妥善保存您的 Token，丢失后将无法找回",
+      "error": {
+        "invalidToken": "Token 无效，请检查后重试",
+        "networkError": "网络错误，请稍后重试",
+        "createFailed": "创建失败，请重试",
+        "copyFailed": "复制失败，请手动复制"
+      }
+    },
+    "cookieDialog": {
+      "title": "Cookie 认证",
+      "description": "请确认 Cookie 认证",
+      "confirm": "确认",
+      "cancel": "取消",
+      "accept": "接受"
+    }
+  }
+}

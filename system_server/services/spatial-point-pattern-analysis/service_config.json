@@ -1,0 +1,99 @@
+{
+  "service_id": "spatial-point-pattern-analysis",
+  "name": "Spatial Point Pattern Analysis (Ripley's)",
+  "description": "Calculate spatial point pattern statistics (Ripley's K, L, or F, G functions) using Squidpy to evaluate topological distributions, dispersion or distinct clumping patterns globally across biological features or categories.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:53902",
+  "port": 53902,
+  "service_suffix": "/api/point-pattern",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "spatial_key": "spatial",
+    "cluster_key": "leiden",
+    "mode": "L",
+    "spatial_metric": "euclidean",
+    "n_simulations": 100,
+    "seed": 0
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": ["auto", "h5ad"],
+      "description": "Input file type",
+      "required": false
+    },
+    "spatial_key": {
+      "type": "string",
+      "default_value": "spatial",
+      "description": "obsm key containing spatial coordinates",
+      "required": false
+    },
+    "cluster_key": {
+      "type": "string",
+      "default_value": "leiden",
+      "description": "obs key containing categorical properties representing clusters or cell types",
+      "required": true
+    },
+    "mode": {
+      "type": "enum",
+      "default_value": "L",
+      "enum_values": ["K", "L", "F", "G"],
+      "description": "Ripley's statistic to compute (K: basic, L: variance-stabilized, G: nearest neighbor distances).",
+      "required": false
+    },
+    "spatial_metric": {
+      "type": "enum",
+      "default_value": "euclidean",
+      "enum_values": ["euclidean", "cityblock"],
+      "description": "Distance metric for coordinates",
+      "required": false
+    },
+    "n_simulations": {
+      "type": "discrete",
+      "default_value": 100,
+      "min_value": 0,
+      "max_value": 500,
+      "description": "Number of CSR (Complete Spatial Randomness) simulations to generate confidence envelopes.",
+      "required": false
+    },
+    "seed": {
+      "type": "discrete",
+      "default_value": 0,
+      "min_value": 0,
+      "max_value": 999999,
+      "description": "Random seed",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": ["clustered_spatial_rna_seq_data", "annotated_spatial_rna_seq_data"],
+      "description": "Spatial transcriptomics data (h5ad format) containing categorical labels in obs and spatial coordinates in obsm"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs spatial point pattern curves plotted against a completely random distribution to pinpoint topological structuring.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "ripley_statistics.csv",
+        "description": "CSV file containing numerical values for the Ripley K/L/G calculations across radius distance thresholds for all cell types along with normal/CSR references.",
+        "file_type_id": "spatial_point_pattern_csv"
+      },
+      {
+        "type": "file",
+        "filename": "ripley_function_plot.png",
+        "description": "Plot showing the observed spatial pattern statistics (y-axis) vs distance thresholds (x-axis) for various clusters against theoretical random limits.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report detailing basic parameter setup, computation bounds, and execution length.",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

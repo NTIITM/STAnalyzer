@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  spatial-pseudotime-spatrack:
+    image: spatial-pseudotime-spatrack:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spatial-pseudotime-spatrack
+    ports:
+      # 容器内服务跑在 8080 端口，对外暴露为 44988
+      - "44988:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+    volumes:
+      - ./outputs:/app/outputs
+      - ./main.py:/app/main.py
+      - ./service_config.json:/app/service_config.json
+      - .:/app
+    networks:
+      - services-network
+    # 重启策略：容器异常退出时自动重启（OOM 后也会重启）
+    restart: unless-stopped
+    # 内存限制：根据系统可用内存调整，建议至少 32GB 用于大型数据集
+    # 对于 112K 细胞的数据集，建议设置为 64GB 或更高
+    # 如果系统内存不足，可以降低此值，但可能导致 OOM
+    mem_limit: 64g
+    mem_reservation: 32g
+    # 添加内存 OOM 时的优雅处理
+    oom_kill_disable: false
+    # 共享内存大小（某些计算可能需要）
+    shm_size: 2gb
+
+networks:
+  services-network:
+    driver: bridge
+
+
+
+

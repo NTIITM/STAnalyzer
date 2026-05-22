@@ -1,0 +1,98 @@
+{
+  "service_id": "spatial-clustering-graphst",
+  "name": "GraphST Spatial Clustering Service",
+  "description": "Cluster spatial transcriptomics data using GraphST, a graph self-supervised contrastive learning model that integrates spatial location and gene expression.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:42025",
+  "port": 42025,
+  "service_suffix": "/api/graphst-cluster",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "resolution": 1.0,
+    "algorithm": "leiden",
+    "random_state": 41,
+    "epochs": 600,
+    "neighborhoods": 6
+  },
+  "parameter_schema": {
+    "resolution": {
+      "type": "continuous",
+      "default_value": 1.0,
+      "min_value": 0.1,
+      "max_value": 5.0,
+      "description": "Clustering resolution (leiden/louvain); higher values yield more clusters",
+      "required": false
+    },
+    "algorithm": {
+      "type": "enum",
+      "default_value": "leiden",
+      "enum_values": [
+        "leiden",
+        "louvain"
+      ],
+      "description": "Clustering algorithm: leiden or louvain",
+      "required": false
+    },
+    "random_state": {
+      "type": "discrete",
+      "default_value": 41,
+      "min_value": -1,
+      "max_value": 999999,
+      "description": "Random seed for GraphST training and clustering (-1 for non-deterministic)",
+      "required": false
+    },
+    "epochs": {
+      "type": "discrete",
+      "default_value": 600,
+      "min_value": 50,
+      "max_value": 2000,
+      "description": "Number of epochs for GraphST training",
+      "required": false
+    },
+    "neighborhoods": {
+      "type": "discrete",
+      "default_value": 6,
+      "min_value": 1,
+      "max_value": 50,
+      "description": "Number of neighbors to use when constructing the spatial interaction graph for GraphST",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "preprocessed_spatial_data"
+      ],
+      "description": "Preprocessed spatial transcriptomics data (h5ad format only) with expression matrix and spatial coordinates (obsm['spatial'] or obsm['X_spatial']). GraphST will construct spatial graphs internally."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs GraphST-learned embeddings, clustered spatial data, visualization plots, and statistics report.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "spatial_cluster_data.h5ad",
+        "description": "AnnData object (h5ad format) containing GraphST-learned embeddings ('emb' in obsm) and clustering labels stored in obs['graphST'] column, with spatial coordinates and optional UMAP embeddings.",
+        "file_type_id": "clustered_spatial_rna_seq_data"
+      },
+      {
+        "type": "file",
+        "filename": "cluster_umap.png",
+        "description": "UMAP plot (PNG, 300 DPI) colored by GraphST clusters; generated from GraphST embeddings.",
+        "file_type_id": "umap_plot_png"
+      },
+      {
+        "type": "file",
+        "filename": "cluster_spatial.png",
+        "description": "Spatial plot (PNG, 300 DPI) showing GraphST domain assignments on spatial coordinates; generated when spatial coordinates are available.",
+        "file_type_id": "spatial_plot_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing GraphST analysis parameters, dataset statistics, cluster counts, and top differentially expressed genes per cluster (up to 10).",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

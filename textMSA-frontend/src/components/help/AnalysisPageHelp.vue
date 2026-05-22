@@ -1,0 +1,1598 @@
+<template>
+  <div class="analysis-page-help">
+    <div class="page-container">
+      <!-- Main Content -->
+      <div ref="mainContentRef" class="main-content">
+        <div class="page-header">
+          <h1>{{ $t('help.sections.analysisPage.title') }}</h1>
+          <p class="subtitle">{{ $t('help.sections.analysisPage.description') }}</p>
+        </div>
+
+    <!-- Page Structure Overview -->
+    <div id="section-0" class="structure-card">
+      <div class="card-header">
+        <Icon name="layout" size="md" />
+        <h2>{{ $t('help.sections.analysisPage.pageStructure.title') }}</h2>
+      </div>
+      <div class="card-content">
+        <div class="structure-diagram">
+          <div class="structure-item left-panel">
+            <Icon name="folder" size="lg" />
+            <h3>{{ $t('help.sections.analysisPage.leftPanel.title') }}</h3>
+            <p>{{ $t('help.sections.analysisPage.leftPanel.description') }}</p>
+          </div>
+          <div class="structure-item middle-panel">
+            <Icon name="diagram" size="lg" />
+            <h3>{{ $t('help.sections.analysisPage.middleContent.title') }}</h3>
+            <p>{{ $t('help.sections.analysisPage.middleContent.description') }}</p>
+          </div>
+          <div class="structure-item right-panel">
+            <Icon name="info" size="lg" />
+            <h3>{{ $t('help.sections.analysisPage.rightPanel.title') }}</h3>
+            <p>{{ $t('help.sections.analysisPage.rightPanel.description') }}</p>
+          </div>
+        </div>
+        <div class="overview-image">
+            <el-image
+              :src="getImagePath('analysis_page_intro_0.png')"
+              :alt="$t('help.sections.analysisPage.overviewImage')"
+              fit="contain"
+              :preview-src-list="[getImagePath('analysis_page_intro_0.png')]"
+              :preview-teleported="true"
+              :scale="0.7"
+              class="el-image-large el-image-with-border"
+            />
+          </div>
+      </div>
+    </div>
+
+    <!-- Left Panel Details -->
+    <div id="section-1" class="feature-card">
+      <div class="card-header">
+        <Icon name="folder" size="md" />
+        <h2>{{ $t('help.sections.analysisPage.leftPanel.title') }}</h2>
+      </div>
+      <div class="card-content">
+        <div class="feature-sections">
+          <div class="feature-section">
+            <h3>{{ $t('help.sections.analysisPage.leftPanel.projectList.title') }}</h3>
+            <div class="field-list">
+              <div class="field-item" v-for="(item, idx) in leftPanelProjectFeatures" :key="idx">
+                <Icon name="check" size="sm" />
+                <span>{{ item }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="feature-section">
+            <h3>{{ $t('help.sections.analysisPage.leftPanel.fileList.title') }}</h3>
+            <div class="field-list">
+              <div class="field-item" v-for="(item, idx) in leftPanelFileFeatures" :key="idx">
+                <Icon name="check" size="sm" />
+                <span>{{ item }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Content Details -->
+    <div id="section-2" class="feature-card">
+      <div class="card-header">
+        <Icon name="diagram" size="md" />
+        <h2>{{ $t('help.sections.analysisPage.middleContent.title') }}</h2>
+      </div>
+      <div class="card-content">
+        <div class="feature-sections">
+          <div class="feature-section">
+            <h3>{{ $t('help.sections.analysisPage.middleContent.dagView.title') }}</h3>
+            <p>{{ $t('help.sections.analysisPage.middleContent.dagView.description') }}</p>
+            <div class="dag-elements">
+              <div 
+                v-for="element in dagElements" 
+                :key="element.id"
+                class="element-card"
+              >
+                <div class="element-icon" :class="element.id">
+                  <Icon :name="element.icon" size="md" />
+                </div>
+                <div class="element-info">
+                  <h4>{{ element.title }}</h4>
+                  <ul v-if="element.details">
+                    <li v-for="(detail, idx) in element.details" :key="idx">{{ detail }}</li>
+                  </ul>
+                  <p v-else-if="element.description">{{ element.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feature-section">
+            <h3>{{ $t('help.sections.analysisPage.middleContent.dataVisualization.title') }}</h3>
+            <div class="field-list">
+              <div class="field-item" v-for="(item, idx) in dataVisualizationFeatures" :key="idx">
+                <Icon name="check" size="sm" />
+                <span>{{ item }}</span>
+              </div>
+            </div>
+            <div class="feature-image">
+              <el-image
+                :src="getImagePath('data_analysis_file.png')"
+                :alt="$t('help.sections.analysisPage.middleContent.dataVisualization.image')"
+                fit="contain"
+                :preview-src-list="[getImagePath('data_analysis_file.png')]"
+                :preview-teleported="true"
+                :scale="0.7"
+                class="el-image-large el-image-with-border"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel Details -->
+    <div id="section-3" class="feature-card">
+      <div class="card-header">
+        <Icon name="info" size="md" />
+        <h2>{{ $t('help.sections.analysisPage.rightPanel.title') }}</h2>
+      </div>
+      <div class="card-content">
+        <div class="field-list">
+          <div class="field-item" v-for="(item, idx) in rightPanelFeatures" :key="idx">
+            <Icon name="check" size="sm" />
+            <span>{{ item }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analysis Execution Features -->
+    <div class="transition-section">
+      <div class="transition-text">
+        {{ $t('help.sections.analysisPage.transitionText') }}
+      </div>
+    </div>
+
+    <!-- Natural Language Execution -->
+    <div id="section-4" class="feature-card">
+      <div class="card-header">
+        <Icon name="robot" size="md" />
+        <h2>{{ $t('help.sections.analysisPage.naturalLanguageExecution.title') }}</h2>
+      </div>
+      <div class="card-content">
+        <p class="section-intro">{{ $t('help.sections.analysisPage.naturalLanguageExecution.description') }}</p>
+        <div class="execution-steps">
+          <div class="execution-step" v-for="(step, idx) in naturalLanguageExecutionSteps" :key="idx">
+            <div class="step-badge">{{ idx + 1 }}</div>
+            <div class="step-details">
+              <h4>{{ step.title }}</h4>
+              <p>{{ step.description }}</p>
+              
+              <!-- Single Image -->
+              <div v-if="step.image && step.isSingleImage" class="step-screenshot">
+                <el-image
+                  :src="getImagePath(step.image)"
+                  :alt="step.title"
+                  fit="contain"
+                  :preview-src-list="[getImagePath(step.image)]"
+                  :preview-teleported="true"
+                  :scale="0.7"
+                  class="el-image-large el-image-with-border"
+                />
+              </div>
+              
+              <!-- Multiple Images -->
+              <div v-else-if="step.images" class="step-screenshot">
+                <div class="image-grid">
+                  <div v-for="(img, imgIdx) in step.images" :key="imgIdx" class="image-item">
+                    <el-image
+                      :src="getImagePath(img)"
+                      :alt="step.title"
+                      fit="contain"
+                      :preview-src-list="[getImagePath(img)]"
+                      :preview-teleported="true"
+                      :scale="0.7"
+                      class="el-image-small el-image-with-border"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Table -->
+              <div v-else-if="step.hasTable" class="step-screenshot">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Cluster</th>
+                        <th>Primary Functional Domain Inference</th>
+                        <th>Key Supporting Evidence</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, itemIdx) in validationTableData" :key="itemIdx">
+                        <td class="cluster-cell">{{ item.cluster }}</td>
+                        <td class="domain-cell">{{ item.domain }}</td>
+                        <td class="evidence-cell">{{ item.evidence }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Sub Steps -->
+              <div v-if="step.hasSubSteps && step.subSteps" class="sub-steps">
+                <div class="sub-step" v-for="(subStep, subIdx) in step.subSteps" :key="subIdx">
+                  <div class="sub-step-badge">{{ subIdx + 1 }}</div>
+                  <div class="sub-step-content">
+                    <h5>{{ subStep.title }}</h5>
+                    <p v-if="subStep.description">{{ subStep.description }}</p>
+                    
+                    <!-- Sub Step Single Image -->
+                    <div v-if="subStep.image" class="step-screenshot">
+                      <el-image
+                        :src="getImagePath(subStep.image)"
+                        :alt="subStep.title"
+                        fit="contain"
+                        :preview-src-list="[getImagePath(subStep.image)]"
+                        :preview-teleported="true"
+                        :scale="0.7"
+                        class="el-image-medium el-image-no-border"
+                      />
+                    </div>
+                    
+                    <!-- Sub Step Multiple Images -->
+                    <div v-else-if="subStep.images" class="step-screenshot">
+                      <div class="image-grid">
+                        <div v-for="(img, imgIdx) in subStep.images" :key="imgIdx" class="image-item">
+                          <el-image
+                            :src="getImagePath(img)"
+                            :alt="subStep.title"
+                            fit="contain"
+                            :preview-src-list="[getImagePath(img)]"
+                            :preview-teleported="true"
+                            :scale="0.7"
+                            class="el-image-small el-image-no-border"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual Execution -->
+    <div id="section-5" class="feature-card">
+      <div class="card-header">
+        <Icon name="play" size="md" />
+        <h2>{{ $t('help.sections.analysisPage.manualExecution.title') }}</h2>
+      </div>
+      <div class="card-content">
+        <p class="section-intro">{{ $t('help.sections.analysisPage.manualExecution.description') }}</p>
+        <div class="execution-steps">
+          <div class="execution-step" v-for="(step, idx) in manualExecutionSteps" :key="idx">
+            <div class="step-badge">{{ idx + 1 }}</div>
+            <div class="step-details">
+              <h4>{{ step.title }}</h4>
+              <p v-html="step.description"></p>
+              <div v-if="step.image" class="step-screenshot">
+                <el-image
+                  :src="getImagePath(step.image)"
+                  :alt="step.title"
+                  fit="contain"
+                  :preview-src-list="[getImagePath(step.image)]"
+                  :preview-teleported="true"
+                  :scale="0.7"
+                  class="el-image-large el-image-with-border"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <SidebarNavigation 
+        :steps="navigationSteps" 
+        :title="$t('help.common.navigation')"
+        sectionPrefix="section-"
+        @update:currentStep="(index) => currentStep = index"
+      />
+      
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import Icon from '../common/Icon.vue'
+import { ElImage } from 'element-plus'
+import SidebarNavigation from '../common/SidebarNavigation.vue'
+
+const { t } = useI18n()
+
+// Current active step
+const currentStep = ref<number>(0)
+
+// Navigation steps for sidebar
+const navigationSteps = computed(() => [
+  {
+    title: t('help.sections.analysisPage.pageStructure.title')
+  },
+  {
+    title: t('help.sections.analysisPage.leftPanel.title')
+  },
+  {
+    title: t('help.sections.analysisPage.middleContent.title')
+  },
+  {
+    title: t('help.sections.analysisPage.rightPanel.title')
+  },
+  {
+    title: t('help.sections.analysisPage.naturalLanguageExecution.title')
+  },
+  {
+    title: t('help.sections.analysisPage.manualExecution.title')
+  }
+])
+
+const leftPanelProjectFeatures = computed(() => [
+  t('help.sections.analysisPage.leftPanel.projectList.feature1'),
+  t('help.sections.analysisPage.leftPanel.projectList.feature2'),
+  t('help.sections.analysisPage.leftPanel.projectList.feature3')
+])
+
+const leftPanelFileFeatures = computed(() => [
+  t('help.sections.analysisPage.leftPanel.fileList.feature1'),
+  t('help.sections.analysisPage.leftPanel.fileList.feature2'),
+  t('help.sections.analysisPage.leftPanel.fileList.feature3')
+])
+
+const dagNodeDetails = computed(() => [
+  t('help.sections.analysisPage.middleContent.dagView.elements.nodesDetail1'),
+  t('help.sections.analysisPage.middleContent.dagView.elements.nodesDetail2'),
+  t('help.sections.analysisPage.middleContent.dagView.elements.nodesDetail3')
+])
+
+const dagEdgeDetails = computed(() => [
+  t('help.sections.analysisPage.middleContent.dagView.elements.edgesDetail1'),
+  t('help.sections.analysisPage.middleContent.dagView.elements.edgesDetail2')
+])
+
+const dagElements = computed(() => [
+  {
+    id: 'nodes',
+    icon: 'refresh-cw',
+    title: t('help.sections.analysisPage.middleContent.dagView.elements.nodes'),
+    details: dagNodeDetails.value
+  },
+  {
+    id: 'edges',
+    icon: 'arrow-right',
+    title: t('help.sections.analysisPage.middleContent.dagView.elements.edges'),
+    details: dagEdgeDetails.value
+  },
+  {
+    id: 'files',
+    icon: 'file',
+    title: t('help.sections.analysisPage.middleContent.dagView.elements.files'),
+    description: t('help.sections.analysisPage.middleContent.dagView.elements.filesDesc')
+  }
+])
+
+const dataVisualizationFeatures = computed(() => [
+  t('help.sections.analysisPage.middleContent.dataVisualization.feature1'),
+  t('help.sections.analysisPage.middleContent.dataVisualization.feature2'),
+  t('help.sections.analysisPage.middleContent.dataVisualization.feature3')
+])
+
+const rightPanelFeatures = computed(() => [
+  t('help.sections.analysisPage.rightPanel.feature1'),
+  t('help.sections.analysisPage.rightPanel.feature2'),
+  t('help.sections.analysisPage.rightPanel.feature3')
+])
+
+const manualExecutionSteps = computed(() => [
+  {
+    title: t('help.sections.analysisPage.manualExecution.step1.title'),
+    description: t('help.sections.analysisPage.manualExecution.step1.description'),
+    image: 'analysis_page_manual0.png'
+  },
+  {
+    title: t('help.sections.analysisPage.manualExecution.step2.title') + ' & ' + t('help.sections.analysisPage.manualExecution.step3.title'),
+    description: t('help.sections.analysisPage.manualExecution.step2.description') + '<br> ' + t('help.sections.analysisPage.manualExecution.step3.description'),
+    image: 'analysis_page_manual1.png'
+  },
+  // {
+  //   title: t('help.sections.analysisPage.manualExecution.step3.title'),
+  //   description: t('help.sections.analysisPage.manualExecution.step3.description'),
+  //   image: 'manual_execution_running.png'
+  // },
+  {
+    title: t('help.sections.analysisPage.manualExecution.step4.title'),
+    description: t('help.sections.analysisPage.manualExecution.step4.description'),
+    image: 'analysis_page_manual2.png'
+  }
+])
+
+const naturalLanguageExecutionSteps = computed(() => [
+  {
+    title: t('help.sections.gettingStarted.steps.askAgent.title'),
+    description: t('help.sections.gettingStarted.steps.askAgent.description'),
+    image: 'send_query_0.png',
+    isSingleImage: true
+  },
+  {
+    title: t('help.sections.gettingStarted.steps.analysis.title'),
+    description: t('help.sections.gettingStarted.steps.analysis.description'),
+    images: ['analysis_0.png', 'analysis_1.png', 'analysis_2.png', 'analysis_3.png']
+  },
+  {
+    title: t('help.sections.gettingStarted.steps.analysis2.title'),
+    description: t('help.sections.gettingStarted.steps.analysis2.description'),
+    image: 'analysis2_0.png',
+    isSingleImage: true,
+    isPrompt: true
+  },
+  {
+    title: t('help.sections.gettingStarted.steps.illustrations.title'),
+    description: t('help.sections.gettingStarted.steps.illustrations.description'),
+    images: ['illustrations_0.png', 'illustrations_1.png'],
+    isPrompt: true
+  },
+  {
+    title: t('help.sections.gettingStarted.steps.validation.title'),
+    description: t('help.sections.gettingStarted.steps.validation.description'),
+    hasTable: true,
+    isPrompt: true
+  },
+  {
+    title: 'Explore Valuable Research Directions',
+    description: 'Utilize the platform to explore valuable research directions, guide meaningful biological discoveries, and avoid blind large-scale analysis. Perform cell communication analysis among the 9 spatial domains, identify the two spatial domains with the greatest research significance and the cell interactions between them, and provide an explanatory description as well as a summary report.',
+    images: ['research_direction_0.png', 'research_direction_1.png'],
+    isPrompt: true
+  },
+  {
+    title: 'Multi-Agent Collaboration for Accelerated Biological Discoveries',
+    description: 'The current dataset possesses a truly accurate resolution of subcellular physical coordinates. Our previous analysis has successfully identified a crucial physical communication boundary: Domain 0 (the core of adaptive immunity dominated by T cells) and Domain 3 (the immunosuppressive barrier dominated by Tregs). Please focus on the interface where physical contact occurs between Domain 0 and Domain 3 (the boundary). From the perspective of subcellular analysis, deduce and extract potential new biological discoveries. Please conduct a deep analysis using an explainable thought chain (Chain of Thought).',
+    hasSubSteps: true,
+    subSteps: [
+      {
+        title: 'Automatic Code Analysis',
+        image: 'code_analysis_0.png',
+        description: 'Automatically analyze the code to extract key functional domains and cell interactions.'
+      },
+      {
+        title: 'Mechanism-Based Reasoning',
+        description: 'Synthesize all available evidence from file metadata, decision history, and established knowledge base to automatically propose deep, mechanism-based reasoning results (each hypothesis has a traceable chain of thought):',
+        images: ['reasoning_0.png', 'reasoning_1.png', 'reasoning_2.png']
+      },
+      {
+        title: 'Summary Report',
+        description: 'Provide a summary report of the novel biological phenomena discovered:',
+        images: ['summary_0.png', 'summary_1.png', 'summary_2.png']
+      }
+    ],
+    isPrompt: true
+  }
+])
+
+const validationTableData = computed(() => [
+  {
+    cluster: '0',
+    domain: 'T-cell–rich adaptive immune niche',
+    evidence: 'Top terms: T cell activation (GO:0042110), lymphocyte differentiation (GO:0030098), regulation of immune effector process (GO:0002697). Strong enrichment for CD3D, CD3E, CD247, IL2RA. Suggests organized, antigen-experienced T-cell microenvironment — potentially tertiary lymphoid structure (TLS)-like or tumor-infiltrating lymphocyte (TIL) aggregate.'
+  },
+  {
+    cluster: '1',
+    domain: 'B-cell–dominant lymphoid aggregate',
+    evidence: 'Top terms: B cell activation (GO:0042113), humoral immune response (GO:0006959), antibody-mediated immunity (GO:0002443). High load of CD19, MS4A1 (CD20), CD79A, IGHM. Consistent with germinal center–adjacent or ectopic B-cell follicle — functionally distinct from cluster 0, emphasizing humoral over cytotoxic immunity.'
+  },
+  {
+    cluster: '2',
+    domain: 'Proliferating epithelial / tumor cell zone',
+    evidence: 'Top terms: mitotic nuclear division (GO:0007067), cell cycle phase transition (GO:0044770), DNA replication initiation (GO:0006270). Enriched for MKI67, TOP2A, PCNA, UBE2C. Absence of strong immune/stromal signatures supports a rapidly cycling epithelial or malignant compartment — likely the core tumor proliferation region.'
+  },
+  {
+    cluster: '3',
+    domain: 'Regulatory T-cell / immunosuppressive interface',
+    evidence: 'Top terms: regulation of T cell activation (GO:0050870), negative regulation of immune response (GO:0045089), T cell tolerance induction (GO:0001819). Co-enrichment of FOXP3, CTLA4, TGFB1, IL10RA. Suggests an immune-modulatory boundary zone — possibly tumor–stroma interface where suppression limits anti-tumor immunity.'
+  },
+  {
+    cluster: '4',
+    domain: 'Vascular–endothelial niche',
+    evidence: 'Top terms: angiogenesis (GO:0001525), blood vessel development (GO:0001568), endothelial cell migration (GO:0043547). Enriched for PECAM1, VWF, CDH5, ENG. Represents functional vasculature — critical for nutrient supply, immune cell trafficking, and potential metastatic gateway.'
+  },
+  {
+    cluster: '5',
+    domain: 'Fibroblast–myofibroblast stromal region',
+    evidence: 'Top terms: extracellular matrix organization (GO:0030198), collagen fibril organization (GO:0030199), wound healing (GO:0042060). Strong signals for COL1A1, ACTA2, TAGLN, FN1. Characteristic of reactive stroma — likely cancer-associated fibroblasts (CAFs) driving desmoplasia and structural remodeling.'
+  },
+  {
+    cluster: '6',
+    domain: 'Metabolically active stroma / adipose-adjacent interface',
+    evidence: 'Top terms: fatty acid metabolic process (GO:0006631), oxidative phosphorylation (GO:0006119), mitochondrial respiratory chain complex assembly (GO:0070463). Enriched for ACADM, NDUFA4, COX7A2L. Lower immune/epithelial signals; higher mitochondrial/metabolic gene load suggests metabolically engaged stromal cells — possibly peritumoral adipocytes or oxidative stromal subsets influencing tumor metabolism.'
+  },
+  {
+    cluster: '7',
+    domain: 'Innate immune / myeloid-rich inflammatory zone',
+    evidence: 'Top terms: neutrophil activation (GO:0042119), myeloid leukocyte activation (GO:0002274), response to cytokine (GO:0034097). Enriched for S100A8, S100A9, FCGR3A, CD14, MMP9. Reflects acute inflammation — neutrophil extracellular trap (NET)-associated or macrophage-dense region, potentially linked to necrosis, hypoxia, or infection-like responses.'
+  },
+  {
+    cluster: '8',
+    domain: 'Differentiated epithelial / glandular or barrier tissue',
+    evidence: 'Top terms: epithelial cell differentiation (GO:0030855), cell–cell adhesion via plasma membrane proteins (GO:0098631), tight junction assembly (GO:0061024). Enriched for KRT19, EPCAM, CLDN4, CDH1. Highest enrichment signal (combined score = 26.75); minimal proliferation or immune signatures. Consistent with mature, polarized epithelium — e.g., normal ductal structures, benign glands, or well-differentiated tumor regions with intact barrier function.'
+  }
+])
+
+function getImagePath(imageName: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+  return `${base}/pictures/${imageName}`
+}
+</script>
+
+<style scoped>
+/* ==========================================
+   🎨 Global Theme & Variables (Editorial Tech)
+   ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Satoshi:wght@300;400;500;700&display=swap');
+
+:root {
+  --color-text-dark: #0F172A;
+  --color-text-muted: #64748B;
+  --color-bg-page: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-accent: #1E40AF; /* Primary Blue */
+  --color-accent-light: #3B82F6;
+  --color-accent-lighter: #93C5FD;
+  --color-border: #E2E8F0;
+  --radius-xl: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-soft: 0 10px 25px -10px rgba(59, 130, 246, 0.1);
+  --shadow-hover: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
+}
+
+.analysis-page-help {
+  background: var(--color-bg-page);
+  min-height: 100vh;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.page-header {
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+  border-radius: 2px;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin-bottom: var(--spacing-md);
+  font-family: 'Clash Display', sans-serif;
+  letter-spacing: -1.5px;
+  line-height: 1.5;
+  background: linear-gradient(135deg, #0F172A 0%, #1E40AF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.structure-card,
+.feature-card {
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  border: 1px solid rgba(226, 232, 240, 0.4);
+}
+
+/* Custom Card Accent */
+.structure-card::before,
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.structure-card:hover,
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Header Styles */
+.card-header,
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient Overlay for Header */
+.card-header::before,
+.step-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), transparent 50%);
+  pointer-events: none;
+}
+
+.card-header h2,
+.step-header h3 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-family: 'Clash Display', sans-serif;
+  position: relative;
+  z-index: 1;
+}
+
+.card-header h2 {
+  font-size: 1.25rem;
+}
+
+.step-header h3 {
+  font-size: 1.125rem;
+}
+
+.card-content {
+  padding: var(--spacing-xl);
+}
+
+.structure-diagram {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.structure-item {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to right, #FCFDFF, #F9FAFB);
+  border-left: 3px solid transparent;
+}
+
+.structure-item:hover {
+  border-left-color: var(--color-accent);
+  background: linear-gradient(to right, #FCFDFF, #EFF6FF);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.structure-item h3 {
+  margin: var(--spacing-md) 0 var(--spacing-xs) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-family: 'Satoshi', sans-serif;
+}
+
+.structure-item p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Feature Sections Styles */
+.feature-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.feature-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: var(--spacing-md);
+  font-family: 'Satoshi', sans-serif;
+}
+
+.feature-section p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Field List Styles */
+.field-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.field-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(to right, #FCFDFF, #F9FAFB);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s;
+  border-left: 3px solid transparent;
+}
+
+.field-item:hover {
+  border-left-color: var(--color-accent);
+  background: linear-gradient(to right, #FCFDFF, #EFF6FF);
+  transform: translateX(4px);
+}
+
+.field-item span {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* DAG Elements Styles */
+.dag-elements {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  justify-content: center;
+  align-items: start;
+}
+
+.element-card {
+  padding: var(--spacing-lg);
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid transparent;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+/* Neon Glow Effect on Hover */
+.element-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  padding: 1px;
+  background: linear-gradient(45deg, transparent, var(--color-accent-light), transparent);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.element-card:hover {
+  border-bottom-color: var(--color-accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.element-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  margin-bottom: var(--spacing-md);
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  border: 1px solid var(--color-accent-light);
+  box-shadow: 0 4px 15px -5px var(--color-accent-light);
+  transition: all 0.3s;
+}
+
+.element-icon:hover {
+  background: linear-gradient(135deg, var(--color-accent) 0%, #3B82F6 100%);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.element-icon :deep(svg) {
+  width: 24px;
+  height: 24px;
+  color: #1E40AF;
+  transition: color 0.3s;
+}
+
+.element-icon:hover :deep(svg) {
+  color: white;
+}
+
+.element-info {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.element-info h4 {
+  text-align: center;
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-family: 'Satoshi', sans-serif;
+}
+
+.element-info ul {
+  text-align: left;
+  margin: 0 auto;
+  max-width: 90%;
+  padding-left: var(--spacing-lg);
+  list-style: disc;
+}
+
+.element-info li {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.element-info p {
+  text-align: center;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Image Container Styles */
+.overview-image,
+.feature-image {
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(241, 245, 249, 0.5), transparent);
+  border-radius: var(--radius-md);
+  padding: 40px 0;
+  margin: 0 -48px;
+  margin-top: var(--spacing-lg);
+}
+
+.overview-image img,
+.feature-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.overview-image img:hover,
+.feature-image img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.section-intro {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xl);
+}
+
+.execution-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.execution-step {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.step-badge {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #275fb9;
+  color: white;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 1.125rem;
+  font-style: italic;
+  font-family: 'Clash Display', sans-serif;
+  box-shadow: 0 4px 15px -5px var(--color-accent);
+  z-index: 10;
+  position: relative;
+  overflow: visible;
+  opacity: 1;
+}
+
+.step-details {
+  flex: 1;
+}
+
+.step-details h4 {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-family: 'Satoshi', sans-serif;
+}
+
+.step-details p {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.step-screenshot {
+  margin-top: var(--spacing-md);
+  background: linear-gradient(to bottom, rgba(241, 245, 249, 0.5), transparent);
+  border-radius: var(--radius-md);
+  padding: 40px 0;
+  margin: 0 -48px;
+  text-align: center;
+  border: 1px solid #eee;
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.step-screenshot img {
+  max-width: 90%;
+  height: auto;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+}
+
+.step-screenshot:hover {
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .analysis-page-help {
+    padding: var(--spacing-md);
+  }
+
+  .structure-diagram {
+    grid-template-columns: 1fr;
+  }
+
+  .dag-elements {
+    grid-template-columns: 1fr;
+  }
+  
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sub-step {
+    flex-direction: column;
+  }
+  
+  .sub-step-badge {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .overview-image,
+  .feature-image,
+  .step-screenshot {
+    margin: 0 -24px;
+    padding: 20px 0;
+  }
+  
+  .page-header h1 {
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+  }
+  
+  .card-content {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* Sub-step Styles */
+.sub-steps {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.sub-step {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-left: var(--spacing-lg);
+}
+
+.sub-step-badge {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5685d2;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.sub-step-content {
+  flex: 1;
+}
+
+.sub-step-content h5 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-family: 'Satoshi', sans-serif;
+}
+
+.sub-step-content p {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Image Grid Styles */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding: 0 48px;
+}
+
+.image-item {
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+.image-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* ============================== */
+/* El Image Styles */
+/* ============================== */
+
+/* Image Size Classes */
+.el-image-large {
+  width: 100%;
+  height: 500px;
+  cursor: pointer;
+}
+
+.el-image-medium {
+  width: 90%;
+  height: 400px;
+  cursor: pointer;
+}
+
+.el-image-small {
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+}
+
+/* Image Border Classes */
+.el-image-with-border {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+
+
+/* Image Hover Effects */
+.el-image-with-border:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Disable hover effect for images inside step-screenshot to avoid duplication */
+.step-screenshot .el-image-with-border:hover {
+  transform: none;
+  box-shadow: none;
+  transition: none;
+}
+
+/* Step Card Styles */
+.step-card {
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  border: 1px solid rgba(226, 232, 240, 0.4);
+}
+
+/* Step Card Gradient Accent */
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+/* Step Card Hover Effect */
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Step Card Content */
+.step-content {
+  padding: var(--spacing-lg);
+}
+
+/* Step Description */
+.step-description {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Key Points Box */
+.key-points {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-lg);
+  background: linear-gradient(to right, #FCFDFF, #F9FAFB);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s;
+  border-left: 3px solid transparent;
+}
+
+/* Key Points Hover Effect */
+.key-points:hover {
+  border-left-color: var(--color-accent);
+  background: linear-gradient(to right, #FCFDFF, #EFF6FF);
+  transform: translateX(4px);
+}
+
+/* Key Points Heading */
+.key-points h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: var(--spacing-sm);
+  font-family: 'Satoshi', sans-serif;
+}
+
+/* Key Points List */
+.key-points ul {
+  margin: 0;
+  padding-left: var(--spacing-md);
+  list-style-type: disc;
+}
+
+/* Key Points List Items */
+.key-points li {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Step Image Container */
+.step-image {
+  margin: var(--spacing-md) 0;
+  background: linear-gradient(to bottom, rgba(241, 245, 249, 0.5), transparent);
+  border-radius: var(--radius-md);
+  padding: 40px 0;
+  margin: 0 -48px;
+  text-align: center;
+}
+
+/* Single Image Container */
+.single-image-container {
+  height: 400px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid #eee;
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to bottom, rgba(241, 245, 249, 0.5), transparent);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Single Image Container Hover Effect */
+.single-image-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+}
+
+/* Tips Box */
+.tips-box {
+  background: linear-gradient(to right, #FFFFFF, #F9FAFB);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tips Box Left Border */
+.tips-box::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(to bottom, var(--color-accent), #3B82F6);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tips Box Hover Effect */
+.tips-box:hover {
+  background: linear-gradient(to right, #FFFFFF, #EFF6FF);
+  transform: translateX(8px);
+}
+
+/* Tips Box Hover Border Effect */
+.tips-box:hover::before {
+  opacity: 1;
+}
+
+/* Tips Box Text */
+.tips-box span {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* Step Table */
+.step-table {
+  margin: var(--spacing-md) 0;
+}
+
+/* Table Responsive Container */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Data Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-card);
+}
+
+/* Data Table Cells */
+.data-table th,
+.data-table td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Data Table Headers */
+.data-table th {
+  background: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-family: 'Satoshi', sans-serif;
+}
+
+/* Data Table Row Hover Effect */
+.data-table tr:hover {
+  background: rgba(59, 130, 246, 0.05);
+  transition: background 0.2s ease;
+}
+
+/* Cluster Cell */
+.cluster-cell {
+  font-weight: 600;
+  color: var(--color-accent);
+  width: 10%;
+  text-align: center;
+}
+
+/* Domain Cell */
+.domain-cell {
+  font-weight: 500;
+  color: var(--color-text-dark);
+  width: 30%;
+}
+
+/* Evidence Cell */
+.evidence-cell {
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  width: 60%;
+}
+.transition-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl) 0;
+  margin: var(--spacing-xl) 0;
+  position: relative;
+}
+
+.transition-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-border), transparent);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.transition-text {
+  background: #EFF6FF; /* 淡蓝色背景 */
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  text-align: center;
+  font-style: italic;
+  z-index: 2;
+  max-width: 800px;
+  line-height: 1.6;
+  font-family: 'Satoshi', sans-serif;
+  border-radius: var(--radius-md); /* 圆角效果 */
+  border: 1px solid var(--color-border); /* 边框效果 */
+}
+
+/* Page Container */
+.page-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background: var(--color-card);
+  border-left: 1px solid var(--color-border);
+  transition: width 0.3s ease;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  transition: opacity 0.3s ease;
+  font-family: 'Clash Display', sans-serif;
+}
+
+.sidebar.collapsed .sidebar-header h3 {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  border-right: 3px solid transparent;
+  justify-content: flex-start;
+}
+
+.step-number-sidebar {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent-light);
+  color: #275fb9;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px -5px var(--color-accent);
+}
+
+.nav-item:hover {
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--color-text-dark);
+  transform: translateX(-4px);
+}
+
+.sidebar-nav li.active .nav-item {
+  background: rgba(59, 130, 246, 0.05);
+  color: var(--color-accent);
+  border-right-color: var(--color-accent);
+  font-weight: 500;
+  transform: translateX(-4px);
+}
+
+.sidebar.collapsed .nav-item span {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: var(--spacing-md);
+  border-right: none;
+}
+
+.sidebar.collapsed .step-number-sidebar {
+  display: flex;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: var(--spacing-xl);
+  overflow-y: auto;
+  background: var(--color-bg-page);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-left: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar.collapsed {
+    width: 100%;
+  }
+
+  .main-content {
+    padding: var(--spacing-lg);
+  }
+}
+</style>

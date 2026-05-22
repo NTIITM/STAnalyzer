@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  spatial-histology-feature-extraction:
+    build: .
+    container_name: spatial-histology-feature-extraction
+    ports:
+      - "53903:53903"
+    volumes:
+      - ./outputs:/app/outputs
+    environment:
+      - PORT=53903
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: always

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  spatial-point-pattern-analysis:
+    build: .
+    container_name: spatial-point-pattern-analysis
+    ports:
+      - "53902:53902"
+    volumes:
+      - ./outputs:/app/outputs
+    environment:
+      - PORT=53902
+    restart: always

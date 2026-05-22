@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  spatial-squidpy-enrichment:
+    build: .
+    container_name: spatial-squidpy-enrichment
+    ports:
+      - "53901:53901"
+    volumes:
+      - ./outputs:/app/outputs
+    environment:
+      - PORT=53901
+    restart: always

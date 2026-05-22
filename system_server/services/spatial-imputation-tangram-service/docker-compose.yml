@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  spatial-imputation-tangram-service:
+    image: spatial-imputation-tangram-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spatial-imputation-tangram-service
+    # GPU support via environment variables and device access
+    # Note: For non-Swarm mode, we'll use docker run with --gpus flag
+    # This compose file is mainly for building the image
+    ports:
+      # Container service runs on port 8080, exposed as 38411, consistent with service_config.json
+      - "38411:8080"
+    # deploy section only works in Docker Swarm mode
+    # For regular docker-compose, use runtime: nvidia above
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+      # GPU visibility: specify GPU IDs 4 and 5
+      - NVIDIA_VISIBLE_DEVICES=4,5
+    volumes:
+      - ./outputs:/app/outputs
+      - /home/common/hwluo/project/Data:/app/data:ro
+      - ./data:/app/test_data:ro
+      - ./main.py:/app/main.py:ro
+      - ./service_config.json:/app/service_config.json:ro
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge

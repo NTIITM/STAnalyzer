@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-multipart
+anndata
+scanpy
+pandas
+numpy
+scipy
+gseapy
+networkx
+scikit-learn
+matplotlib
+plotly
+pyarrow
+

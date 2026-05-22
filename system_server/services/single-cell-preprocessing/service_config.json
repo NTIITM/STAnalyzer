@@ -1,0 +1,142 @@
+{
+  "service_id": "single-cell-preprocessing",
+  "name": "Single-Cell Preprocessing",
+  "description": "Preprocess single-cell RNA-seq: quality control and normalization with detailed QC assessment, violin plots for QC metrics, and HVG selection visualization.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:55355",
+  "port": 55355,
+  "service_suffix": "/api/preprocess",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "min_genes": 200,
+    "min_cells": 3,
+    "max_mito_percent": 20.0,
+    "mito_prefix": "MT-",
+    "normalization_method": "log1p",
+    "target_sum": 10000.0,
+    "highly_variable_genes": true,
+    "n_top_genes": 2000,
+    "hvg_flavor": "seurat_v3"
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Input file type",
+      "required": false
+    },
+    "min_genes": {
+      "type": "discrete",
+      "default_value": 200,
+      "min_value": 1,
+      "max_value": 1000,
+      "description": "Minimum genes per cell",
+      "required": false
+    },
+    "min_cells": {
+      "type": "discrete",
+      "default_value": 3,
+      "min_value": 1,
+      "max_value": 100,
+      "description": "Minimum cells a gene must appear in",
+      "required": false
+    },
+    "max_mito_percent": {
+      "type": "continuous",
+      "default_value": 20.0,
+      "min_value": 0.0,
+      "max_value": 100.0,
+      "description": "Maximum mitochondrial percentage",
+      "required": false
+    },
+    "mito_prefix": {
+      "type": "string",
+      "default_value": "MT-",
+      "description": "Mitochondrial gene prefix",
+      "required": false
+    },
+    "normalization_method": {
+      "type": "enum",
+      "default_value": "log1p",
+      "enum_values": [
+        "log1p",
+        "sqrt",
+        "none"
+      ],
+      "description": "Normalization method",
+      "required": false
+    },
+    "target_sum": {
+      "type": "continuous",
+      "default_value": 10000.0,
+      "min_value": 1000.0,
+      "max_value": 100000.0,
+      "description": "Target library size for normalization",
+      "required": false
+    },
+    "highly_variable_genes": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Select highly variable genes",
+      "required": false
+    },
+    "n_top_genes": {
+      "type": "discrete",
+      "default_value": 2000,
+      "min_value": 100,
+      "max_value": 5000,
+      "description": "Number of highly variable genes",
+      "required": false
+    },
+    "hvg_flavor": {
+      "type": "enum",
+      "default_value": "seurat_v3",
+      "enum_values": [
+        "seurat_v3",
+        "seurat",
+        "cell_ranger"
+      ],
+      "description": "HVG selection method",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "single_cell_rna_seq_data"
+      ],
+      "description": "Raw single-cell RNA-seq data with expression matrix (h5ad/h5/loom/10x_h5, etc.)"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs preprocessed single-cell data, detailed stats, and visualizations.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "preprocessed_data.h5ad",
+        "description": "AnnData object (h5ad format) containing preprocessed single-cell RNA-seq data. Attributes: 'X' (normalized expression matrix, cells x genes, after library size normalization and log1p/sqrt transformation), 'obs' (cell metadata with QC metrics including 'n_genes_by_counts', 'total_counts', 'pct_counts_mt' (mitochondrial percentage), and filtering flags), 'var' (gene metadata with 'highly_variable' (boolean indicating HVG selection), 'means' (mean expression), 'dispersions' (dispersion values), 'dispersions_norm' (normalized dispersions)), 'layers' (raw counts in 'counts' layer if preserved), 'uns' (unsupervised annotations including 'log1p' (normalization parameters), 'hvg' (highly variable genes selection parameters and statistics))",
+        "file_type_id": "preprocessed_single_cell_data"
+      },
+      {
+        "type": "file",
+        "filename": "qc_metrics.png",
+        "description": "QC violin plots (PNG, 300 DPI) for total UMI counts, number of genes, and mitochondrial %, with mean/median",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "hvg_selection.png",
+        "description": "HVG selection scatter (PNG, 300 DPI) showing mean expression vs dispersion; red = selected HVGs, gray = others",
+        "file_type_id": "generic_png"
+      }
+    ]
+  }
+}

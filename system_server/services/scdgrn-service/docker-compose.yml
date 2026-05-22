@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  scdgrn-service:
+    image: scdgrn-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scdgrn-service
+    # 使用 NVIDIA GPU（需要已安装 nvidia-container-toolkit）
+    # GPU可见性通过 NVIDIA_VISIBLE_DEVICES 环境变量控制（设置为4,5）
+    # 注意：deploy 配置只在 Docker Swarm 模式下生效
+    # 对于普通 docker-compose，需要使用 runtime 或 device_requests
+    runtime: nvidia  # 非 Swarm 模式下启用 GPU 支持
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - "37493:8080"
+    volumes:
+      # 挂载源代码目录，实现代码热更新
+      - .:/app
+      # 单独挂载 outputs 目录，避免容器内写出的结果丢失
+      - ./outputs:/app/outputs
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+      - NVIDIA_VISIBLE_DEVICES=4,5
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+

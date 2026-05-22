@@ -1,0 +1,2802 @@
+{
+  "services": [
+    {
+      "name": "Cluster-based Gene Enrichment Analysis Service",
+      "description": "Run functional enrichment analysis on clustered spatial transcriptomics data. Performs enrichment analysis for each cluster separately by extracting cluster-specific genes (highly expressed or marker genes) and identifying enriched pathways/functions. Uses gseapy Enrichr, supports many gene set libraries (GO, KEGG, etc.) and organisms. Results include cluster information for each enrichment result. Computes rich stats (total/ significant pathways, p-value/FDR distributions, per-pathway gene counts, odds ratio, combined score, overlap counts) and produces multiple plots (top pathways bar, enrichment dot, gene ratio, p-value histogram, volcano) with cluster annotations.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:45209",
+      "port": 45209,
+      "service_suffix": "/api/enrich",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "cluster_key": "cluster",
+        "gene_selection_method": "top_expressed",
+        "top_n_genes": 200,
+        "library": "GO_Biological_Process_2021",
+        "organism": "Human",
+        "engine": "enrichr"
+      },
+      "parameter_schema": {
+        "cluster_key": {
+          "type": "string",
+          "default_value": "cluster",
+          "description": "Column name in obs containing cluster labels (e.g., 'cluster', 'leiden', 'louvain')",
+          "required": false
+        },
+        "gene_selection_method": {
+          "type": "enum",
+          "default_value": "top_expressed",
+          "enum_values": [
+            "top_expressed",
+            "marker_genes"
+          ],
+          "description": "Method to select genes for each cluster: 'top_expressed' (top N highly expressed genes) or 'marker_genes' (cluster-specific marker genes using fold change)",
+          "required": false
+        },
+        "top_n_genes": {
+          "type": "discrete",
+          "default_value": 200,
+          "description": "Number of top genes to select per cluster (used when gene_selection_method='top_expressed')",
+          "required": false
+        },
+        "library": {
+          "type": "enum",
+          "default_value": "GO_Biological_Process_2021",
+          "enum_values": [
+            "GO_Biological_Process_2021",
+            "GO_Biological_Process_2023",
+            "GO_Molecular_Function_2021",
+            "GO_Molecular_Function_2023",
+            "GO_Cellular_Component_2021",
+            "GO_Cellular_Component_2023",
+            "KEGG_2019_Human",
+            "KEGG_2019_Mouse",
+            "KEGG_2021_Human",
+            "KEGG_2021_Mouse",
+            "Reactome_2022",
+            "WikiPathways_2019_Human",
+            "WikiPathways_2019_Mouse",
+            "MSigDB_Hallmark_2020",
+            "MSigDB_Oncogenic_Signatures",
+            "BioPlanet_2019",
+            "ChEA_2016",
+            "ChEA_2022",
+            "ENCODE_and_ChEA_Consensus_TFs_from_ChIP-X",
+            "ENCODE_TF_ChIP-seq_2015",
+            "ARCHS4_TFs_Coexp",
+            "Transcription_Factor_PPIs",
+            "TF_Perturbations_Followed_by_Expression",
+            "TF-LOF_Expression_from_GEO",
+            "DisGeNET",
+            "Human_Phenotype_Ontology",
+            "MGI_Mammalian_Phenotype_Level_4_2021",
+            "GWAS_Catalog_2019",
+            "Jensen_DISEASES",
+            "Jensen_COMPARTMENTS",
+            "Jensen_TISSUES",
+            "Human_Gene_Atlas",
+            "Disease_Perturbations_from_GEO_up",
+            "Disease_Perturbations_from_GEO_down",
+            "Drug_Perturbations_from_GEO_2014",
+            "Drug_Perturbations_from_GEO_up",
+            "Drug_Perturbations_from_GEO_down",
+            "Virus_Perturbations_from_GEO_up",
+            "Virus_Perturbations_from_GEO_down",
+            "LINCS_L1000_Chem_Pert_up",
+            "LINCS_L1000_Chem_Pert_down",
+            "LINCS_L1000_Chem_Pert_Consensus_Sigs",
+            "LINCS_L1000_Ligand_Perturbations_up",
+            "LINCS_L1000_Ligand_Perturbations_down"
+          ],
+          "description": "Enrichment library name (common Enrichr libraries; must be one of the listed values)",
+          "required": false
+        },
+        "organism": {
+          "type": "string",
+          "default_value": "Human",
+          "description": "Organism (Human/Mouse, etc.)",
+          "required": false
+        },
+        "engine": {
+          "type": "enum",
+          "default_value": "enrichr",
+          "enum_values": [
+            "enrichr",
+            "kegg"
+          ],
+          "description": "Enrichment engine: enrichr or kegg (kegg auto-selects KEGG_2021_* or the provided KEGG_* name)",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "Clustered spatial transcriptomics data in AnnData/h5ad format. Must contain cluster labels in obs (specified by cluster_key parameter) and gene expression matrix."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs enrichment result CSVs, detailed stats, and multiple visualizations.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "enrichment_results.csv",
+            "description": "CSV file containing functional enrichment analysis results from gseapy Enrichr, with one row per cluster-pathway combination. Columns: 'cluster' (cluster ID), 'Term' (pathway/term name), 'Overlap' (overlap between input genes and term genes, e.g., '50/200'), 'P-value' (statistical p-value for enrichment), 'Adjusted P-value' (adjusted p-value using multiple testing correction), 'Odds Ratio' (odds ratio for enrichment), 'Combined Score' (combined score combining p-value and odds ratio), 'Genes' (comma-separated list of overlapping genes), 'gene_count' (number of overlapping genes), 'total_genes' (total genes in the term)",
+            "file_type_id": "pathway_enrichment_csv"
+          },
+          {
+            "type": "file",
+            "filename": "enrichment_bar.png",
+            "description": "Top pathways bar plot (PNG, 300 DPI) showing -log10 p-values for the top 20 enriched items per cluster, with cluster annotations",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "enrichment_volcano.png",
+            "description": "Enrichment volcano plot (PNG, 300 DPI) showing -log10 adjusted p-value vs odds ratio for pathways",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "enrichment_summary.txt",
+            "description": "Detailed text report containing comprehensive enrichment analysis statistics including analysis parameters, basic statistics, p-value distributions, combined score distributions, overlap gene counts, gene count per pathway statistics, odds ratio distributions, and per-cluster statistics with top enriched terms",
+            "file_type_id": "generic_text"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/gene-enrichment-analysis",
+      "service_dir": "gene-enrichment-analysis",
+      "config_path": "/app/services/gene-enrichment-analysis/service_config.json"
+    },
+    {
+      "name": "Spatial Point Pattern Analysis (Ripley's)",
+      "description": "Calculate spatial point pattern statistics (Ripley's K, L, or F, G functions) using Squidpy to evaluate topological distributions, dispersion or distinct clumping patterns globally across biological features or categories.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:53902",
+      "port": 53902,
+      "service_suffix": "/api/point-pattern",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "spatial_key": "spatial",
+        "cluster_key": "leiden",
+        "mode": "L",
+        "spatial_metric": "euclidean",
+        "n_simulations": 100,
+        "seed": 0
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad"
+          ],
+          "description": "Input file type",
+          "required": false
+        },
+        "spatial_key": {
+          "type": "string",
+          "default_value": "spatial",
+          "description": "obsm key containing spatial coordinates",
+          "required": false
+        },
+        "cluster_key": {
+          "type": "string",
+          "default_value": "leiden",
+          "description": "obs key containing categorical properties representing clusters or cell types",
+          "required": true
+        },
+        "mode": {
+          "type": "enum",
+          "default_value": "L",
+          "enum_values": [
+            "K",
+            "L",
+            "F",
+            "G"
+          ],
+          "description": "Ripley's statistic to compute (K: basic, L: variance-stabilized, G: nearest neighbor distances).",
+          "required": false
+        },
+        "spatial_metric": {
+          "type": "enum",
+          "default_value": "euclidean",
+          "enum_values": [
+            "euclidean",
+            "cityblock"
+          ],
+          "description": "Distance metric for coordinates",
+          "required": false
+        },
+        "n_simulations": {
+          "type": "discrete",
+          "default_value": 100,
+          "min_value": 0,
+          "max_value": 500,
+          "description": "Number of CSR (Complete Spatial Randomness) simulations to generate confidence envelopes.",
+          "required": false
+        },
+        "seed": {
+          "type": "discrete",
+          "default_value": 0,
+          "min_value": 0,
+          "max_value": 999999,
+          "description": "Random seed",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data",
+            "annotated_spatial_rna_seq_data"
+          ],
+          "description": "Spatial transcriptomics data (h5ad format) containing categorical labels in obs and spatial coordinates in obsm"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs spatial point pattern curves plotted against a completely random distribution to pinpoint topological structuring.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "ripley_statistics.csv",
+            "description": "CSV file containing numerical values for the Ripley K/L/G calculations across radius distance thresholds for all cell types along with normal/CSR references.",
+            "file_type_id": "spatial_point_pattern_csv"
+          },
+          {
+            "type": "file",
+            "filename": "ripley_function_plot.png",
+            "description": "Plot showing the observed spatial pattern statistics (y-axis) vs distance thresholds (x-axis) for various clusters against theoretical random limits.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report detailing basic parameter setup, computation bounds, and execution length.",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-point-pattern-analysis",
+      "service_dir": "spatial-point-pattern-analysis"
+    },
+    {
+      "name": "GraphST Spatial Clustering Service",
+      "description": "Cluster spatial transcriptomics data using GraphST, a graph self-supervised contrastive learning model that integrates spatial location and gene expression.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:42025",
+      "port": 42025,
+      "service_suffix": "/api/graphst-cluster",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "resolution": 1.0,
+        "algorithm": "leiden",
+        "random_state": 41,
+        "epochs": 600,
+        "neighborhoods": 6
+      },
+      "parameter_schema": {
+        "resolution": {
+          "type": "continuous",
+          "default_value": 1.0,
+          "min_value": 0.1,
+          "max_value": 5.0,
+          "description": "Clustering resolution (leiden/louvain); higher values yield more clusters",
+          "required": false
+        },
+        "algorithm": {
+          "type": "enum",
+          "default_value": "leiden",
+          "enum_values": [
+            "leiden",
+            "louvain"
+          ],
+          "description": "Clustering algorithm: leiden or louvain",
+          "required": false
+        },
+        "random_state": {
+          "type": "discrete",
+          "default_value": 41,
+          "min_value": -1,
+          "max_value": 999999,
+          "description": "Random seed for GraphST training and clustering (-1 for non-deterministic)",
+          "required": false
+        },
+        "epochs": {
+          "type": "discrete",
+          "default_value": 600,
+          "min_value": 50,
+          "max_value": 2000,
+          "description": "Number of epochs for GraphST training",
+          "required": false
+        },
+        "neighborhoods": {
+          "type": "discrete",
+          "default_value": 6,
+          "min_value": 1,
+          "max_value": 50,
+          "description": "Number of neighbors to use when constructing the spatial interaction graph for GraphST",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "Preprocessed spatial transcriptomics data (h5ad format only) with expression matrix and spatial coordinates (obsm['spatial'] or obsm['X_spatial']). GraphST will construct spatial graphs internally."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs GraphST-learned embeddings, clustered spatial data, visualization plots, and statistics report.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "spatial_cluster_data.h5ad",
+            "description": "AnnData object (h5ad format) containing GraphST-learned embeddings ('emb' in obsm) and clustering labels stored in obs['graphST'] column, with spatial coordinates and optional UMAP embeddings.",
+            "file_type_id": "clustered_spatial_rna_seq_data"
+          },
+          {
+            "type": "file",
+            "filename": "cluster_umap.png",
+            "description": "UMAP plot (PNG, 300 DPI) colored by GraphST clusters; generated from GraphST embeddings.",
+            "file_type_id": "umap_plot_png"
+          },
+          {
+            "type": "file",
+            "filename": "cluster_spatial.png",
+            "description": "Spatial plot (PNG, 300 DPI) showing GraphST domain assignments on spatial coordinates; generated when spatial coordinates are available.",
+            "file_type_id": "spatial_plot_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing GraphST analysis parameters, dataset statistics, cluster counts, and top differentially expressed genes per cluster (up to 10).",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-clustering-graphst",
+      "service_dir": "spatial-clustering-graphst",
+      "config_path": "/app/services/spatial-clustering-graphst/service_config.json"
+    },
+    {
+      "name": "PASTE 3D Spatial Alignment",
+      "description": "Align multiple spatial transcriptomics slices into a 3D configuration using PASTE (Probabilistic Alignment of Spatial Transcriptomics Experiments).",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:51805",
+      "port": 51805,
+      "service_suffix": "/api/detect",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "alpha": 0.1,
+        "use_highly_variable": true
+      },
+      "parameter_schema": {
+        "alpha": {
+          "type": "continuous",
+          "default_value": 0.1,
+          "min_value": 0.0,
+          "max_value": 1.0,
+          "description": "Alpha parameter for PASTE alignment, trading off expression similarity and spatial distance",
+          "required": false
+        },
+        "use_highly_variable": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Whether to use only highly variable genes for alignment",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "slice1": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "First spatial transcriptomics slice (h5ad)",
+          "param_name": "slice1"
+        },
+        "slice2": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "Second spatial transcriptomics slice (h5ad)",
+          "param_name": "slice2"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs aligned spatial slice coordinates and transformation mapping.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "aligned_data.h5ad",
+            "description": "AnnData object containing aligned spatial coordinates",
+            "file_type_id": "aligned_spatial_rna_seq_data"
+          },
+          {
+            "type": "file",
+            "filename": "alignment_plot.png",
+            "description": "Visualization of the aligned slices",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing alignment statistics and optimal transport mapping costs",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-3d-alignment-paste",
+      "service_dir": "spatial-3d-alignment-paste"
+    },
+    {
+      "name": "scDGRN Gene Regulatory Network Discovery",
+      "description": "Dynamic gene regulatory network discovery from time-series single-cell transcriptomics data using scDGRN (Single-cell Dynamic Gene Regulatory Network) with GTransformer model. Supports h5ad format input with time information in obs metadata or layers. Supports automatic pseudo-time computation (DPT or PCA-based) and multiple segmentation methods: KMeans clustering, equal-width binning, equal-frequency binning, density-based binning, and Gaussian Mixture Model to segment cells into time points. Features comprehensive parameter validation and detailed error messages for better user experience.",
+      "version": "1.1.0",
+      "baseurl": "http://localhost:45959",
+      "port": 45959,
+      "service_suffix": "/api/grn-discovery",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "epochs": 5,
+        "batch_size": 512,
+        "learning_rate": 0.003,
+        "top_percent": 0.2,
+        "time_column": "time",
+        "pseudotime_method": "none",
+        "pseudotime_column": "pseudotime",
+        "max_clusters": 6,
+        "min_clusters": 2,
+        "n_bins": 6,
+        "bandwidth": null,
+        "compute_pseudotime": true,
+        "pseudotime_compute_method": "dpt",
+        "n_neighbors": 15,
+        "n_pcs": 40,
+        "time_order": null,
+        "species": "human"
+      },
+      "parameter_schema": {
+        "epochs": {
+          "type": "discrete",
+          "default_value": 5,
+          "min_value": 1,
+          "max_value": 100,
+          "description": "Number of training epochs",
+          "required": false
+        },
+        "batch_size": {
+          "type": "discrete",
+          "default_value": 512,
+          "min_value": 32,
+          "max_value": 2048,
+          "description": "Batch size for training",
+          "required": false
+        },
+        "learning_rate": {
+          "type": "continuous",
+          "default_value": 0.003,
+          "min_value": 0.0001,
+          "max_value": 0.1,
+          "description": "Learning rate for model training",
+          "required": false
+        },
+        "top_percent": {
+          "type": "continuous",
+          "default_value": 0.2,
+          "min_value": 0.01,
+          "max_value": 1.0,
+          "description": "Top percentage threshold for selecting high-scoring regulatory edges",
+          "required": false
+        },
+        "time_column": {
+          "type": "string",
+          "default_value": "time",
+          "description": "Column name in obs metadata containing time point information",
+          "required": false
+        },
+        "pseudotime_method": {
+          "type": "enum",
+          "default_value": "none",
+          "enum_values": [
+            "none",
+            "kmeans",
+            "equal_width",
+            "equal_frequency",
+            "density",
+            "gmm"
+          ],
+          "description": "Pseudo-time calculation method: 'none' to use existing time column, 'kmeans' for KMeans clustering with automatic cluster selection, 'equal_width' for equal-width binning, 'equal_frequency' for quantile-based binning, 'density' for density-based binning using KDE, 'gmm' for Gaussian Mixture Model clustering",
+          "required": false
+        },
+        "pseudotime_column": {
+          "type": "string",
+          "default_value": "pseudotime",
+          "description": "Column name in obs containing pseudo-time values (used when pseudotime_method is not 'none')",
+          "required": false
+        },
+        "max_clusters": {
+          "type": "discrete",
+          "default_value": 6,
+          "min_value": 2,
+          "max_value": 20,
+          "description": "Maximum number of clusters/components (for kmeans and gmm methods)",
+          "required": false
+        },
+        "min_clusters": {
+          "type": "discrete",
+          "default_value": 2,
+          "min_value": 2,
+          "max_value": 10,
+          "description": "Minimum number of clusters/components (for kmeans and gmm methods)",
+          "required": false
+        },
+        "n_bins": {
+          "type": "discrete",
+          "default_value": 6,
+          "min_value": 2,
+          "max_value": 20,
+          "description": "Number of bins/time points (for equal_width, equal_frequency, and density methods)",
+          "required": false
+        },
+        "bandwidth": {
+          "type": "continuous",
+          "default_value": null,
+          "min_value": 0.001,
+          "max_value": 10.0,
+          "description": "Bandwidth for KDE in density method (null/None for automatic selection)",
+          "required": false
+        },
+        "compute_pseudotime": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "If True, automatically compute pseudo-time from data if not present in obs metadata",
+          "required": false
+        },
+        "pseudotime_compute_method": {
+          "type": "enum",
+          "default_value": "dpt",
+          "enum_values": [
+            "dpt",
+            "pca_trajectory"
+          ],
+          "description": "Method to compute pseudo-time if not present: 'dpt' for Diffusion Pseudotime (DPT) using scanpy, 'pca_trajectory' for PCA-based trajectory inference",
+          "required": false
+        },
+        "n_neighbors": {
+          "type": "discrete",
+          "default_value": 15,
+          "min_value": 5,
+          "max_value": 100,
+          "description": "Number of neighbors for DPT method (used when pseudotime_compute_method is 'dpt')",
+          "required": false
+        },
+        "n_pcs": {
+          "type": "discrete",
+          "default_value": 40,
+          "min_value": 10,
+          "max_value": 200,
+          "description": "Number of principal components for DPT/PCA methods",
+          "required": false
+        },
+        "time_order": {
+          "type": "string",
+          "default_value": null,
+          "description": "Optional comma-separated string specifying the order of time points (e.g., 'E10.5,E12.5,E14.5' or 'Layer_1,Layer_2,Layer_3'). If None or empty, uses default sorting based on the time column values. All values must exist in the specified time_column.",
+          "required": false
+        },
+        "species": {
+          "type": "enum",
+          "default_value": "human",
+          "enum_values": [
+            "human",
+            "mouse"
+          ],
+          "description": "Species selection: 'human' to use human training network (network_human.csv), 'mouse' to use mouse training network (network_mouse.csv). If not specified, uses random training data.",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "single_cell_rna_seq_data"
+          ],
+          "description": "Time-series single-cell RNA-seq data in h5ad format. Time information should be in obs metadata column or in layers."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs dynamic gene regulatory network results, statistics, and network visualization graphs.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "grn_results.csv",
+            "description": "Merged GRN results for all time points with columns: TF, TF_name, Target, Target_name, score, time_point",
+            "file_type_id": "grn_network_csv"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Statistical analysis report with parameters, data statistics, and results summary",
+            "file_type_id": "generic_text"
+          },
+          {
+            "type": "file",
+            "filename": "network_graph.png",
+            "description": "Combined network visualization graph showing gene regulatory interactions across all time points in subplot layout. Node size represents connectivity, color represents interaction score (light orange/yellow to dark red), and green outline indicates high-importance nodes.",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/scdgrn-service",
+      "service_dir": "scdgrn-service",
+      "config_path": "/app/services/scdgrn-service/service_config.json"
+    },
+    {
+      "name": "Spatial Transcriptomics Cell Type Annotation (SCSA)",
+      "description": "Spatial transcriptomics cell type annotation service based on the SCSA (Single Cell Signature Annotation) method. Uses the pySCSA implementation from omicverse and supports CellMarker and PanglaoDB reference databases. Performs differential expression analysis per cluster, matches marker genes to reference signatures, and outputs an AnnData object with cell_type labels, SCSA Z-scores, and accompanying statistics and visualizations.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:49729",
+      "port": 49729,
+      "service_suffix": "/api/annotate",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "cluster_key": "cluster",
+        "foldchange": 1.5,
+        "pvalue": 0.01,
+        "celltype": "normal",
+        "target": "cellmarker",
+        "tissue": "All",
+        "rank_rep": true
+      },
+      "parameter_schema": {
+        "cluster_key": {
+          "type": "string",
+          "default_value": "cluster",
+          "description": "Column name in obs containing cluster labels. If not found, will try common names automatically.",
+          "required": false
+        },
+        "foldchange": {
+          "type": "continuous",
+          "default_value": 1.5,
+          "min_value": 1.0,
+          "max_value": 10.0,
+          "description": "Fold change threshold for identifying marker genes in differential expression analysis",
+          "required": false
+        },
+        "pvalue": {
+          "type": "continuous",
+          "default_value": 0.01,
+          "min_value": 0.0001,
+          "max_value": 0.1,
+          "description": "P-value threshold for statistical significance in differential expression analysis",
+          "required": false
+        },
+        "celltype": {
+          "type": "enum",
+          "default_value": "normal",
+          "enum_values": [
+            "normal",
+            "cancer"
+          ],
+          "description": "Cell type category: 'normal' for normal cells, 'cancer' for cancer cells",
+          "required": false
+        },
+        "target": {
+          "type": "enum",
+          "default_value": "cellmarker",
+          "enum_values": [
+            "cellmarker",
+            "panglaodb"
+          ],
+          "description": "Annotation database: 'cellmarker' for CellMarker database, 'panglaodb' for PanglaoDB database",
+          "required": false
+        },
+        "tissue": {
+          "type": "string",
+          "default_value": "All",
+          "description": "Tissue type filter. Use 'All' to search across all tissues, or specify a specific tissue name (e.g., 'Brain', 'Liver', 'Kidney')",
+          "required": false
+        },
+        "rank_rep": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Whether to use rank-based representation for gene expression data",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "Clustered spatial transcriptomics data in AnnData/h5ad format. Must contain cluster labels in obs (specified by cluster_key parameter) and gene expression matrix. Optional: spatial coordinates in obsm['spatial'] or obsm['X_spatial'], UMAP coordinates in obsm['X_umap']."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs annotated AnnData with cell_type labels, annotation statistics, and visualization plots.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "annotated_data.h5ad",
+            "description": "Annotated AnnData file with cell_type labels added to obs['cell_type'] and SCSA Z-scores in obs['scsa_z_score']. Contains original data plus annotation results.",
+            "file_type_id": "annotated_spatial_rna_seq_data"
+          },
+          {
+            "type": "file",
+            "filename": "scsa_annotation_statistics.csv",
+            "description": "CSV file containing cluster-level annotation results with columns: cluster, assigned_cell_type, z_score, alternative_types",
+            "file_type_id": "generic_csv"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Detailed text report containing data statistics, SCSA parameters, annotation results summary, and per-cluster annotation details",
+            "file_type_id": "generic_text"
+          },
+          {
+            "type": "file",
+            "filename": "annotation_umap.png",
+            "description": "UMAP visualization colored by cell_type (PNG, 300 DPI). Only generated if UMAP coordinates are present in obsm['X_umap'].",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "annotation_spatial.png",
+            "description": "Spatial distribution plot colored by cell_type (PNG, 300 DPI). Only generated if spatial coordinates are present in obsm['spatial'] or obsm['X_spatial'].",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "cell_type_composition.png",
+            "description": "Bar plot showing the number of spots per cell type (PNG, 300 DPI)",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-scsa-annotation",
+      "service_dir": "spatial-scsa-annotation",
+      "config_path": "/app/services/spatial-scsa-annotation/service_config.json"
+    },
+    {
+      "name": "Spatial Metabolic Pathway Activity",
+      "description": "Compute spatial metabolic pathway activity on clustered spatial transcriptomics data using gseapy ssGSEA. Produces per-spot pathway scores, cluster-level top pathway summaries, optional spatial smoothing/plots, and a detailed English text report covering parameters, data stats, and pathway highlights. Gene set libraries are fetched via gseapy/Enrichr (requires network access) and are restricted to supported presets.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:47733",
+      "port": 47733,
+      "service_suffix": "/api/spatial-metabolic-activity",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "spatial_key": "spatial",
+        "cluster_key": "cluster",
+        "species": "human",
+        "gene_id_type": "symbol",
+        "gene_set_library": "msigdb_hallmark_kegg",
+        "smooth_scores": true,
+        "knn_k": 8,
+        "radius": null,
+        "sigma": 1.0,
+        "top_pathways_per_cluster": 10,
+        "chunk_size": 200,
+        "min_size": 10,
+        "max_size": 500
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "csv",
+            "tsv"
+          ],
+          "description": "Input file type",
+          "required": true
+        },
+        "spatial_key": {
+          "type": "string",
+          "default_value": "spatial",
+          "description": "obsm key containing spatial coordinates; if missing, obs must include 'x','y'",
+          "required": false
+        },
+        "cluster_key": {
+          "type": "string",
+          "default_value": "cluster",
+          "description": "obs column name containing cluster labels",
+          "required": true
+        },
+        "species": {
+          "type": "enum",
+          "default_value": "human",
+          "enum_values": [
+            "human",
+            "mouse"
+          ],
+          "description": "Species for pathway gene sets (use human or mouse; other values are not supported by the preset libraries)",
+          "required": true
+        },
+        "gene_id_type": {
+          "type": "enum",
+          "default_value": "symbol",
+          "enum_values": [
+            "symbol",
+            "ensembl"
+          ],
+          "description": "Gene ID type in expression matrix; ensembl will be mapped to symbol where possible",
+          "required": true
+        },
+        "gene_set_library": {
+          "type": "enum",
+          "default_value": "msigdb_hallmark_kegg",
+          "enum_values": [
+            "msigdb_hallmark_kegg",
+            "msigdb_hallmark",
+            "kegg",
+            "reactome"
+          ],
+          "description": "Pathway gene set library to use. Supported presets only: msigdb_hallmark_kegg (MSigDB_Hallmark_2020 + KEGG_2021_Human/KEGG_2019_Mouse), msigdb_hallmark (MSigDB_Hallmark_2020), kegg (KEGG_2021_Human/KEGG_2019_Mouse), reactome (Reactome_2022). Custom library names such as 'Hallmark' will be rejected.",
+          "required": false
+        },
+        "smooth_scores": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Whether to spatially smooth pathway scores using neighborhood graph",
+          "required": false
+        },
+        "knn_k": {
+          "type": "discrete",
+          "default_value": 8,
+          "min_value": 2,
+          "max_value": 64,
+          "description": "k for kNN neighborhood (used when radius is null)",
+          "required": false
+        },
+        "radius": {
+          "type": "continuous",
+          "default_value": null,
+          "min_value": 0.0,
+          "max_value": 1000.0,
+          "description": "Optional radius for neighborhood construction; if null, use kNN",
+          "required": false
+        },
+        "sigma": {
+          "type": "continuous",
+          "default_value": 1.0,
+          "min_value": 0.1,
+          "max_value": 10.0,
+          "description": "Gaussian kernel sigma for smoothing weights",
+          "required": false
+        },
+        "top_pathways_per_cluster": {
+          "type": "discrete",
+          "default_value": 10,
+          "min_value": 1,
+          "max_value": 100,
+          "description": "Number of top pathways to report per cluster",
+          "required": false
+        },
+        "chunk_size": {
+          "type": "discrete",
+          "default_value": 200,
+          "min_value": 50,
+          "max_value": 1000,
+          "description": "Chunk size for pathway scoring to control memory",
+          "required": false
+        },
+        "min_size": {
+          "type": "discrete",
+          "default_value": 10,
+          "min_value": 2,
+          "max_value": 1000,
+          "description": "Minimum gene set size for ssGSEA",
+          "required": false
+        },
+        "max_size": {
+          "type": "discrete",
+          "default_value": 500,
+          "min_value": 10,
+          "max_value": 5000,
+          "description": "Maximum gene set size for ssGSEA",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "Clustered spatial transcriptomics data (h5ad) with spatial coordinates and cluster labels"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs pathway activity scores, cluster summaries, text report, and optional spatial plots.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "pathway_activity_scores.csv",
+            "description": "Per-spot/cell pathway activity scores (wide CSV). Columns: obs_id plus one column per pathway with ssGSEA scores.",
+            "file_type_id": "generic_csv"
+          },
+          {
+            "type": "file",
+            "filename": "pathway_cluster_summary.csv",
+            "description": "Cluster-level mean pathway scores with top pathways per cluster",
+            "file_type_id": "generic_csv"
+          },
+          {
+            "type": "file",
+            "filename": "pathway_activity_report.txt",
+            "description": "Detailed English text report (UTF-8) covering parameters, data overview (observations, genes, clusters), gene set choice, smoothing settings, score distribution, top pathways per cluster, and output file references.",
+            "file_type_id": "txt_report"
+          },
+          {
+            "type": "file",
+            "filename": "pathway_activity_plots.png",
+            "description": "Spatial heatmaps for selected pathways",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-metabolic-activity-service",
+      "service_dir": "spatial-metabolic-activity-service",
+      "config_path": "/app/services/spatial-metabolic-activity-service/service_config.json"
+    },
+    {
+      "name": "Single-Cell Preprocessing",
+      "description": "Preprocess single-cell RNA-seq: quality control and normalization with detailed QC assessment, violin plots for QC metrics, and HVG selection visualization.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:55355",
+      "port": 55355,
+      "service_suffix": "/api/preprocess",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "min_genes": 200,
+        "min_cells": 3,
+        "max_mito_percent": 20.0,
+        "mito_prefix": "MT-",
+        "normalization_method": "log1p",
+        "target_sum": 10000.0,
+        "highly_variable_genes": true,
+        "n_top_genes": 2000,
+        "hvg_flavor": "seurat_v3"
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Input file type",
+          "required": false
+        },
+        "min_genes": {
+          "type": "discrete",
+          "default_value": 200,
+          "min_value": 1,
+          "max_value": 1000,
+          "description": "Minimum genes per cell",
+          "required": false
+        },
+        "min_cells": {
+          "type": "discrete",
+          "default_value": 3,
+          "min_value": 1,
+          "max_value": 100,
+          "description": "Minimum cells a gene must appear in",
+          "required": false
+        },
+        "max_mito_percent": {
+          "type": "continuous",
+          "default_value": 20.0,
+          "min_value": 0.0,
+          "max_value": 100.0,
+          "description": "Maximum mitochondrial percentage",
+          "required": false
+        },
+        "mito_prefix": {
+          "type": "string",
+          "default_value": "MT-",
+          "description": "Mitochondrial gene prefix",
+          "required": false
+        },
+        "normalization_method": {
+          "type": "enum",
+          "default_value": "log1p",
+          "enum_values": [
+            "log1p",
+            "sqrt",
+            "none"
+          ],
+          "description": "Normalization method",
+          "required": false
+        },
+        "target_sum": {
+          "type": "continuous",
+          "default_value": 10000.0,
+          "min_value": 1000.0,
+          "max_value": 100000.0,
+          "description": "Target library size for normalization",
+          "required": false
+        },
+        "highly_variable_genes": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Select highly variable genes",
+          "required": false
+        },
+        "n_top_genes": {
+          "type": "discrete",
+          "default_value": 2000,
+          "min_value": 100,
+          "max_value": 5000,
+          "description": "Number of highly variable genes",
+          "required": false
+        },
+        "hvg_flavor": {
+          "type": "enum",
+          "default_value": "seurat_v3",
+          "enum_values": [
+            "seurat_v3",
+            "seurat",
+            "cell_ranger"
+          ],
+          "description": "HVG selection method",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "single_cell_rna_seq_data"
+          ],
+          "description": "Raw single-cell RNA-seq data with expression matrix (h5ad/h5/loom/10x_h5, etc.)"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs preprocessed single-cell data, detailed stats, and visualizations.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "preprocessed_data.h5ad",
+            "description": "AnnData object (h5ad format) containing preprocessed single-cell RNA-seq data. Attributes: 'X' (normalized expression matrix, cells x genes, after library size normalization and log1p/sqrt transformation), 'obs' (cell metadata with QC metrics including 'n_genes_by_counts', 'total_counts', 'pct_counts_mt' (mitochondrial percentage), and filtering flags), 'var' (gene metadata with 'highly_variable' (boolean indicating HVG selection), 'means' (mean expression), 'dispersions' (dispersion values), 'dispersions_norm' (normalized dispersions)), 'layers' (raw counts in 'counts' layer if preserved), 'uns' (unsupervised annotations including 'log1p' (normalization parameters), 'hvg' (highly variable genes selection parameters and statistics))",
+            "file_type_id": "preprocessed_single_cell_data"
+          },
+          {
+            "type": "file",
+            "filename": "qc_metrics.png",
+            "description": "QC violin plots (PNG, 300 DPI) for total UMI counts, number of genes, and mitochondrial %, with mean/median",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "hvg_selection.png",
+            "description": "HVG selection scatter (PNG, 300 DPI) showing mean expression vs dispersion; red = selected HVGs, gray = others",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/single-cell-preprocessing",
+      "service_dir": "single-cell-preprocessing",
+      "config_path": "/app/services/single-cell-preprocessing/service_config.json"
+    },
+    {
+      "name": "cell2location Spatial Deconvolution",
+      "description": "Estimate cell-type abundances per spatial location using cell2location with a single-cell reference. Outputs abundance matrices (mean/q05), posterior h5ad, and run statistics/QC.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:49533",
+      "port": 49533,
+      "service_suffix": "/api/deconvolve",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "spatial_file_type": "auto",
+        "single_cell_file_type": "auto",
+        "cell_type_col": "cell_type",
+        "sc_batch_key": null,
+        "sp_batch_key": null,
+        "N_cells_per_location": 30.0,
+        "detection_alpha": 200.0,
+        "max_epochs_ref": 250,
+        "max_epochs_spatial": 300,
+        "use_gpu": false
+      },
+      "parameter_schema": {
+        "spatial_file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Spatial transcriptomics file type",
+          "required": true
+        },
+        "single_cell_file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Single-cell reference file type",
+          "required": true
+        },
+        "cell_type_col": {
+          "type": "string",
+          "default_value": "cell_type",
+          "description": "Column in single-cell obs storing cell type labels",
+          "required": true
+        },
+        "sc_batch_key": {
+          "type": "string",
+          "default_value": null,
+          "description": "Batch column in single-cell reference (optional)",
+          "required": false
+        },
+        "sp_batch_key": {
+          "type": "string",
+          "default_value": null,
+          "description": "Batch column in spatial data (optional)",
+          "required": false
+        },
+        "N_cells_per_location": {
+          "type": "continuous",
+          "default_value": 30.0,
+          "min_value": 1.0,
+          "max_value": 500.0,
+          "description": "Prior expected number of cells per spot/location",
+          "required": false
+        },
+        "detection_alpha": {
+          "type": "continuous",
+          "default_value": 200.0,
+          "min_value": 1.0,
+          "max_value": 1000.0,
+          "description": "Hyperparameter controlling detection overdispersion",
+          "required": false
+        },
+        "max_epochs_ref": {
+          "type": "discrete",
+          "default_value": 250,
+          "min_value": 10,
+          "max_value": 2000,
+          "description": "Training epochs for reference RegressionModel",
+          "required": false
+        },
+        "max_epochs_spatial": {
+          "type": "discrete",
+          "default_value": 300,
+          "min_value": 10,
+          "max_value": 2500,
+          "description": "Training epochs for spatial Cell2location model",
+          "required": false
+        },
+        "use_gpu": {
+          "type": "boolean",
+          "default_value": false,
+          "description": "Use GPU if available for training",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "spatial_file": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "Preprocessed spatial transcriptomics data (h5ad) with counts and spatial coordinates; other intermediate forms must be standardized via preprocessing first."
+        },
+        "single_cell_file": {
+          "file_type_ids": [
+            "preprocessed_single_cell_data",
+            "clustered_single_cell_data"
+          ],
+          "description": "Preprocessed or clustered single-cell reference (h5ad) with cell-type annotations; raw single-cell data must be processed by single-cell preprocessing first."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs cell2location posterior, abundance matrices (mean/q05), stats, and optional QC plot.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "cell2location_results.h5ad",
+            "description": "Posterior AnnData containing inferred abundances and metadata (obsm: means/q05_cell_abundance_w_sf, var/obs preserved).",
+            "file_type_id": "deconvolved_spatial_data"
+          },
+          {
+            "type": "file",
+            "filename": "cell_abundance.csv",
+            "description": "Mean cell-type abundance per location; rows=locations, cols=cell types.",
+            "file_type_id": "cell_abundance_matrix_csv"
+          },
+          {
+            "type": "file",
+            "filename": "cell_abundance_q05.csv",
+            "description": "q05 cell-type abundance per location; rows=locations, cols=cell types.",
+            "file_type_id": "cell_abundance_matrix_csv"
+          },
+          {
+            "type": "file",
+            "filename": "run_stats.json",
+            "description": "Run parameters, device info, gene intersection, and abundance summaries.",
+            "file_type_id": "qc_summary_json"
+          },
+          {
+            "type": "file",
+            "filename": "abundance_qc.png",
+            "description": "Histogram of total inferred cells per location.",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-deconvolution-cell2location-service",
+      "service_dir": "spatial-deconvolution-cell2location-service",
+      "config_path": "/app/services/spatial-deconvolution-cell2location-service/service_config.json"
+    },
+    {
+      "name": "Spatial TF Activity Scoring",
+      "description": "Infer spatial transcription factor activity on clustered spatial transcriptomics data using decoupler-py (DoRothEA + VIPER/AUCell). Produces per-spot TF activity scores, cluster-level top TF summaries, optional spatial smoothing/plots, and a detailed English text report describing parameters, data stats, and top regulators.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:55615",
+      "port": 55615,
+      "service_suffix": "/api/spatial-tf-activity",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "spatial_key": "spatial",
+        "cluster_key": null,
+        "species": "human",
+        "gene_id_type": "symbol",
+        "tf_set": "dorothea_ab",
+        "method": "viper",
+        "smooth_scores": true,
+        "knn_k": 8,
+        "radius": null,
+        "sigma": 1.0,
+        "top_tfs_per_cluster": 10,
+        "generate_plots": true,
+        "chunk_size": 200
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "csv",
+            "tsv"
+          ],
+          "description": "Input file type",
+          "required": true
+        },
+        "spatial_key": {
+          "type": "string",
+          "default_value": "spatial",
+          "description": "obsm key containing spatial coordinates; if missing, obs must include 'x','y'",
+          "required": false
+        },
+        "cluster_key": {
+          "type": "string",
+          "default_value": null,
+          "description": "obs column name containing cluster labels (e.g., 'cluster', 'leiden', 'louvain'). If null, will auto-detect from common names.",
+          "required": false
+        },
+        "species": {
+          "type": "enum",
+          "default_value": "human",
+          "enum_values": [
+            "human",
+            "mouse"
+          ],
+          "description": "Species used for TF regulons",
+          "required": true
+        },
+        "gene_id_type": {
+          "type": "enum",
+          "default_value": "symbol",
+          "enum_values": [
+            "symbol",
+            "ensembl"
+          ],
+          "description": "Gene ID type in expression matrix; ensembl will be mapped to symbol where possible",
+          "required": true
+        },
+        "tf_set": {
+          "type": "enum",
+          "default_value": "dorothea_ab",
+          "enum_values": [
+            "dorothea_a",
+            "dorothea_ab",
+            "dorothea_abc"
+          ],
+          "description": "TF regulon confidence levels to include (DoRothEA)",
+          "required": false
+        },
+        "method": {
+          "type": "enum",
+          "default_value": "viper",
+          "enum_values": [
+            "viper",
+            "aucell"
+          ],
+          "description": "TF activity inference method in decoupler-py",
+          "required": false
+        },
+        "smooth_scores": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Whether to spatially smooth TF scores using neighborhood graph",
+          "required": false
+        },
+        "knn_k": {
+          "type": "discrete",
+          "default_value": 8,
+          "min_value": 2,
+          "max_value": 64,
+          "description": "k for kNN neighborhood (used when radius is null)",
+          "required": false
+        },
+        "radius": {
+          "type": "continuous",
+          "default_value": null,
+          "min_value": 0.0,
+          "max_value": 1000.0,
+          "description": "Optional radius for neighborhood construction; if null, use kNN",
+          "required": false
+        },
+        "sigma": {
+          "type": "continuous",
+          "default_value": 1.0,
+          "min_value": 0.1,
+          "max_value": 10.0,
+          "description": "Gaussian kernel sigma for smoothing weights",
+          "required": false
+        },
+        "top_tfs_per_cluster": {
+          "type": "discrete",
+          "default_value": 10,
+          "min_value": 1,
+          "max_value": 100,
+          "description": "Number of top TFs to report per cluster",
+          "required": false
+        },
+        "generate_plots": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Whether to generate spatial plots for selected TFs",
+          "required": false
+        },
+        "chunk_size": {
+          "type": "discrete",
+          "default_value": 200,
+          "min_value": 50,
+          "max_value": 1000,
+          "description": "Chunk size for TF scoring to control memory",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "Clustered spatial transcriptomics data (h5ad) with spatial coordinates and cluster labels"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs TF activity scores, cluster summaries, text report, and optional spatial plots.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "tf_activity_scores.csv",
+            "description": "Per-spot/cell TF activity scores (wide CSV). Columns: obs_id plus one column per TF with activity scores from VIPER/AUCell.",
+            "file_type_id": "generic_csv"
+          },
+          {
+            "type": "file",
+            "filename": "tf_cluster_summary.csv",
+            "description": "Cluster-level mean TF scores with top TFs per cluster",
+            "file_type_id": "generic_csv"
+          },
+          {
+            "type": "file",
+            "filename": "tf_activity_report.txt",
+            "description": "Detailed English text report (UTF-8) covering parameters, data overview (observations, genes, clusters), TF set/method, smoothing settings, score distribution, top TFs per cluster, and output file references.",
+            "file_type_id": "txt_report"
+          },
+          {
+            "type": "file",
+            "filename": "tf_activity_plots.png",
+            "description": "Spatial heatmaps for selected TFs (generated when generate_plots=true)",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-tf-activity-service",
+      "service_dir": "spatial-tf-activity-service",
+      "config_path": "/app/services/spatial-tf-activity-service/service_config.json"
+    },
+    {
+      "name": "Spatial Pseudotime (SpaTrack) Service",
+      "description": "Infer pseudotime trajectories on spatial transcriptomics data using SpaTrack (Optimal Transport theory). Combines gene expression and spatial information to reconstruct cell dynamics. Features optimized visualizations (plasma colormap, hexbin spatial plots, violin plots) and automatic biological logic evaluation to assess trajectory quality. Based on the tutorial: https://cloud.tencent.com/developer/article/2518546",
+      "version": "1.1.0",
+      "baseurl": "http://localhost:58579",
+      "port": 58579,
+      "service_suffix": "/api/spatrack-pseudotime",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "cluster_key": "leiden",
+        "n_neigh_pos": 50,
+        "entropy_method": "auto",
+        "start_cluster": null
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Input file type (typically h5ad; should contain spatial coordinates in obsm['spatial'] or obsm['X_spatial']).",
+          "required": false
+        },
+        "cluster_key": {
+          "type": "string",
+          "default_value": "leiden",
+          "description": "obs column used as cluster / cell type for trajectory start identification. If provided, uses entropy-based method to identify the starting cluster.",
+          "required": false
+        },
+        "n_neigh_pos": {
+          "type": "discrete",
+          "default_value": 50,
+          "min_value": 10,
+          "max_value": 200,
+          "description": "Number of spatial neighbors to consider when computing velocity vector field. Controls the smoothness of the velocity field.",
+          "required": false
+        },
+        "entropy_method": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "shannon",
+            "renyi"
+          ],
+          "description": "Method for computing entropy to identify trajectory start cluster. 'auto' uses default method, 'shannon' uses Shannon entropy, 'renyi' uses Renyi entropy.",
+          "required": false
+        },
+        "start_cluster": {
+          "type": "string",
+          "default_value": null,
+          "description": "Manually specify the starting cluster name. If null, automatically selects the cluster with highest entropy (when cluster_key is provided) or uses the first cell.",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "Spatial transcriptomics data (h5ad) with expression matrix and spatial coordinates. Must contain spatial coordinates in adata.obsm['spatial'] or adata.obsm['X_spatial']. Typically the output of GraphST spatial clustering service or a similar AnnData object."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs SpaTrack-based pseudotime trajectories on spatial transcriptomics data, including an AnnData object with pseudotime, optimized spatial pseudotime plots (hexbin visualization with plasma colormap), streamplots (velocity vector field), enhanced pseudotime distribution plots (histogram + violin plots), and a comprehensive textual report with biological logic evaluation.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "spatial_pseudotime_spatrack.h5ad",
+            "description": "AnnData object (h5ad format) containing spatial transcriptomics data with SpaTrack pseudotime results. 'obs' includes 'spatrack_pseudotime'; 'obsm' keeps spatial coordinates; 'uns' may contain velocity field (E_grid, V_grid) if computed.",
+            "file_type_id": "trajectory_spatial_data"
+          },
+          {
+            "type": "file",
+            "filename": "spatial_pseudotime.png",
+            "description": "Optimized spatial pseudotime plot (PNG, 300 DPI) using hexbin visualization with plasma colormap (purple to yellow gradient) to show pseudotime progression. Includes statistical annotations (range, mean) and improved layout for better visualization of trajectory patterns.",
+            "file_type_id": "spatial_plot_png"
+          },
+          {
+            "type": "file",
+            "filename": "streamplot.png",
+            "description": "Streamplot (PNG, 300 DPI) showing velocity vector field overlaid on cell type/cluster distribution. Only generated if velocity field is successfully computed.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "pseudotime_distribution.png",
+            "description": "Enhanced pseudotime distribution plot (PNG, 300 DPI) showing histogram with plasma colormap (mean/median reference lines) and violin plots with boxplots grouped by cluster (sorted by median pseudotime). Provides comprehensive view of pseudotime distribution across clusters.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "pseudotime_report.txt",
+            "description": "Comprehensive trajectory report summarizing input data, SpaTrack parameters, start cluster identification, pseudotime statistics, and biological logic evaluation. The evaluation assesses pseudotime range, spatial continuity, cluster consistency, and trajectory directionality to provide quality assessment (excellent/good/warning/problem) with strengths, warnings, and recommendations.",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-pseudotime-spatrack",
+      "service_dir": "spatial-pseudotime-spatrack",
+      "config_path": "/app/services/spatial-pseudotime-spatrack/service_config.json"
+    },
+    {
+      "name": "Spatial Transcriptomics Preprocessing",
+      "description": "Full preprocessing for spatial transcriptomics: load data, perform QC, and normalize. Supports h5ad/10x_h5/csv/tsv, computes QC metrics (genes, UMIs, mitochondrial %), filters low-quality cells/genes, normalizes, selects highly variable genes, and generates detailed reports and plots (QC distributions, scatter, filtering comparison).",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:37699",
+      "port": 37699,
+      "service_suffix": "/api/preprocess",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "min_genes": 1,
+        "min_cells": 1,
+        "max_mito_percent": 100.0,
+        "mito_prefix": "MT-",
+        "normalization_method": "log1p",
+        "target_sum": 10000,
+        "highly_variable_genes": true,
+        "n_top_genes": 3000,
+        "hvg_flavor": "seurat_v3",
+        "scale": true,
+        "scale_zero_center": false,
+        "scale_max_value": 10.0
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "File type: auto (detect), h5ad, 10x_h5, csv, tsv",
+          "required": false
+        },
+        "min_genes": {
+          "type": "discrete",
+          "default_value": 1,
+          "min_value": 1,
+          "max_value": 1000,
+          "description": "Minimum genes per cell; cells below are filtered (default: 1, no filtering)",
+          "required": false
+        },
+        "min_cells": {
+          "type": "discrete",
+          "default_value": 1,
+          "min_value": 1,
+          "max_value": 100,
+          "description": "Minimum cells expressing a gene; genes below are filtered (default: 1, no filtering)",
+          "required": false
+        },
+        "max_mito_percent": {
+          "type": "continuous",
+          "default_value": 100.0,
+          "min_value": 0.0,
+          "max_value": 100.0,
+          "description": "Maximum mitochondrial percentage; cells above are filtered (default: 100.0, no filtering)",
+          "required": false
+        },
+        "mito_prefix": {
+          "type": "string",
+          "default_value": "MT-",
+          "description": "Prefix for mitochondrial genes (e.g., human: MT-, mouse: mt-)",
+          "required": false
+        },
+        "normalization_method": {
+          "type": "enum",
+          "default_value": "log1p",
+          "enum_values": [
+            "log1p",
+            "sqrt",
+            "none"
+          ],
+          "description": "Normalization: log1p (log(x+1)), sqrt, or none",
+          "required": false
+        },
+        "target_sum": {
+          "type": "continuous",
+          "default_value": 10000,
+          "min_value": 1000,
+          "max_value": 100000,
+          "description": "Target sum for per-cell normalization",
+          "required": false
+        },
+        "highly_variable_genes": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Select highly variable genes",
+          "required": false
+        },
+        "n_top_genes": {
+          "type": "discrete",
+          "default_value": 3000,
+          "min_value": 100,
+          "max_value": 5000,
+          "description": "Number of highly variable genes to keep",
+          "required": false
+        },
+        "hvg_flavor": {
+          "type": "enum",
+          "default_value": "seurat_v3",
+          "enum_values": [
+            "seurat",
+            "seurat_v3",
+            "cell_ranger"
+          ],
+          "description": "Method for highly variable genes selection: seurat, seurat_v3, or cell_ranger",
+          "required": false
+        },
+        "scale": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Apply scale normalization (zero-mean unit-variance scaling)",
+          "required": false
+        },
+        "scale_zero_center": {
+          "type": "boolean",
+          "default_value": false,
+          "description": "Zero-center data when scaling",
+          "required": false
+        },
+        "scale_max_value": {
+          "type": "continuous",
+          "default_value": 10.0,
+          "min_value": 0.0,
+          "max_value": 100.0,
+          "description": "Maximum value for clipping after scaling",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "spatial_rna_seq_data"
+          ],
+          "description": "Raw spatial transcriptomics data with expression matrix and spatial coordinates (h5ad/h5/loom, etc.)"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs preprocessed spatial data, detailed preprocessing stats, and plots.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "preprocessed_data.h5ad",
+            "description": "AnnData object (h5ad format) containing preprocessed spatial transcriptomics data. Attributes: 'X' (normalized expression matrix, spots/cells x genes, after library size normalization and log1p/sqrt transformation), 'obs' (spot/cell metadata with QC metrics including 'n_genes_by_counts', 'total_counts', 'pct_counts_mt' (mitochondrial percentage), and filtering flags), 'var' (gene metadata with 'highly_variable' (boolean indicating HVG selection), 'means' (mean expression), 'dispersions' (dispersion values), 'dispersions_norm' (normalized dispersions)), 'obsm' (spatial coordinates in 'spatial' or 'X_spatial' key if available), 'layers' (raw counts in 'counts' layer if preserved), 'uns' (unsupervised annotations including 'log1p' (normalization parameters), 'hvg' (highly variable genes selection parameters and statistics))",
+            "file_type_id": "preprocessed_spatial_data"
+          },
+          {
+            "type": "file",
+            "filename": "qc_violin.png",
+            "description": "QC violin plots (PNG, 300 DPI) for total UMIs, genes, mitochondrial %, with mean/median annotations",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "qc_scatter.png",
+            "description": "QC scatter (PNG, 300 DPI) showing genes vs UMIs colored by mitochondrial %",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "qc_filtering.png",
+            "description": "Filtering comparison (PNG, 300 DPI) showing cell/gene counts before vs after filtering",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing detailed preprocessing statistics including initial data dimensions, quality control statistics (cell/gene filtering, mitochondrial percentage), normalization parameters, highly variable genes selection, and final data dimensions",
+            "file_type_id": "generic_text"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-transcriptomics-preprocessing",
+      "service_dir": "spatial-transcriptomics-preprocessing",
+      "config_path": "/app/services/spatial-transcriptomics-preprocessing/service_config.json"
+    },
+    {
+      "name": "Giotto + CellPhoneDB Spatial Interaction",
+      "description": "Spatial interaction analysis at cluster level with statistical significance testing. Combines Giotto spatial neighborhoods with CellPhoneDB ligand-receptor statistics. Uses permutation testing to compute z-scores and p-values. Outputs filtered significant interactions. More computationally intensive but provides statistical validation. Best for identifying statistically significant spatial ligand-receptor interactions.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:37113",
+      "port": 37113,
+      "service_suffix": "/api/giotto-cpdb",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "min_expr": 0.05,
+        "spatial_radius": 30.0,
+        "n_permutations": 100,
+        "pval_threshold": 0.05,
+        "groupby": null
+      },
+      "parameter_schema": {
+        "min_expr": {
+          "type": "continuous",
+          "default_value": 0.05,
+          "min_value": 0.0,
+          "max_value": 10.0,
+          "description": "Minimum mean expression threshold",
+          "required": false
+        },
+        "spatial_radius": {
+          "type": "continuous",
+          "default_value": 30.0,
+          "min_value": 1.0,
+          "max_value": 500.0,
+          "description": "Spatial kernel length scale",
+          "required": false
+        },
+        "n_permutations": {
+          "type": "discrete",
+          "default_value": 100,
+          "min_value": 10,
+          "max_value": 500,
+          "description": "Number of permutations",
+          "required": false
+        },
+        "pval_threshold": {
+          "type": "continuous",
+          "default_value": 0.05,
+          "min_value": 0.0001,
+          "max_value": 0.5,
+          "description": "Significance threshold",
+          "required": false
+        },
+        "groupby": {
+          "type": "string",
+          "default_value": null,
+          "description": "Column in data object to group cells by",
+          "required": true
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "Clustered spatial transcriptomics data (h5ad) that must include cluster labels and spatial coordinates"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs full interactions, significant interactions, textual summary, and heatmaps.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "giotto_cpdb_results.csv",
+            "description": "CSV file containing Giotto-CPDB-style spatial ligand-receptor interaction results. Columns: 'source' (sender cluster/group identifier), 'target' (receiver cluster/group identifier), 'ligand' (ligand gene identifier), 'receptor' (receptor gene identifier), 'expr_score' (expression-based interaction score), 'spatial_weight' (spatial neighborhood weight based on spatial radius), 'zscore' (z-score from permutation test), 'pvalue' (statistical p-value from permutation test), 'significant' (boolean indicating significance at threshold)",
+            "file_type_id": "ligrec_interactions_csv"
+          },
+          {
+            "type": "file",
+            "filename": "giotto_cpdb_significant.csv",
+            "description": "CSV file containing filtered significant Giotto-CPDB interactions (p-value below threshold). Columns: same as giotto_cpdb_results.csv but filtered to include only significant interactions",
+            "file_type_id": "ligrec_interactions_csv"
+          },
+          {
+            "type": "file",
+            "filename": "giotto_cpdb_heatmap.png",
+            "description": "Sender-by-receiver z-score heatmap",
+            "file_type_id": "heatmap_png"
+          },
+          {
+            "type": "file",
+            "filename": "giotto_cpdb_summary.txt",
+            "description": "Text summary report containing analysis parameters and top significant interactions with z-scores and p-values",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/giotto-cpdb-service",
+      "service_dir": "giotto-cpdb-service",
+      "config_path": "/app/services/giotto-cpdb-service/service_config.json"
+    },
+    {
+      "name": "Tangram Spatial Imputation",
+      "description": "Map single-cell reference to spatial transcriptomics with Tangram to impute expression and mapping scores (cells mode). Outputs imputed spatial h5ad, mapping scores, run metrics, and optional visualizations.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:56985",
+      "port": 56985,
+      "service_suffix": "/api/impute",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "spatial_file_type": "auto",
+        "single_cell_file_type": "auto",
+        "n_epochs": 250,
+        "learning_rate": 0.005,
+        "lambda_dreg": 5.0,
+        "top_genes": 3000,
+        "seed": 1234
+      },
+      "parameter_schema": {
+        "spatial_file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Spatial transcriptomics file type",
+          "required": true
+        },
+        "single_cell_file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Single-cell reference file type",
+          "required": true
+        },
+        "n_epochs": {
+          "type": "discrete",
+          "default_value": 250,
+          "min_value": 10,
+          "max_value": 2000,
+          "description": "Training epochs",
+          "required": false
+        },
+        "learning_rate": {
+          "type": "continuous",
+          "default_value": 0.005,
+          "min_value": 1e-05,
+          "max_value": 1.0,
+          "description": "Learning rate",
+          "required": false
+        },
+        "lambda_dreg": {
+          "type": "continuous",
+          "default_value": 5.0,
+          "min_value": 0.0,
+          "max_value": 50.0,
+          "description": "Regularization strength lambda_dreg",
+          "required": false
+        },
+        "top_genes": {
+          "type": "discrete",
+          "default_value": 3000,
+          "min_value": 100,
+          "max_value": 20000,
+          "description": "Number of HV/intersection genes to use",
+          "required": false
+        },
+        "seed": {
+          "type": "discrete",
+          "default_value": 1234,
+          "min_value": 0,
+          "max_value": 999999,
+          "description": "Random seed",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "spatial_file": {
+          "file_type_ids": [
+            "spatial_rna_seq_data"
+          ],
+          "description": "Preprocessed spatial transcriptomics data (h5ad) with spatial coordinates; raw spatial_rna_seq_data must be preprocessed first."
+        },
+        "single_cell_file": {
+          "file_type_ids": [
+            "single_cell_rna_seq_data"
+          ],
+          "description": "Preprocessed or clustered single-cell reference (h5ad), optionally with cluster labels;"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs Tangram mapping/imputation results, mapping scores, run metrics, and optional visuals.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "imputed_spatial_data.h5ad",
+            "description": "AnnData object (h5ad format) containing Tangram-imputed spatial transcriptomics data. Attributes: 'X' (imputed expression matrix, spots/cells x genes, where genes are from single-cell reference), 'obs' (spot/cell metadata matching spatial input with spatial coordinates and annotations), 'var' (gene metadata with gene identifiers from the intersection of spatial and single-cell data), 'obsm' (spatial coordinates preserved from input, Tangram mapping matrix if available), 'uns' (unsupervised annotations including Tangram parameters, gene intersection information, mapping statistics, and training metrics)",
+            "file_type_id": "spatial_rna_seq_data"
+          },
+          {
+            "type": "file",
+            "filename": "mapping_scores.csv",
+            "description": "CSV file containing Tangram mapping scores for spatial locations. Columns: 'spot_id' (spatial location identifier), 'mapping_score' (confidence score for the mapping, higher indicates better match), 'n_mapped_cells' (number of single-cell reference cells mapped to this spot, for cells mode), 'mapped_cluster' (cluster assignment if clusters mode was used), 'mapping_entropy' (entropy of mapping distribution, lower indicates more confident mapping)",
+            "file_type_id": "mapping_scores_csv"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing all service statistics and summary information including: analysis parameters (mode, epochs, learning rate, etc.), data statistics (spatial/single-cell data shapes, training genes count and source, overlap genes count), mapping statistics (mapping score summary: min, max, mean, median), and other run metrics",
+            "file_type_id": "txt_report"
+          },
+          {
+            "type": "file",
+            "filename": "mapping_score_distribution.png",
+            "description": "Histogram showing the distribution of mapping scores (sum of weights per spot). Generated for all modes.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "training_scores.png",
+            "description": "Training gene scores visualization (cells mode only). Four-panel plot showing: 1) histogram of similarity scores for training genes, 2) training score vs scRNA-seq sparsity, 3) training score vs spatial data sparsity, 4) training score vs sparsity difference. Based on tutorial Cell 25.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "auc_validation.png",
+            "description": "AUC validation plot (cells mode only). Most important validation plot showing gene scores vs spatial data sparsity for all genes. Used to evaluate mapping quality. Based on tutorial Cell 43.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "imputation_qc.png",
+            "description": "Legacy alias for mapping_score_distribution.png. Optional QC/visualization when produced.",
+            "file_type_id": "generic_png"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-imputation-tangram-service",
+      "service_dir": "spatial-imputation-tangram-service",
+      "config_path": "/app/services/spatial-imputation-tangram-service/service_config.json"
+    },
+    {
+      "name": "Histology Feature Extraction (stLearn)",
+      "description": "Extract deep-learning morphological features from Visium H&E histological images using a pre-trained ResNet50 model, and normalize gene expression spatially (SME normalization) for multimodal data fusion.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:53903",
+      "port": 53903,
+      "service_suffix": "/api/histology-feature-extraction",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "use_gpu": true,
+        "cnn_base": "resnet50",
+        "n_components": 50,
+        "physical_distance": 1.0
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad"
+          ],
+          "description": "Input file type",
+          "required": false
+        },
+        "use_gpu": {
+          "type": "boolean",
+          "default_value": true,
+          "description": "Use GPU for faster deep learning extraction if available.",
+          "required": false
+        },
+        "cnn_base": {
+          "type": "enum",
+          "default_value": "resnet50",
+          "enum_values": [
+            "resnet50",
+            "vgg16"
+          ],
+          "description": "Pre-trained Convolutional Neural Network used for morphological feature extraction.",
+          "required": false
+        },
+        "n_components": {
+          "type": "discrete",
+          "default_value": 50,
+          "min_value": 10,
+          "max_value": 200,
+          "description": "Number of Principal Components to compress the image features.",
+          "required": false
+        },
+        "physical_distance": {
+          "type": "continuous",
+          "default_value": 1.0,
+          "min_value": 0.1,
+          "max_value": 10.0,
+          "description": "Scale distance factor for constructing the morphological-spatial network.",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "spatial_rna_seq_data",
+            "annotated_spatial_rna_seq_data",
+            "clustered_spatial_rna_seq_data"
+          ],
+          "description": "10x Visium formatted spatial transcriptomics data (h5ad) containing H&E images in unstructured data (uns)."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs the multimodal fused h5ad containing spatial morphological normalized gene expression (SME).",
+        "items": [
+          {
+            "type": "file",
+            "filename": "sme_normalized_data.h5ad",
+            "description": "Updated AnnData object (h5ad format) containing deep learning extracted features in obsm['X_morphology'] and SME normalized gene expression data in the main X matrix or specific layers.",
+            "file_type_id": "preprocessed_spatial_data"
+          },
+          {
+            "type": "file",
+            "filename": "morphology_PCA_plot.png",
+            "description": "Spatial plot showing the morphological dimension reduction capturing tissue architectures purely from images.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report detailing the neural network configurations, time elapsed, and model metadata.",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-histology-feature-extraction-stlearn",
+      "service_dir": "spatial-histology-feature-extraction-stlearn"
+    },
+    {
+      "name": "BANKSY Spatial Domain Detection Service",
+      "description": "Detect spatial domains using BANKSY (BANKSY: Spatial Clustering with Neighbor-Aware Gene Expression), which combines spatial neighborhood information with gene expression for improved domain identification. Produces UMAP and spatial distribution plots.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:53721",
+      "port": 53721,
+      "service_suffix": "/api/detect",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "n_neighbors": 6,
+        "lambda_adj": 0.2,
+        "resolution": 0.8,
+        "algorithm": "leiden",
+        "random_state": 0,
+        "n_pcs": 30
+      },
+      "parameter_schema": {
+        "n_neighbors": {
+          "type": "discrete",
+          "default_value": 6,
+          "min_value": 2,
+          "max_value": 100,
+          "description": "Number of spatial neighbors for computing neighborhood-weighted expression",
+          "required": false
+        },
+        "lambda_adj": {
+          "type": "continuous",
+          "default_value": 0.2,
+          "min_value": 0.0,
+          "max_value": 1.0,
+          "description": "Neighbor weight parameter (0-1). Higher values give more weight to neighbor expression",
+          "required": false
+        },
+        "resolution": {
+          "type": "continuous",
+          "default_value": 0.8,
+          "min_value": 0.1,
+          "max_value": 5.0,
+          "description": "Clustering resolution (leiden/louvain). Higher values yield more domains",
+          "required": false
+        },
+        "algorithm": {
+          "type": "enum",
+          "default_value": "leiden",
+          "enum_values": [
+            "leiden",
+            "louvain"
+          ],
+          "description": "Clustering algorithm",
+          "required": false
+        },
+        "random_state": {
+          "type": "discrete",
+          "default_value": 0,
+          "min_value": -1,
+          "max_value": 999999,
+          "description": "Random seed (-1 for non-deterministic)",
+          "required": false
+        },
+        "n_pcs": {
+          "type": "discrete",
+          "default_value": 30,
+          "min_value": 10,
+          "max_value": 100,
+          "description": "Number of principal components for dimensionality reduction",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "Preprocessed spatial transcriptomics data (h5ad) with expression matrix and spatial coordinates"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs spatial domain detection results and visualization plots.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "spatial_domain_data.h5ad",
+            "description": "AnnData object (h5ad format) containing spatial domain detection results. Attributes: 'X' (expression matrix), 'obs' (metadata with 'banksy' domain labels), 'var' (gene metadata), 'obsm' (spatial coordinates, UMAP coordinates if computed, BANKSY PCA embeddings), 'layers' (banksy_neighbor: neighborhood-weighted expression), 'uns' (neighbor graph and clustering information)",
+            "file_type_id": "clustered_spatial_rna_seq_data"
+          },
+          {
+            "type": "file",
+            "filename": "domain_umap.png",
+            "description": "UMAP domain plot (PNG, 300 DPI) colored by detected spatial domains; generated when UMAP coordinates are computed",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "domain_spatial.png",
+            "description": "Spatial domain plot (PNG, 300 DPI) showing detected domains on spatial coordinates; generated when spatial coordinates are available",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing service statistics and summary information",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-clustering-banksy",
+      "service_dir": "spatial-clustering-banksy",
+      "config_path": "/app/services/spatial-clustering-banksy/service_config.json"
+    },
+    {
+      "name": "scTenifoldpy Virtual Gene Knockout",
+      "description": "Virtual gene knockout analysis using scTenifoldpy (scTenifoldKnk) to estimate downstream transcriptional perturbations from single-cell RNA-seq data. Accepts h5ad inputs, performs basic QC, builds manifold-aligned GRNs, and reports perturbation scores for the specified knockout genes.",
+      "version": "0.1.0",
+      "baseurl": "http://localhost:56049",
+      "port": 56049,
+      "service_suffix": "/api/virtual-knockout",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "ko_genes": "TP53",
+        "n_components": 20,
+        "n_iter": 3,
+        "knn": 5,
+        "qc_min_lib_size": 10,
+        "qc_min_percent": 0.001,
+        "max_genes": 3000,
+        "random_seed": 1
+      },
+      "parameter_schema": {
+        "ko_genes": {
+          "type": "string",
+          "default_value": "TP53",
+          "description": "Comma-separated gene symbols to virtually knock out (e.g., 'TP53,EGFR')",
+          "required": true
+        },
+        "n_components": {
+          "type": "discrete",
+          "default_value": 20,
+          "min_value": 5,
+          "max_value": 200,
+          "description": "Number of manifold components used by scTenifoldpy tensor decomposition",
+          "required": false
+        },
+        "n_iter": {
+          "type": "discrete",
+          "default_value": 3,
+          "min_value": 1,
+          "max_value": 20,
+          "description": "Number of alignment iterations",
+          "required": false
+        },
+        "knn": {
+          "type": "discrete",
+          "default_value": 5,
+          "min_value": 2,
+          "max_value": 50,
+          "description": "k-nearest neighbors for manifold construction",
+          "required": false
+        },
+        "qc_min_lib_size": {
+          "type": "discrete",
+          "default_value": 10,
+          "min_value": 1,
+          "max_value": 1000,
+          "description": "Minimum library size used in QC filters",
+          "required": false
+        },
+        "qc_min_percent": {
+          "type": "continuous",
+          "default_value": 0.001,
+          "min_value": 0.0001,
+          "max_value": 0.1,
+          "description": "Minimum percent expression threshold for QC filtering",
+          "required": false
+        },
+        "max_genes": {
+          "type": "discrete",
+          "default_value": 3000,
+          "min_value": 500,
+          "max_value": 20000,
+          "description": "Maximum number of highly variable genes to keep (top variance)",
+          "required": false
+        },
+        "random_seed": {
+          "type": "discrete",
+          "default_value": 1,
+          "min_value": 0,
+          "max_value": 999999,
+          "description": "Random seed passed to scTenifoldpy",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "single_cell_rna_seq_data"
+          ],
+          "description": "Single-cell RNA-seq data in h5ad format. Expression matrix should be counts or normalized values in X."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs virtual knockout perturbation scores, ranked gene changes, top 10 up/down-regulated genes visualization, detailed statistics summary, and run diagnostics.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "knockout_results.csv",
+            "description": "Per-gene perturbation scores produced by scTenifoldpy for the requested knockout genes. Columns include 'Gene', 'Distance', 'boxcox-transformed distance', 'Z' (Z-score), 'FC' (fold change), 'p-value', and 'adjusted p-value'.",
+            "file_type_id": "generic_csv"
+          },
+          {
+            "type": "file",
+            "filename": "top_genes_plot.png",
+            "description": "Horizontal bar chart visualization showing top 10 up-regulated (red bars, positive Z-score) and top 10 down-regulated (blue bars, negative Z-score) genes, excluding the knocked-out genes.",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "summary.txt",
+            "description": "Detailed text summary report containing analysis parameters, dataset information, knocked-out genes, top 10 up/down-regulated genes with statistics, and summary statistics including mean/median Z-scores and significant gene counts.",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/sctenifoldpy-knockout-service",
+      "service_dir": "sctenifoldpy-knockout-service",
+      "config_path": "/app/services/sctenifoldpy-knockout-service/service_config.json"
+    },
+    {
+      "name": "Spatial Neighborhood Enrichment (Squidpy)",
+      "description": "Calculate neighborhood enrichment between cluster categories using Squidpy. Identifies microenvironments by finding which cell types or spatial domains tend to co-locate or repel each other in the physical tissue space.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:53901",
+      "port": 53901,
+      "service_suffix": "/api/neighborhood-enrichment",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "file_type": "auto",
+        "spatial_key": "spatial",
+        "cluster_key": "leiden",
+        "n_neighbors": 6,
+        "radius": null,
+        "n_perms": 1000,
+        "seed": 0
+      },
+      "parameter_schema": {
+        "file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad"
+          ],
+          "description": "Input file type",
+          "required": false
+        },
+        "spatial_key": {
+          "type": "string",
+          "default_value": "spatial",
+          "description": "obsm key containing spatial coordinates",
+          "required": false
+        },
+        "cluster_key": {
+          "type": "string",
+          "default_value": "leiden",
+          "description": "obs key containing discrete cluster/category labels",
+          "required": true
+        },
+        "n_neighbors": {
+          "type": "discrete",
+          "default_value": 6,
+          "min_value": 2,
+          "max_value": 100,
+          "description": "Number of nearest neighbors to compute the spatial graph (used if radius is null)",
+          "required": false
+        },
+        "radius": {
+          "type": "continuous",
+          "default_value": null,
+          "min_value": 0.0,
+          "max_value": 1000.0,
+          "description": "Distance radius to compute the spatial graph (overrides n_neighbors if provided)",
+          "required": false
+        },
+        "n_perms": {
+          "type": "discrete",
+          "default_value": 1000,
+          "min_value": 100,
+          "max_value": 10000,
+          "description": "Number of permutations for computing the z-score",
+          "required": false
+        },
+        "seed": {
+          "type": "discrete",
+          "default_value": 0,
+          "min_value": 0,
+          "max_value": 999999,
+          "description": "Random seed for reproducible permutations",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "clustered_spatial_rna_seq_data",
+            "annotated_spatial_rna_seq_data"
+          ],
+          "description": "Spatial transcriptomics data (h5ad format) containing cluster/cell type labels in obs and spatial coordinates in obsm"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs neighborhood enrichment z-scores indicating spatial co-localization or repulsion, along with visualization and data objects.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "neighborhood_enrichment_zscores.csv",
+            "description": "CSV file containing the neighborhood enrichment z-scores matrix. Rows and columns represent unique cluster labels from the provided cluster_key. Positive z-scores indicate spatial co-localization (enrichment) between the two cell types, while negative scores indicate spatial avoidance (depletion).",
+            "file_type_id": "spatial_neighborhood_enrichment_csv"
+          },
+          {
+            "type": "file",
+            "filename": "neighborhood_enrichment_heatmap.png",
+            "description": "Heatmap image (PNG, 300 DPI) visualizing the neighborhood enrichment z-scores. Warmer colors indicate co-localization and cooler colors indicate avoidance.",
+            "file_type_id": "heatmap_png"
+          },
+          {
+            "type": "file",
+            "filename": "enriched_spatial_data.h5ad",
+            "description": "AnnData object (h5ad format) storing the spatial neighborhood graph in `uns['spatial_neighbors']` and the computed enrichment metrics in `uns[cluster_key + '_nhood_enrichment']`. Useful for downstream Squidpy processing.",
+            "file_type_id": "clustered_spatial_rna_seq_data"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report summarizing the analysis parameters, number of clusters analyzed, spatial graph construction metrics, and execution time.",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-neighborhood-enrichment-squidpy",
+      "service_dir": "spatial-neighborhood-enrichment-squidpy"
+    },
+    {
+      "name": "SpatialDE Spatial Differential Expression Analysis Service",
+      "description": "Detect spatially variable genes using SpatialDE, a Gaussian process-based method for identifying genes with significant spatial variation in expression. Produces volcano plots and spatial expression visualizations for top significant genes.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:51353",
+      "port": 51353,
+      "service_suffix": "/api/analyze",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "min_counts": 1,
+        "min_cells": 10
+      },
+      "parameter_schema": {
+        "min_counts": {
+          "type": "discrete",
+          "default_value": 1,
+          "min_value": 0,
+          "max_value": 1000,
+          "description": "Minimum total counts per gene for filtering",
+          "required": false
+        },
+        "min_cells": {
+          "type": "discrete",
+          "default_value": 10,
+          "min_value": 1,
+          "max_value": 1000,
+          "description": "Minimum number of cells expressing a gene for filtering",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "file": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "Preprocessed spatial transcriptomics data (h5ad) with expression matrix and spatial coordinates"
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs spatial differential expression analysis results, statistics report, and visualization plots.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "spatial_de_results.csv",
+            "description": "CSV file containing SpatialDE analysis results with columns: g (gene name), l (optimal lengthscale), LLR (log likelihood ratio), pval (p-value), qval (FDR-corrected p-value), FSV (fraction spatial variance), BIC (Bayesian Information Criterion)",
+            "file_type_id": "spatialde_results_csv"
+          },
+          {
+            "type": "file",
+            "filename": "spatial_de_data.h5ad",
+            "description": "AnnData object (h5ad format) containing processed data with SpatialDE results stored in uns['spatialde_results'] and spatialde_analyzed marker in var",
+            "file_type_id": "preprocessed_spatial_data"
+          },
+          {
+            "type": "file",
+            "filename": "volcano_plot.png",
+            "description": "Volcano plot (PNG, 300 DPI) showing Fraction Spatial Variance (FSV) vs -log10(q-value), highlighting significant genes",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "top_genes_spatial.png",
+            "description": "Spatial expression plots (PNG, 300 DPI) for top 5 most significant spatially variable genes",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing detailed statistics, analysis parameters, summary of results, and top significant genes",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-de-analysis-spatialde",
+      "service_dir": "spatial-de-analysis-spatialde",
+      "config_path": "/app/services/spatial-de-analysis-spatialde/service_config.json"
+    },
+    {
+      "name": "SpaGE Spatial Imputation Service",
+      "description": "Impute single-cell expression onto spatial transcriptomics using SpaGE / nearest neighbors. Outputs imputed spatial expression, mapping scores, and run metrics.",
+      "version": "1.0.0",
+      "baseurl": "http://localhost:32819",
+      "port": 32819,
+      "service_suffix": "/api/impute",
+      "download_suffix": "/api/download",
+      "parameter_template": {
+        "spatial_file_type": "auto",
+        "single_cell_file_type": "auto",
+        "k_neighbors": 10,
+        "n_pcs": 30,
+        "top_genes": 3000,
+        "seed": 1234
+      },
+      "parameter_schema": {
+        "spatial_file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Spatial transcriptomics file type",
+          "required": true
+        },
+        "single_cell_file_type": {
+          "type": "enum",
+          "default_value": "auto",
+          "enum_values": [
+            "auto",
+            "h5ad",
+            "10x_h5",
+            "csv",
+            "tsv"
+          ],
+          "description": "Single-cell reference file type",
+          "required": true
+        },
+        "k_neighbors": {
+          "type": "discrete",
+          "default_value": 10,
+          "min_value": 1,
+          "max_value": 200,
+          "description": "Neighbors for SpaGE/NN imputation",
+          "required": false
+        },
+        "n_pcs": {
+          "type": "discrete",
+          "default_value": 30,
+          "min_value": 5,
+          "max_value": 200,
+          "description": "PCA/SVD dimensions",
+          "required": false
+        },
+        "top_genes": {
+          "type": "discrete",
+          "default_value": 3000,
+          "min_value": 100,
+          "max_value": 20000,
+          "description": "Number of highly variable/intersection genes to use",
+          "required": false
+        },
+        "seed": {
+          "type": "discrete",
+          "default_value": 1234,
+          "min_value": 0,
+          "max_value": 999999,
+          "description": "Random seed",
+          "required": false
+        }
+      },
+      "accepted_files": {
+        "spatial_file": {
+          "file_type_ids": [
+            "preprocessed_spatial_data"
+          ],
+          "description": "Preprocessed spatial transcriptomics data (h5ad); raw spatial_rna_seq_data must be preprocessed first."
+        },
+        "single_cell_file": {
+          "file_type_ids": [
+            "preprocessed_single_cell_data"
+          ],
+          "description": "Preprocessed single-cell reference data (h5ad); raw single-cell data must go through preprocessing first."
+        }
+      },
+      "output_config": {
+        "collection_description": "Outputs SpaGE/NN imputation results, mapping scores, and run metrics.",
+        "items": [
+          {
+            "type": "file",
+            "filename": "imputed_spatial_data.h5ad",
+            "description": "AnnData object (h5ad format) containing imputed spatial transcriptomics data. Attributes: 'X' (imputed expression matrix, spots/cells x genes, where genes are from single-cell reference), 'obs' (spot/cell metadata matching spatial input with spatial coordinates and annotations), 'var' (gene metadata with gene identifiers from the intersection of spatial and single-cell data), 'obsm' (spatial coordinates preserved from input), 'uns' (unsupervised annotations including imputation parameters, gene intersection information, and mapping statistics)",
+            "file_type_id": "imputed_spatial_data"
+          },
+          {
+            "type": "file",
+            "filename": "mapping_scores.csv",
+            "description": "CSV file containing mapping scores and distances for spatial locations. Columns: 'spot_id' (spatial location identifier), 'nearest_cell_id' (identifier of nearest single-cell reference cell), 'distance' (distance in PCA space or expression space), 'mapping_score' (confidence score for the mapping), 'n_neighbors' (number of neighbors used in imputation)",
+            "file_type_id": "mapping_scores_csv"
+          },
+          {
+            "type": "file",
+            "filename": "imputation_stats.json",
+            "description": "Run statistics (parameters, gene intersections, distance summaries, etc.)",
+            "file_type_id": "qc_summary_json"
+          },
+          {
+            "type": "file",
+            "filename": "imputation_qc.png",
+            "description": "Optional QC/visualization (if generated)",
+            "file_type_id": "generic_png"
+          },
+          {
+            "type": "file",
+            "filename": "statistics.txt",
+            "description": "Text report containing service statistics and summary information",
+            "file_type_id": "txt_report"
+          }
+        ]
+      },
+      "status": "active",
+      "service_path": "/app/services/spatial-imputation-spage-service",
+      "service_dir": "spatial-imputation-spage-service",
+      "config_path": "/app/services/spatial-imputation-spage-service/service_config.json"
+    }
+  ],
+  "total": 20,
+  "summary": {
+    "total_services": 20,
+    "ports": [
+      32819,
+      37113,
+      37699,
+      42025,
+      45209,
+      45959,
+      47733,
+      49533,
+      49729,
+      51353,
+      51805,
+      53721,
+      53901,
+      53902,
+      53903,
+      55355,
+      55615,
+      56049,
+      56985,
+      58579
+    ],
+    "services_by_port": {
+      "45209": [
+        {
+          "name": "Cluster-based Gene Enrichment Analysis Service",
+          "path": "/app/services/gene-enrichment-analysis"
+        }
+      ],
+      "53902": [
+        {
+          "name": "Spatial Point Pattern Analysis (Ripley's)",
+          "path": "/app/services/spatial-point-pattern-analysis"
+        }
+      ],
+      "42025": [
+        {
+          "name": "GraphST Spatial Clustering Service",
+          "path": "/app/services/spatial-clustering-graphst"
+        }
+      ],
+      "51805": [
+        {
+          "name": "PASTE 3D Spatial Alignment",
+          "path": "/app/services/spatial-3d-alignment-paste"
+        }
+      ],
+      "45959": [
+        {
+          "name": "scDGRN Gene Regulatory Network Discovery",
+          "path": "/app/services/scdgrn-service"
+        }
+      ],
+      "49729": [
+        {
+          "name": "Spatial Transcriptomics Cell Type Annotation (SCSA)",
+          "path": "/app/services/spatial-scsa-annotation"
+        }
+      ],
+      "47733": [
+        {
+          "name": "Spatial Metabolic Pathway Activity",
+          "path": "/app/services/spatial-metabolic-activity-service"
+        }
+      ],
+      "55355": [
+        {
+          "name": "Single-Cell Preprocessing",
+          "path": "/app/services/single-cell-preprocessing"
+        }
+      ],
+      "49533": [
+        {
+          "name": "cell2location Spatial Deconvolution",
+          "path": "/app/services/spatial-deconvolution-cell2location-service"
+        }
+      ],
+      "55615": [
+        {
+          "name": "Spatial TF Activity Scoring",
+          "path": "/app/services/spatial-tf-activity-service"
+        }
+      ],
+      "58579": [
+        {
+          "name": "Spatial Pseudotime (SpaTrack) Service",
+          "path": "/app/services/spatial-pseudotime-spatrack"
+        }
+      ],
+      "37699": [
+        {
+          "name": "Spatial Transcriptomics Preprocessing",
+          "path": "/app/services/spatial-transcriptomics-preprocessing"
+        }
+      ],
+      "37113": [
+        {
+          "name": "Giotto + CellPhoneDB Spatial Interaction",
+          "path": "/app/services/giotto-cpdb-service"
+        }
+      ],
+      "56985": [
+        {
+          "name": "Tangram Spatial Imputation",
+          "path": "/app/services/spatial-imputation-tangram-service"
+        }
+      ],
+      "53903": [
+        {
+          "name": "Histology Feature Extraction (stLearn)",
+          "path": "/app/services/spatial-histology-feature-extraction-stlearn"
+        }
+      ],
+      "53721": [
+        {
+          "name": "BANKSY Spatial Domain Detection Service",
+          "path": "/app/services/spatial-clustering-banksy"
+        }
+      ],
+      "56049": [
+        {
+          "name": "scTenifoldpy Virtual Gene Knockout",
+          "path": "/app/services/sctenifoldpy-knockout-service"
+        }
+      ],
+      "53901": [
+        {
+          "name": "Spatial Neighborhood Enrichment (Squidpy)",
+          "path": "/app/services/spatial-neighborhood-enrichment-squidpy"
+        }
+      ],
+      "51353": [
+        {
+          "name": "SpatialDE Spatial Differential Expression Analysis Service",
+          "path": "/app/services/spatial-de-analysis-spatialde"
+        }
+      ],
+      "32819": [
+        {
+          "name": "SpaGE Spatial Imputation Service",
+          "path": "/app/services/spatial-imputation-spage-service"
+        }
+      ]
+    },
+    "services_by_status": {
+      "active": [
+        "Cluster-based Gene Enrichment Analysis Service",
+        "Spatial Point Pattern Analysis (Ripley's)",
+        "GraphST Spatial Clustering Service",
+        "PASTE 3D Spatial Alignment",
+        "scDGRN Gene Regulatory Network Discovery",
+        "Spatial Transcriptomics Cell Type Annotation (SCSA)",
+        "Spatial Metabolic Pathway Activity",
+        "Single-Cell Preprocessing",
+        "cell2location Spatial Deconvolution",
+        "Spatial TF Activity Scoring",
+        "Spatial Pseudotime (SpaTrack) Service",
+        "Spatial Transcriptomics Preprocessing",
+        "Giotto + CellPhoneDB Spatial Interaction",
+        "Tangram Spatial Imputation",
+        "Histology Feature Extraction (stLearn)",
+        "BANKSY Spatial Domain Detection Service",
+        "scTenifoldpy Virtual Gene Knockout",
+        "Spatial Neighborhood Enrichment (Squidpy)",
+        "SpatialDE Spatial Differential Expression Analysis Service",
+        "SpaGE Spatial Imputation Service"
+      ]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+1) Cleanup DAGVisualization: remove execution/status logic, edge events/tooltips, Status import, stopServicesRequest call or add stub; ensure node click works.
+2) Fix addFileToContext missing: inject or remove from handlers.
+3) Ensure graph/dagCanvas defined and behaviors only zoom; nodes green.
+4) Add zh-CN locale keys for analysis.collapseLeftPanel/expandLeftPanel.

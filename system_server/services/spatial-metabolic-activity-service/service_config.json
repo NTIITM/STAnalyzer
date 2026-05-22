@@ -1,0 +1,183 @@
+{
+  "service_id": "spatial-metabolic-activity-service",
+  "name": "Spatial Metabolic Pathway Activity",
+  "description": "Compute spatial metabolic pathway activity on clustered spatial transcriptomics data using gseapy ssGSEA. Produces per-spot pathway scores, cluster-level top pathway summaries, optional spatial smoothing/plots, and a detailed English text report covering parameters, data stats, and pathway highlights. Gene set libraries are fetched via gseapy/Enrichr (requires network access) and are restricted to supported presets.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:47733",
+  "port": 47733,
+  "service_suffix": "/api/spatial-metabolic-activity",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "spatial_key": "spatial",
+    "cluster_key": "cluster",
+    "species": "human",
+    "gene_id_type": "symbol",
+    "gene_set_library": "msigdb_hallmark_kegg",
+    "smooth_scores": true,
+    "knn_k": 8,
+    "radius": null,
+    "sigma": 1.0,
+    "top_pathways_per_cluster": 10,
+    "chunk_size": 200,
+    "min_size": 10,
+    "max_size": 500
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "csv",
+        "tsv"
+      ],
+      "description": "Input file type",
+      "required": true
+    },
+    "spatial_key": {
+      "type": "string",
+      "default_value": "spatial",
+      "description": "obsm key containing spatial coordinates; if missing, obs must include 'x','y'",
+      "required": false
+    },
+    "cluster_key": {
+      "type": "string",
+      "default_value": "cluster",
+      "description": "obs column name containing cluster labels",
+      "required": true
+    },
+    "species": {
+      "type": "enum",
+      "default_value": "human",
+      "enum_values": [
+        "human",
+        "mouse"
+      ],
+      "description": "Species for pathway gene sets (use human or mouse; other values are not supported by the preset libraries)",
+      "required": true
+    },
+    "gene_id_type": {
+      "type": "enum",
+      "default_value": "symbol",
+      "enum_values": [
+        "symbol",
+        "ensembl"
+      ],
+      "description": "Gene ID type in expression matrix; ensembl will be mapped to symbol where possible",
+      "required": true
+    },
+    "gene_set_library": {
+      "type": "enum",
+      "default_value": "msigdb_hallmark_kegg",
+      "enum_values": [
+        "msigdb_hallmark_kegg",
+        "msigdb_hallmark",
+        "kegg",
+        "reactome"
+      ],
+      "description": "Pathway gene set library to use. Supported presets only: msigdb_hallmark_kegg (MSigDB_Hallmark_2020 + KEGG_2021_Human/KEGG_2019_Mouse), msigdb_hallmark (MSigDB_Hallmark_2020), kegg (KEGG_2021_Human/KEGG_2019_Mouse), reactome (Reactome_2022). Custom library names such as 'Hallmark' will be rejected.",
+      "required": false
+    },
+    "smooth_scores": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Whether to spatially smooth pathway scores using neighborhood graph",
+      "required": false
+    },
+    "knn_k": {
+      "type": "discrete",
+      "default_value": 8,
+      "min_value": 2,
+      "max_value": 64,
+      "description": "k for kNN neighborhood (used when radius is null)",
+      "required": false
+    },
+    "radius": {
+      "type": "continuous",
+      "default_value": null,
+      "min_value": 0.0,
+      "max_value": 1000.0,
+      "description": "Optional radius for neighborhood construction; if null, use kNN",
+      "required": false
+    },
+    "sigma": {
+      "type": "continuous",
+      "default_value": 1.0,
+      "min_value": 0.1,
+      "max_value": 10.0,
+      "description": "Gaussian kernel sigma for smoothing weights",
+      "required": false
+    },
+    "top_pathways_per_cluster": {
+      "type": "discrete",
+      "default_value": 10,
+      "min_value": 1,
+      "max_value": 100,
+      "description": "Number of top pathways to report per cluster",
+      "required": false
+    },
+    "chunk_size": {
+      "type": "discrete",
+      "default_value": 200,
+      "min_value": 50,
+      "max_value": 1000,
+      "description": "Chunk size for pathway scoring to control memory",
+      "required": false
+    },
+    "min_size": {
+      "type": "discrete",
+      "default_value": 10,
+      "min_value": 2,
+      "max_value": 1000,
+      "description": "Minimum gene set size for ssGSEA",
+      "required": false
+    },
+    "max_size": {
+      "type": "discrete",
+      "default_value": 500,
+      "min_value": 10,
+      "max_value": 5000,
+      "description": "Maximum gene set size for ssGSEA",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "clustered_spatial_rna_seq_data"
+      ],
+      "description": "Clustered spatial transcriptomics data (h5ad) with spatial coordinates and cluster labels"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs pathway activity scores, cluster summaries, text report, and optional spatial plots.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "pathway_activity_scores.csv",
+        "description": "Per-spot/cell pathway activity scores (wide CSV). Columns: obs_id plus one column per pathway with ssGSEA scores.",
+        "file_type_id": "generic_csv"
+      },
+      {
+        "type": "file",
+        "filename": "pathway_cluster_summary.csv",
+        "description": "Cluster-level mean pathway scores with top pathways per cluster",
+        "file_type_id": "generic_csv"
+      },
+      {
+        "type": "file",
+        "filename": "pathway_activity_report.txt",
+        "description": "Detailed English text report (UTF-8) covering parameters, data overview (observations, genes, clusters), gene set choice, smoothing settings, score distribution, top pathways per cluster, and output file references.",
+        "file_type_id": "txt_report"
+      },
+      {
+        "type": "file",
+        "filename": "pathway_activity_plots.png",
+        "description": "Spatial heatmaps for selected pathways",
+        "file_type_id": "generic_png"
+      }
+    ]
+  }
+}

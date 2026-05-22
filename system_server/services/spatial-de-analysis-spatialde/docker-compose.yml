@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  spatialde:
+    image: spatialde-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spatialde
+    ports:
+      - "42593:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+    volumes:
+      - ./outputs:/app/outputs
+      - .:/app
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge
+

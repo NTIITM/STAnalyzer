@@ -1,0 +1,94 @@
+{
+  "service_id": "giotto-cpdb-service",
+  "name": "Giotto + CellPhoneDB Spatial Interaction",
+  "description": "Spatial interaction analysis at cluster level with statistical significance testing. Combines Giotto spatial neighborhoods with CellPhoneDB ligand-receptor statistics. Uses permutation testing to compute z-scores and p-values. Outputs filtered significant interactions. More computationally intensive but provides statistical validation. Best for identifying statistically significant spatial ligand-receptor interactions.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:37113",
+  "port": 37113,
+  "service_suffix": "/api/giotto-cpdb",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "min_expr": 0.05,
+    "spatial_radius": 30.0,
+    "n_permutations": 100,
+    "pval_threshold": 0.05,
+    "groupby": null
+  },
+  "parameter_schema": {
+    "min_expr": {
+      "type": "continuous",
+      "default_value": 0.05,
+      "min_value": 0.0,
+      "max_value": 10.0,
+      "description": "Minimum mean expression threshold",
+      "required": false
+    },
+    "spatial_radius": {
+      "type": "continuous",
+      "default_value": 30.0,
+      "min_value": 1.0,
+      "max_value": 500.0,
+      "description": "Spatial kernel length scale",
+      "required": false
+    },
+    "n_permutations": {
+      "type": "discrete",
+      "default_value": 100,
+      "min_value": 10,
+      "max_value": 500,
+      "description": "Number of permutations",
+      "required": false
+    },
+    "pval_threshold": {
+      "type": "continuous",
+      "default_value": 0.05,
+      "min_value": 0.0001,
+      "max_value": 0.5,
+      "description": "Significance threshold",
+      "required": false
+    },
+    "groupby": {
+      "type": "string",
+      "default_value": null,
+      "description": "Column in data object to group cells by",
+      "required": true
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "clustered_spatial_rna_seq_data"
+      ],
+      "description": "Clustered spatial transcriptomics data (h5ad) that must include cluster labels and spatial coordinates"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs full interactions, significant interactions, textual summary, and heatmaps.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "giotto_cpdb_results.csv",
+        "description": "CSV file containing Giotto-CPDB-style spatial ligand-receptor interaction results. Columns: 'source' (sender cluster/group identifier), 'target' (receiver cluster/group identifier), 'ligand' (ligand gene identifier), 'receptor' (receptor gene identifier), 'expr_score' (expression-based interaction score), 'spatial_weight' (spatial neighborhood weight based on spatial radius), 'zscore' (z-score from permutation test), 'pvalue' (statistical p-value from permutation test), 'significant' (boolean indicating significance at threshold)",
+        "file_type_id": "ligrec_interactions_csv"
+      },
+      {
+        "type": "file",
+        "filename": "giotto_cpdb_significant.csv",
+        "description": "CSV file containing filtered significant Giotto-CPDB interactions (p-value below threshold). Columns: same as giotto_cpdb_results.csv but filtered to include only significant interactions",
+        "file_type_id": "ligrec_interactions_csv"
+      },
+      {
+        "type": "file",
+        "filename": "giotto_cpdb_heatmap.png",
+        "description": "Sender-by-receiver z-score heatmap",
+        "file_type_id": "heatmap_png"
+      },
+      {
+        "type": "file",
+        "filename": "giotto_cpdb_summary.txt",
+        "description": "Text summary report containing analysis parameters and top significant interactions with z-scores and p-values",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

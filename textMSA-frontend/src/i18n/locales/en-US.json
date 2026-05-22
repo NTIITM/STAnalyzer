@@ -1,0 +1,1953 @@
+{
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "refresh": "Refresh",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info",
+    "retry": "Retry",
+    "all": "All",
+    "required": "Required",
+    "optional": "Optional",
+    "actions": "Actions",
+    "clear": "Clear",
+    "back": "Back",
+    "config": "Config",
+    "reset": "Reset",
+    "noData": "No data"
+  },
+  "navigation": {
+    "analysis": "Analysis",
+    "dataAnalysis": "Data Analysis",
+    "knowledge": "Knowledge",
+    "knowledgeSearch": "Knowledge Search",
+    "services": "Service Management",
+    "executions": "Executions",
+    "help": "Help",
+    "profile": "Profile",
+    "spatialCoexpression": "Spatial Coexpression Network",
+    "spatialTranscriptomics": "Spatial Transcriptomics"
+  },
+  "dataAnalysis": {
+    "toolbar": {
+      "projectLabel": "Project",
+      "projectPlaceholder": "Select project",
+      "refreshFiles": "Refresh Files",
+      "refreshProjects": "Refresh Projects"
+    },
+    "tabs": {
+      "fileList": "Files",
+      "executionList": "Executions"
+    },
+    "lists": {
+      "fileEmpty": "No files",
+      "executionEmpty": "No successful executions"
+    },
+    "preview": {
+      "fileTitle": "File Preview",
+      "executionTitle": "Execution Preview",
+      "textMode": "Text",
+      "visualizationMode": "Visualization",
+      "selectFile": "Please select a file",
+      "selectExecution": "Please select an execution",
+      "unsupported": "Preview not supported for this type. You can still run analysis.",
+      "fallbackFileName": "File {id}"
+    },
+    "analysis": {
+      "fileTitle": "File Analysis",
+      "executionTitle": "Execution Analysis",
+      "selectFileTip": "Select a file to start analysis",
+      "selectExecutionTip": "Select an execution to start analysis",
+      "questionLabel": "Question / Query",
+      "questionPlaceholder": "Enter the question or analysis points",
+      "send": "Send",
+      "copy": "Copy Result",
+      "resultTitle": "Analysis Result",
+      "statusLoading": "Loading",
+      "statusError": "Failed",
+      "statusSuccess": "Succeeded",
+      "emptyResult": "No result yet",
+      "loadingFooter": "Analyzing...",
+      "success": "Analysis succeeded",
+      "failed": "Analysis failed",
+      "complete": "Analysis completed",
+      "copySuccess": "Result copied",
+      "copyFailed": "Copy failed",
+      "selectFileWarning": "Please select a file",
+      "selectExecutionWarning": "Please select an execution",
+      "enterQueryWarning": "Please enter a question or query",
+      "collapseLeftPanel": "Collapse left panel",
+      "expandLeftPanel": "Expand left panel",
+      "collapseRightPanel": "Collapse right panel",
+      "expandRightPanel": "Expand right panel"
+    },
+    "errors": {
+      "loadProjects": "Failed to load projects",
+      "loadExecutions": "Failed to load executions",
+      "loadFiles": "Failed to load files",
+      "requestFailed": "Request failed: {status}"
+    },
+    "events": {
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "labels": {
+        "description": "Description",
+        "json": "JSON",
+        "code": "Code",
+        "details": "Details",
+        "files": "Files"
+      },
+      "actions": {
+        "download": "Download"
+      },
+      "downloadFailed": "File download failed"
+    }
+  },
+  "execution": {
+    "title": "Service Executions",
+    "subtitle": "Browse execution history, track statuses, and inspect inputs/outputs",
+    "refresh": "Refresh",
+    "filters": {
+      "project": "Select Project",
+      "service": "Select Service",
+      "status": "Select Status"
+    },
+    "status": {
+      "pending": "Pending",
+      "running": "Running",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "columns": {
+      "service": "Service",
+      "status": "Status",
+      "executionId": "Execution ID",
+      "createdAt": "Created At",
+      "startedAt": "Started At",
+      "completedAt": "Completed At",
+      "duration": "Duration"
+    },
+    "detail": {
+      "basic": "Basic Info",
+      "serviceId": "Service ID",
+      "userId": "User ID",
+      "projectId": "Project ID",
+      "executionId": "Execution ID",
+      "createdAt": "Created At",
+      "startedAt": "Started At",
+      "completedAt": "Completed At",
+      "params": "Execution Parameters",
+      "response": "Response Data",
+      "inputFiles": "Input Files",
+      "outputFiles": "Output Files",
+      "error": "Error Message",
+      "noError": "No error",
+      "empty": "Empty",
+      "selectExecution": "Please select an execution",
+      "noInputFiles": "No input files",
+      "noOutputFiles": "No output files",
+      "noParams": "No parameters",
+      "noResponse": "No response data"
+    },
+    "empty": "No execution records",
+    "error": {
+      "loadFailed": "Failed to load execution records"
+    }
+  },
+  "profile": {
+    "title": "User Profile",
+    "subtitle": "Account Overview",
+    "description": "Review and maintain the basic information and security settings of the signed-in account.",
+    "actions": {
+      "refresh": "Fetch Latest",
+      "refreshing": "Refreshing...",
+      "loadProfile": "Load Profile",
+      "saving": "Saving...",
+      "saveProfile": "Save Changes",
+      "updatingPassword": "Updating...",
+      "updatePassword": "Update Password"
+    },
+    "summary": {
+      "title": "Account Snapshot",
+      "loading": "Loading",
+      "ready": "Synced",
+      "userId": "User ID",
+      "username": "Username",
+      "email": "Email",
+      "emailEmpty": "Not provided",
+      "cachedAt": "Cached At",
+      "placeholder": "Profile data has not been loaded yet."
+    },
+    "form": {
+      "title": "Basic Information",
+      "subtitle": "Details visible to other collaborators",
+      "hint": "Changes update the current signed-in session immediately.",
+      "username": "Username",
+      "usernamePlaceholder": "Enter a new username",
+      "email": "Email",
+      "emailPlaceholder": "Enter a new email address",
+      "disclaimer": "Username or email changes also refresh the local cache."
+    },
+    "security": {
+      "title": "Security",
+      "subtitle": "Password Management",
+      "hint": "Rotate credentials regularly to keep your workspace safe.",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "disclaimer": "Password changes take effect immediately; other sessions may need to sign in again."
+    },
+    "messages": {
+      "profileLoaded": "Fetched the latest profile successfully",
+      "profileLoadFailed": "Failed to load profile information",
+      "noChanges": "There are no changes to save",
+      "profileUpdated": "Profile updated successfully",
+      "profileFailed": "Failed to update profile",
+      "passwordNotMatch": "New password confirmation does not match",
+      "passwordUpdated": "Password updated successfully",
+      "passwordFailed": "Failed to update password"
+    }
+  },
+  "service": {
+    "management": "Service Management",
+    "create": "Create Service",
+    "edit": "Edit Service",
+    "delete": "Delete Service",
+    "execute": {
+      "title": "Execute Service",
+      "inputFileId": "Input File ID",
+      "inputFileIdHint": "File ID to process",
+      "parameters": "Execution Parameters",
+      "noParameters": "No parameter schema defined, will use default values from parameter template",
+      "useDefault": "Use Default",
+      "yes": "Yes",
+      "no": "No",
+      "defaultValue": "Default",
+      "onePerLine": "One per line",
+      "executing": "Executing...",
+      "execute": "Execute Service",
+      "reExecute": "Re-execute",
+      "result": "Execution Result",
+      "executionId": "Execution ID",
+      "outputFileId": "Output File ID",
+      "status": "Status",
+      "error": "Error",
+      "fillInputFileId": "Please fill in input file ID",
+      "executeFailed": "Execution failed",
+      "range": "Range",
+      "unlimited": "Unlimited",
+      "availableValues": "Available Values",
+      "fileNotFound": "File not found: {fileId}",
+      "fileTypeIdMissing": "File missing file_type_id, cannot validate file type",
+      "fileTypeNotAccepted": "File type {fileTypeId} not accepted. Service accepts: {acceptedTypes}",
+      "fileTypeValid": "File type validated: {fileTypeId}",
+      "fileValidationFailed": "File type validation failed: {error}",
+      "multiFileHint": "This service requires multiple input files, please select or upload files for each slot",
+      "fileType": "File Type",
+      "existFile": "Select Existing File",
+      "chooseFile": "Please select file",
+      "uploadNew": "Or Upload New File",
+      "noService": "Service not found",
+      "fileSelect": "Select or Upload File",
+      "fileSelectHint": "Select files that meet service requirements, or quickly upload new files",
+      "uploadHintTitle": "Drag or select file",
+      "uploadHintDesc": "Will upload with the file type selected above, and auto-fill the execution form on success",
+      "uploadSuccess": "Upload successful, auto-filled",
+      "selectedFile": "Selected File",
+      "fileListWithoutProject": "Will list all visible files when projectId is not provided"
+    },
+    "detail": {
+      "basicInfo": "Basic Information",
+      "tags": "Tags",
+      "requestConfig": "Request Configuration",
+      "parameterTemplate": "Parameter Template",
+      "parameterSchema": "Parameter Schema",
+      "outputConfig": "Output Configuration",
+      "collectionDescription": "Collection Description",
+      "fileType": "File Type",
+      "acceptedFiles": "Required Files",
+      "noAcceptedFiles": "No file requirements",
+      "textType": "Text Type",
+      "filename": "Filename",
+      "outputDescription": "Output Description",
+      "metadata": "Metadata",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "createdBy": "Created By"
+    },
+    "executions": "Executions",
+    "createFirst": "Create First Service",
+    "noServices": "No Services",
+    "statusFilter": "Status Filter",
+    "tagFilter": "Tag Filter",
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "inactive": "Inactive",
+      "deprecated": "Deprecated",
+      "rejected": "Rejected"
+    },
+    "visibility": {
+      "private": "Private",
+      "public": "Public",
+      "system": "System"
+    },
+    "form": {
+      "serviceId": "Service ID",
+      "serviceIdHint": "Unique identifier for the service, cannot be changed after creation",
+      "name": "Name",
+      "description": "Description",
+      "version": "Version",
+      "versionPlaceholder": "1.0.0",
+      "url": "Remote Server URL",
+      "tags": "Tags (one per line)",
+      "visibility": "Visibility",
+      "status": "Status",
+      "requestConfig": "Request Config (JSON)",
+      "requestConfigHint": "JSON format, e.g.: {'{'}\"http_method\": \"POST\", \"timeout_seconds\": 300, \"retry_count\": 0{'}'}",
+      "parameterTemplate": "Parameter Template (JSON)",
+      "parameterTemplateHint": "JSON format, default parameter values",
+      "parameterSchema": "Parameter Schema (JSON, optional)",
+      "parameterSchemaHint": "JSON format, defines parameter types, ranges and constraints",
+      "outputConfig": "Output Configuration",
+      "outputConfigHint": "Define the collection of output items (files or text information) after service execution",
+      "noOutputItems": "No output items, click the button below to add",
+      "addFileItem": "Add File Item",
+      "addTextItem": "Add Text Item",
+      "inputConfig": "Input Parameters",
+      "noParams": "No parameters",
+      "addParam": "Add parameter",
+      "paramName": "Parameter Name",
+      "paramNamePlaceholder": "e.g., qc_threshold",
+      "paramDescription": "Parameter Description",
+      "paramDescriptionPlaceholder": "Describe what this parameter is used for",
+      "paramType": "Parameter Type",
+      "typePlaceholder": "Type",
+      "defaultValue": "Default Value",
+      "defaultPlaceholder": "Default",
+      "defaultNumberPlaceholder": "Default number",
+      "defaultEnumPlaceholder": "Default enum value",
+      "defaultTextPlaceholder": "Default text",
+      "constraints": "Constraints (range / enum etc.)",
+      "minValue": "Min",
+      "maxValue": "Max",
+      "enumValuesPlaceholder": "Enum values (comma separated)",
+      "noExtraConstraints": "No extra constraints",
+      "inputConfigHint": "Define input parameters for the service; will populate parameter_schema and parameter_template on save",
+      "fileType": "File",
+      "textType": "Text",
+      "filename": "Filename",
+      "filenamePlaceholder": "e.g., result.h5ad",
+      "fileTypeId": "File Type ID",
+      "fileTypeIds": "File Type ID List",
+      "fileTypeIdPlaceholder": "e.g., h5ad",
+      "fileTypeIdHint": "Optional: reuse existing file type IDs shown above when possible.",
+      "addFileTypeId": "Add File Type ID",
+      "acceptedFiles": "Required Files",
+      "acceptedFilesHint": "Define input filenames, file type ID list, and descriptions required to run this service.",
+      "noAcceptedFiles": "No file requirements yet. Click the button below to add one.",
+      "addAcceptedFile": "Add required file",
+      "newFile": "New file",
+      "fileDescription": "File Description",
+      "fileDescriptionPlaceholder": "Describe the purpose or constraints of this input file",
+      "outputDescription": "Output Description",
+      "outputDescriptionPlaceholder": "Describe what this result contains or represents",
+      "collectionDescription": "Collection Description",
+      "collectionDescriptionPlaceholder": "Describe the purpose of the entire output collection",
+      "jsonUpload": "Import from JSON File",
+      "jsonUploadHint": "Upload JSON file to auto-fill form fields",
+      "selectJsonFile": "Select JSON File",
+      "saving": "Saving...",
+      "fillRequired": "Please fill in required fields",
+      "saveFailed": "Save failed",
+      "loadFailed": "Load failed",
+      "createSuccess": "Created successfully",
+      "updateSuccess": "Updated successfully",
+      "jsonParseSuccess": "JSON file parsed successfully, form fields auto-filled",
+      "jsonParseFailed": "JSON parse failed",
+      "fileReadFailed": "File read failed",
+      "jsonConfig": "JSON Configuration",
+      "formatJson": "Format JSON",
+      "exportJson": "Export JSON",
+      "fullJson": "Full JSON",
+      "validJson": "Valid JSON",
+      "invalidJson": "Invalid JSON",
+      "jsonFormatted": "JSON formatted",
+      "formatFailed": "Format failed",
+      "jsonExported": "JSON exported",
+      "exportFailed": "Export failed",
+      "downloadExampleJson": "Download sample JSON",
+      "downloadExampleYaml": "Download sample YAML",
+      "configFile": "Config file",
+      "uploadFile": "Upload file",
+      "unsupportedFile": "Unsupported file format. Please upload a JSON or YAML file.",
+      "parseSuccess": "Config file parsed successfully",
+      "parseFailed": "Failed to parse config file: {error}",
+      "fileTooLarge": "File size cannot exceed 512MB",
+      "exampleJsonDownloaded": "Sample JSON downloaded",
+      "exampleYamlDownloaded": "Sample YAML downloaded",
+      "downloadFailed": "Download failed",
+      "invalidContentCannotConvert": "The current content is invalid and cannot be converted.",
+      "convertFailed": "Format conversion failed: {error}",
+      "invalidJsonFormat": "Invalid JSON format",
+      "invalidYamlFormat": "Invalid YAML format",
+      "validConfig": "Config format is valid",
+      "baseurl": "Base URL",
+      "baseurlPlaceholder": "e.g., https://api.example.com",
+      "baseurlHint": "Base address of the service. All requests will be built under this prefix.",
+      "serviceSuffix": "Service API Suffix",
+      "serviceSuffixPlaceholder": "e.g., /services/{service_id}",
+      "serviceSuffixHint": "Suffix path used to build per-service endpoints. Supports placeholder {service_id}.",
+      "downloadSuffix": "Download API Suffix",
+      "downloadSuffixPlaceholder": "e.g., /files/{file_id}/download",
+      "downloadSuffixHint": "Suffix path used to build download endpoints. Supports placeholder {file_id}.",
+      "jsonPlaceholder": "{'{'}\n  \"name\": \"Spatial transcriptomics preprocessing\",\n  \"description\": \"Preprocess and QC spatial transcriptomics data\",\n  \"version\": \"1.0.0\",\n  \"baseurl\": \"https://api.example.com\",\n  \"service_suffix\": \"/api/service\",\n  \"download_suffix\": \"/api/download\",\n  \"visibility\": \"private\",\n  \"parameter_template\": {'{'}\n    \"normalize\": true,\n    \"qc_threshold\": 0.3,\n    \"min_genes\": 200\n  {'}'}\n{'}'}",
+      "yamlPlaceholder": "name: Spatial transcriptomics preprocessing\ndescription: Preprocess and QC spatial transcriptomics data\nversion: 1.0.0\nbaseurl: https://api.example.com\nservice_suffix: /api/service\ndownload_suffix: /api/download\nvisibility: private\nparameter_template:\n  normalize: true\n  qc_threshold: 0.3\n  min_genes: 200"
+    },
+    "execution": {
+      "list": "Execution Records",
+      "noRecords": "No execution records",
+      "executionId": "Execution ID",
+      "inputFile": "Input File",
+      "outputFile": "Output File",
+      "duration": "Duration",
+      "error": "Error",
+      "loadFailed": "Failed to load",
+      "seconds": "seconds",
+      "minutes": "minutes",
+      "hours": "hours",
+      "status": {
+        "pending": "Pending",
+        "running": "Running",
+        "completed": "Completed",
+        "failed": "Failed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "graph": "Relationship Graph",
+    "actions": {
+      "confirmDelete": "Are you sure you want to delete service \"{name}\"?",
+      "deleteFailed": "Delete failed"
+    }
+  },
+  "fileTypeGraph": {
+    "toolbar": {
+      "project": "Project",
+      "selectProject": "Select project...",
+      "fileType": "File Type",
+      "searchFileType": "Search file type...",
+      "depthLimit": "Depth Limit"
+    },
+    "detail": {
+      "serviceTitle": "Service Details",
+      "fileTypeTitle": "File Type Details"
+    },
+    "config": {
+      "title": "Hidden File Types Configuration",
+      "description": "Configure file types that are hidden by default. These file types will be hidden in the relationship graph.",
+      "hint": "Tip: One file type per line (without dot, e.g.: csv, png, txt)"
+    }
+  },
+  "codegen": {
+    "templates": {
+      "title": "Generated Templates",
+      "unnamed": "Unnamed Template",
+      "empty": "No templates"
+    },
+    "conversation": {
+      "title": "Generate Code via Conversation"
+    },
+    "actions": {
+      "generate": "Generate Template",
+      "confirm": "Confirm Template",
+      "execute": "Execute",
+      "submit": "Submit Generation",
+      "saveEdit": "Save Changes"
+    },
+    "form": {
+      "requirementPlaceholder": "Describe your requirement (required)",
+      "questionPlaceholder": "Optional: Your question",
+      "inputFilePlaceholder": "Optional: Input file ID",
+      "envPlaceholder": "Environment (e.g., LG)",
+      "paramsPlaceholder": "Optional: Parameters JSON, e.g., {'{'}\"n_components\": 50{'}'}"
+    },
+    "preview": {
+      "title": "Code & Template Preview",
+      "code": "Code",
+      "metadata": "Parameter Template / Schema / Output Config"
+    }
+  },
+  "clustering": {
+    "params": {
+      "title": "Clustering Parameters",
+      "method": "Clustering Method",
+      "resolution": "Resolution"
+    },
+    "filters": {
+      "title": "Filter Conditions",
+      "minCells": "Min Cells",
+      "maxCells": "Max Cells"
+    },
+    "visualization": {
+      "title": "Visualization Type"
+    },
+    "actions": {
+      "run": "Run Clustering Analysis"
+    },
+    "stats": {
+      "clusterCount": "Cluster Count"
+    },
+    "result": {
+      "empty": "Click 'Run Clustering Analysis' to start"
+    }
+  },
+  "knowledge": {
+    "title": "Knowledge Cockpit",
+    "subtitle": "Browse and curate relationship graphs across private, public, and system collections.",
+    "callout": "Data loads directly from your workspace APIs; changes persist to the backend.",
+    "actions": {
+      "reset": "Refresh list",
+      "add": "Add knowledge",
+      "addFirst": "Create your first entry",
+      "promptCenter": "Prompt Center"
+    },
+    "searchPlaceholder": "Search by title, description or tags",
+    "filters": {
+      "onlyEdited": "Only edited by me",
+      "showAll": "Show all records",
+      "sortRecent": "Sort by latest update",
+      "sortOldest": "Sort by oldest update",
+      "helper": "Use filters to focus on the knowledge you need most."
+    },
+    "empty": "No knowledge in this scope yet.",
+    "scopes": {
+      "private": "Private",
+      "public": "Public",
+      "system": "System"
+    },
+    "type": {
+      "entity": "Entity",
+      "relation": "Relation"
+    },
+    "flags": {
+      "userEdited": "User edited"
+    },
+    "labels": {
+      "relation": "Relation detail",
+      "lastUpdated": "Updated",
+      "source": "Source"
+    },
+    "promptCenter": {
+      "title": "Prompt Center",
+      "subtitle": "Manage templates and generate or approve new prompts in one place.",
+      "refresh": "Reload",
+      "configTitle": "Template configuration",
+      "configDesc": "Edit and save the entity/relation prompts used by extractors.",
+      "generatorTitle": "Generation & approval",
+      "generatorDesc": "Describe your need, generate a prompt, and approve it immediately.",
+      "generate": "Generate prompt",
+      "generating": "Generating...",
+      "generated": "Prompt generated and awaiting approval.",
+      "generateError": "Failed to generate prompt",
+      "deleteConfirm": "Delete template \"{name}\"?",
+      "deleteSuccess": "Template deleted.",
+      "deleteError": "Failed to delete template.",
+      "deleteBlocked": "System templates cannot be deleted"
+    },
+    "workflow": {
+      "badge": "Extraction",
+      "title": "Text / Literature / Prompt",
+      "textTab": "Text",
+      "literatureTab": "Literature",
+      "promptTab": "Prompt",
+      "textLabel": "Input text",
+      "placeholder": "Paste lab notes, meeting minutes or abstracts...",
+      "templateLabel": "Prompt template",
+      "templateAuto": "Use default template",
+      "sourceLabel": "Source tag",
+      "sourcePlaceholder": "e.g. lab book / PubMed",
+      "literatureQuery": "Search query",
+      "literaturePlaceholder": "e.g. gastric cancer AND HER2",
+      "maxResults": "Max results (1-50)",
+      "promptQuery": "Request",
+      "promptPlaceholder": "e.g. prompt for tumor microenvironment",
+      "promptDescription": "Context",
+      "promptDescriptionPlaceholder": "Optional background or constraints",
+      "run": "Run",
+      "generatePrompt": "Generate prompt",
+      "running": "Running...",
+      "statusRunning": "Processing...",
+      "statusCompleted": "Completed - {count} candidates",
+      "statusNoResult": "Completed - no candidates",
+      "statusIdle": "Waiting for input",
+      "promptReady": "Prompt generated, approve below",
+      "lastRun": "Last run"
+    },
+    "results": {
+      "badge": "Candidates / Approval",
+      "titleIdle": "Waiting for extraction",
+      "titleText": "Text candidates",
+      "titleLiterature": "Literature candidates",
+      "titlePrompt": "Pending prompt",
+      "subtitleIdle": "Run an extraction to preview candidates.",
+      "subtitleActive": "Only the latest run is kept.",
+      "selectAll": "Select all",
+      "import": "Bulk import",
+      "importing": "Importing...",
+      "empty": "No extraction yet.",
+      "noTriplets": "No triplets returned.",
+      "noDescription": "No description",
+      "source": "Source",
+      "confidence": "Confidence {value}",
+      "toForm": "Send to form",
+      "pendingId": "Pending ID",
+      "query": "Query",
+      "description": "Description",
+      "entityPrompt": "Entity prompt",
+      "relationPrompt": "Relation prompt",
+      "templateName": "Template name",
+      "templateNamePlaceholder": "e.g. immune microenvironment",
+      "setDefault": "Set as default",
+      "approve": "Approve",
+      "approving": "Approving...",
+      "noPrompt": "No pending prompt",
+      "expandedKeywords": "Expanded keywords",
+      "summary": "Summary",
+      "importingError": "Import failed"
+    },
+    "activity": {
+      "badge": "Latest activity",
+      "title": "Workspace timeline",
+      "empty": "No activity yet -- start editing knowledge."
+    },
+    "prompt": {
+      "badge": "Prompt config",
+      "title": "Extraction prompt",
+      "subtitle": "Describe the entities and relations the workflow should focus on.",
+      "helper": "Customize how the extractor thinks about your domain.",
+      "reset": "Reset to template",
+      "delete": "Delete template",
+      "save": "Save prompt",
+      "entityLabel": "Entity extraction instructions",
+      "relationLabel": "Relation extraction instructions",
+      "entityPlaceholder": "Entity: description\nExample: Gene: capture TFs, receptors, ligands",
+      "relationPlaceholder": "Relation: description\nExample: activates: require evidence sentence",
+      "textHint": "Supports JSON or one \"key: description\" per line.",
+      "lastSaved": "Last saved {time}",
+      "hint": "Save to sync with future workflow runs.",
+      "unsaved": "Unsaved changes"
+    },
+    "modal": {
+      "createTitle": "Add knowledge",
+      "editTitle": "Edit knowledge",
+      "fields": {
+        "title": "Title",
+        "description": "Description",
+        "relationFrom": "Source entity",
+        "relationFromPlaceholder": "e.g., Gene A",
+        "relationType": "Relation",
+        "relationTypePlaceholder": "e.g., activates",
+        "relationTo": "Target entity",
+        "relationToPlaceholder": "e.g., Gene B",
+        "tags": "Tags",
+        "kind": "Type",
+        "scope": "Scope"
+      },
+      "tagsPlaceholder": "Comma separated, e.g. chemokine, TLS",
+      "userEditedHint": "All manual edits are permanently traced as user edited."
+    },
+    "detail": {
+      "basicInfo": "Basic Information"
+    },
+    "form": {
+      "metadataSection": "Additional metadata",
+      "metadataKey": "Key",
+      "metadataValue": "Value",
+      "metadataAdd": "Add field",
+      "prefillSuccess": "Filled from extraction candidates.",
+      "clearPrefill": "Clear",
+      "tagsHint": "Separate multiple tags with commas.",
+      "loadFailed": "Failed to load knowledge",
+      "saveFailed": "Failed to save knowledge",
+      "invalidFields": "Please complete required fields.",
+      "prefillBanner": "Quick fill from candidates"
+    },
+    "messages": {
+      "systemLocked": "System knowledge is read-only.",
+      "missingFields": "Please fill the required fields.",
+      "missingRelation": "Provide the source, relation, and target entities.",
+      "activityCreated": "Created \"{title}\".",
+      "activityUpdated": "Updated \"{title}\".",
+      "saved": "Saved successfully.",
+      "createSuccess": "Knowledge created successfully.",
+      "updateSuccess": "Knowledge updated successfully.",
+      "confirmDelete": "Delete \"{title}\"? This only affects your workspace.",
+      "activityDeleted": "Deleted \"{title}\".",
+      "deleted": "Deleted from workspace.",
+      "activityShared": "Shared \"{title}\" to public space.",
+      "shared": "Visible to everyone now.",
+      "activityWorkflowReady": "Workflow finished parsing candidates.",
+      "activityTextExtracted": "Text extraction returned {count} candidates.",
+      "activityLiteratureExtracted": "Literature extraction returned {count} candidates.",
+      "activityPromptReady": "Generated a new prompt candidate.",
+      "activityPromptApproved": "Approved generated prompt.",
+      "selectCandidates": "Select at least one candidate to import.",
+      "imported": "{count} candidates imported as private knowledge.",
+      "activityImported": "Imported {count} workflow candidates.",
+      "activityPromptSaved": "Prompt updated for future runs.",
+      "promptSaved": "Prompt saved.",
+      "promptApproved": "Prompt approved and stored as template.",
+      "promptApproveError": "Failed to approve prompt.",
+      "reset": "Demo data restored.",
+      "downloaded": "Sample file is ready.",
+      "downloadError": "Unable to download sample.",
+      "importFilePopulate": "Sample imported into the form. Review before saving.",
+      "importFileError": "Import failed, please verify the file contents.",
+      "importFileEmpty": "No valid entries were found in the file.",
+      "importSingleError": "Some candidates failed to import. Check the alerts."
+    },
+    "import": {
+      "hint": "Import JSON or YAML to onboard existing notes faster.",
+      "helper": "Click to upload or drag a file here.",
+      "downloadJson": "Sample JSON",
+      "downloadYaml": "Sample YAML",
+      "downloadJsonHint": "Download the JSON example structure",
+      "downloadYamlHint": "Download the YAML example structure",
+      "importButton": "Import file",
+      "importing": "Importing..."
+    },
+    "summary": {
+      "private": "Personal workspace",
+      "public": "Shared knowledge",
+      "system": "System catalog"
+    },
+    "composer": {
+      "title": "Quick knowledge entry",
+      "description": "Log new signals or memos without leaving the workspace.",
+      "fields": {
+        "title": "Title",
+        "description": "Description",
+        "relation": "Relation summary",
+        "tags": "Tags (comma separated)",
+        "scope": "Scope",
+        "kind": "Knowledge type"
+      },
+      "actions": {
+        "save": "Save entry",
+        "reset": "Reset form"
+      }
+    },
+    "references": {
+      "title": "References & provenance",
+      "helper": "Track supporting links or notes for this knowledge.",
+      "add": "Add reference",
+      "empty": "No references yet. Add one to capture the source.",
+      "fields": {
+        "label": "Label",
+        "labelPlaceholder": "e.g., Nature 2023 – T cell niches",
+        "url": "URL",
+        "urlPlaceholder": "https://example.com/article",
+        "notes": "Notes",
+        "notesPlaceholder": "Key quote or context"
+      }
+    }
+  },
+  "messages": {
+    "jsonParseSuccess": "JSON file parsed successfully, form fields auto-filled",
+    "jsonParseFailed": "JSON parse failed: {error}",
+    "fileReadFailed": "File read failed"
+  },
+  "app": {
+    "brand": "STAnalyzer",
+    "addData": "Add Data",
+    "uploadedData": "Uploaded Data",
+    "noData": "No Data",
+    "selectFile": "Select File",
+    "fileName": "File Name (Optional)",
+    "fileNamePlaceholder": "Leave empty to use original filename",
+    "fileNameHint": "If left empty, the original name of the uploaded file will be used",
+    "description": "Description (Optional)",
+    "descriptionPlaceholder": "Enter file description",
+    "uploading": "Uploading...",
+    "upload": "Upload",
+    "editFileInfo": "Edit File Info",
+    "editFileName": "File Name",
+    "editFileNamePlaceholder": "Enter file name",
+    "saving": "Saving...",
+    "confirmDeleteAnalysis": "Confirm Delete All Analysis",
+    "confirmDeleteAnalysisText": "Are you sure you want to delete all analysis data for file {name}?",
+    "confirmDeleteAnalysisWarning": "This operation cannot be undone, all analysis workflows, intermediate results, and visualization data for this file will be deleted, but the file itself will not be deleted.",
+    "deletingAnalysis": "Deleting...",
+    "confirmDeleteAnalysisAction": "Confirm Delete",
+    "confirmDelete": "Confirm Delete",
+    "confirmDeleteText": "Are you sure you want to delete file {name}?",
+    "confirmDeleteWarning": "This operation cannot be undone, the file and all related analysis data will be permanently deleted.",
+    "deleting": "Deleting...",
+    "confirmDeleteAction": "Confirm Delete",
+    "agentConversation": "Agent Conversation",
+    "user": "User",
+    "agent": "Agent",
+    "evidenceSources": "Evidence sources",
+    "executionTime": "Execution time: {time}",
+    "noConversation": "No Conversation Records",
+    "queryPlaceholder": "Enter your query...",
+    "send": "Send",
+    "agentReplyPending": "Agent is thinking...",
+    "agentClarificationNeeded": "Clarification needed",
+    "agentClarificationHint": "Please provide more details so the agent can continue.",
+    "agentClarificationReason": "Clarification requested: {reason}",
+    "agentConfidenceScore": "Confidence: {value}",
+    "agentSendError": "Failed to send message: {error}",
+    "agentPlanTitle": "Agent Plan",
+    "agentPlanStepCount": "{count} steps",
+    "agentPlanStatus": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "executing": "Executing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    },
+    "agentApprovalTitle": "Approval Required",
+    "agentApprovalApprove": "Approve",
+    "agentApprovalReject": "Reject",
+    "agentApprovalModify": "Request Changes",
+    "agentApprovalEstimatedTime": "Estimated time: {value} min",
+    "agentApprovalEstimatedCost": "Estimated cost: {value}",
+    "agentApprovalStepCount": "{count} detailed steps",
+    "agentApprovalFeedbackLabel": "Reviewer note",
+    "agentApprovalStatus": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "modified": "Modified"
+    },
+    "agentApprovalCompletedAt": "Approval status: {status}.",
+    "agentApprovalApproved": "Plan approved successfully.",
+    "agentApprovalRejected": "Plan rejected.",
+    "agentApprovalModified": "Modification request sent.",
+    "agentApprovalUnauthorized": "You do not have permission to perform this approval. Please sign in again.",
+    "agentApprovalActionError": "Failed to update approval: {error}",
+    "agentConversationLoadFailed": "Unable to load the latest conversation.",
+    "agentConversationLoadFallback": "Conversation data is temporarily unavailable. Retry or switch projects to reconnect.",
+    "agentMessageSendFailed": "Message not sent.",
+    "agentApprovalDialog": {
+      "commentPlaceholder": "Share guidance or reasoning (optional)",
+      "approve": {
+        "title": "Approve plan",
+        "description": "Confirm approval of this plan. You can optionally leave a note for the agent.",
+        "confirm": "Approve"
+      },
+      "reject": {
+        "title": "Reject plan",
+        "description": "Reject this plan and optionally share the reason with the agent.",
+        "confirm": "Reject"
+      },
+      "modify": {
+        "title": "Request modifications",
+        "description": "Describe the required changes so the agent can revise the plan.",
+        "confirm": "Submit request"
+      }
+    },
+    "moreActions": "More Actions",
+    "deleteAllAnalysis": "Delete All Analysis",
+    "deleteFile": "Delete File",
+    "viewData": "View Data",
+    "language": "Language",
+    "languageChinese": "Chinese",
+    "languageEnglish": "English",
+    "loading": "Loading...",
+    "noAnalysisData": "No analysis data available.",
+    "loadDAGError": "Failed to load analysis workflow, switched to sample data.",
+    "dataSwitched": "Switched to data: {name}",
+    "preparingUpload": "Preparing upload...",
+    "uploadingProgress": "Uploading {progress}%...",
+    "uploadSuccess": "Data file {name} uploaded successfully!",
+    "uploadSuccessMessage": "Upload successful!",
+    "uploadFailed": "Upload failed: {error}",
+    "unknownError": "Unknown error",
+    "serviceMenuLoading": "Loading services…",
+    "serviceMenuLoadFailed": "Failed to load services.",
+    "serviceMenuLoadFallback": "Service options may be limited until you retry.",
+    "serviceMenuEmpty": "No services available",
+    "agentResponse1": "Analyzing your query...",
+    "agentResponse2": "Based on current data, I recommend performing clustering analysis to get more detailed results.",
+    "agentResponse3": "Data is ready, further analysis can be performed.",
+    "fileUpdated": "File info updated: {name}",
+    "updateFailed": "Failed to update file info: {error}",
+    "fileIdMissing": "File ID is missing",
+    "analysisDeleted": "All analysis data for file {name} has been deleted",
+    "deleteAnalysisFailed": "Failed to delete analysis data: {error}",
+    "fileDeleted": "File deleted: {name}",
+    "deleteFailed": "Failed to delete file: {error}",
+    "welcome": "Welcome to Spatial Transcriptomics Analysis System!",
+    "uploadPrompt": "Please click the \"Add Data\" button to upload files.",
+    "loadFileListFailed": "Failed to load file list, please check network connection or backend service.",
+    "fileOperationFailed": "File creation failed, operation is not allowed",
+    "connecting": "Connecting…",
+    "reconnecting": "Reconnecting…",
+    "connectionLost": "Connection lost",
+    "system": "System",
+    "agentConversationSelectProjectTitle": "Please select a project to view conversations",
+    "agentConversationSelectProjectSubtitle": "Conversation records will be automatically loaded after the project is determined.",
+    "agentConversationSelectProjectHint": "Please select a project before sending",
+    "agentConversationClearing": "Clearing…",
+    "agentConversationClear": "Clear Conversation",
+    "agentConversationClearConfirm": "Are you sure you want to clear the conversation for the current project?",
+    "agentConversationClearFailed": "Failed to clear conversation",
+    "agentConversationContextTitle": "Conversation Context",
+    "agentConversationContextHint": "Selected files will be displayed after clicking \"Add to Context\" on a DAG node",
+    "agentConversationContextCount": "{count} files",
+    "agentConversationContextRemoveFileAria": "Remove context file",
+    "agentConversationContextAdded": "Added to context: {name}",
+    "agentConversationSending": "Sending…"
+  },
+  "analysis": {
+    "title": "File Analysis Workflow",
+    "subtitle": "Nodes: Files | Edges: Algorithms (Click nodes for details)",
+    "showErrorItems": "Show Error Items",
+    "collapseLeftPanel": "Collapse Left Panel",
+    "expandLeftPanel": "Expand Left Panel",
+    "legend": {
+      "title": "Status Legend",
+      "completed": "Completed",
+      "running": "Running",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "nodeMenu": {
+      "unknownFile": "Unknown File",
+      "fileOperations": "File Operations",
+      "fileAnalysis": "File Analysis",
+      "furtherAnalysis": "Further Analysis",
+      "previewFile": "Preview File",
+      "downloadFile": "Download File",
+      "editFile": "Edit File Info",
+      "addToContext": "Add to Context",
+      "deleteFile": "Delete File",
+      "deleteFileChildren": "Delete Child Files",
+      "errors": {
+        "previewFileNotInitialized": "Preview file feature not initialized",
+        "previewFileNotInitializedDetail": "Preview file feature not initialized: handlers.showFilePreview missing",
+        "editFileNotInitialized": "Edit file feature not initialized",
+        "editFileNotInitializedDetail": "Edit file feature not initialized: handlers.showEditFileDialog missing",
+        "addToContextNotInitialized": "Add to context feature not initialized",
+        "addToContextNotInitializedDetail": "Add to context feature not initialized: handlers.addFileToContext missing",
+        "deleteFileNotInitialized": "Delete file feature not initialized",
+        "deleteFileNotInitializedDetail": "Delete file feature not initialized: handlers.deleteFileNode missing",
+        "deleteFileChildrenNotInitialized": "Delete child files feature not initialized",
+        "deleteFileChildrenNotInitializedDetail": "Delete child files feature not initialized: handlers.deleteFileChildren missing",
+        "serviceExecuteNotInitialized": "Service execute dialog feature not initialized",
+        "serviceExecuteNotInitializedDetail": "Service execute dialog feature not initialized: handlers.showServiceExecuteDialog missing",
+        "downloadFailed": "Download failed, please try again later",
+        "invalidFileId": "Invalid file ID"
+      }
+    },
+    "edgeInfo": {
+      "title": "Execution Info",
+      "basicInfo": "Basic Information",
+      "executionId": "Execution ID",
+      "serviceName": "Service Name",
+      "serviceDescription": "Service Description",
+      "status": "Status",
+      "timeInfo": "Time Information",
+      "createdAt": "Created At",
+      "startedAt": "Started At",
+      "completedAt": "Completed At",
+      "duration": "Duration",
+      "parameters": "Parameters",
+      "errorInfo": "Error Information",
+      "responseData": "Response Data",
+      "deleteExecution": "Delete Execution",
+      "deleting": "Deleting...",
+      "confirmDelete": "Confirm Delete",
+      "confirmDeleteExecution": "Are you sure you want to delete execution \"{name}\"? This action cannot be undone.",
+      "deleteExecutionSuccess": "Execution deleted successfully",
+      "deleteExecutionFailed": "Failed to delete execution"
+    },
+    "status": {
+      "completed": "✅ Completed",
+      "running": "🔄 Running",
+      "pending": "⏳ Pending",
+      "failed": "❌ Failed",
+      "skipped": "⏭️ Skipped"
+    },
+    "tooltip": {
+      "parameters": "⚙️ Parameters",
+      "executionInfo": "📋 Execution Info",
+      "executionId": "Execution ID",
+      "serviceId": "Service ID",
+      "createdAt": "Created At",
+      "startedAt": "Started At",
+      "completedAt": "Completed At",
+      "duration": "Duration",
+      "errorInfo": "❌ Error Information"
+    },
+    "homeTooltip": "Go to home",
+    "messages": {
+      "fileDeleted": "File deleted successfully",
+      "fileDeleteFailed": "Failed to delete file",
+      "unknownService": "Unknown Service",
+      "noDescription": "No description",
+      "seconds": "seconds",
+      "minutes": "{minutes}m {seconds}s",
+      "hours": "{hours}h {minutes}m {seconds}s",
+      "serviceExecutedSuccess": "Service executed successfully",
+      "serviceExecutedFailed": "Service execution failed",
+      "serviceExecutedStatus": "Service execution status: {status}",
+      "fileInfoNotFound": "File info not found: {fileId}",
+      "dagCanvasNotReady": "dagCanvas ref not ready",
+      "destroyGraphInstanceError": "Error destroying old graph instance",
+      "createGraphInstanceFailed": "Failed to create G6 graph instance",
+      "updateGraphDataFailed": "Failed to update graph data",
+      "destroyGraphInstanceFailed": "Failed to destroy graph instance",
+      "updateNodeStyleFailed": "Failed to update node style",
+      "restoreNodeStyleFailed": "Failed to restore node style",
+      "loadServiceListFailed": "Failed to load service list",
+      "resizeGraphFailed": "Failed to resize graph",
+      "removeTooltipFailed": "Failed to remove tooltip",
+      "executeNodeActionFailed": "Failed to execute node action"
+    },
+    "upload": {
+      "fileTypeLabel": "File Type",
+      "fileTypeSearchPlaceholder": "Search by name or extension (e.g. AnnData or .h5ad)",
+      "fileTypePlaceholder": "Select a file type",
+      "fileTypesEmpty": "No file types available yet. Click refresh or contact your administrator.",
+      "fileTypeAutoDetected": "Recommended based on file extension: {type}",
+      "fileTypeAutoDetectedMismatch": "If the file has a special format you may override the suggestion.",
+      "fileTypeMismatch": "The selected type \"{type}\" may not match the file extension \"{ext}\". Please double-check before continuing.",
+      "fileTypeRequired": "Select a file type before uploading.",
+      "selectFileFirst": "Please select a file first",
+      "selectFileFirstHint": "Please select a file first. The system will filter available file types based on the file extension",
+      "selectedFileExtension": "Selected file extension: {ext}",
+      "noFileExtension": "The selected file has no extension and cannot be automatically matched to a file type",
+      "noMatchingFileType": "No file type found matching extension {ext}"
+    }
+  },
+  "help": {
+    "title": "Help Documentation",
+    "downloadSampleData": "Download Sample Data",
+    "downloading": "Downloading...",
+    "downloadSampleDataPrompt": "Click here to download sample data",
+    "common": {
+      "keyPoints": "Key Points",
+      "steps": "Steps",
+      "navigation": "Navigation",
+      "prompt": "Prompt"
+    },
+    "introduction": {
+      "title": "System Introduction",
+      "subtitle": "Learn about the core features and usage of STAnalyzer",
+      "whatIs": {
+        "title": "What is STAnalyzer?",
+        "description": "STAnalyzer is an intelligent multi-agent framework designed to automate the end-to-end analytical lifecycle—from raw data processing to biological hypothesis generation. Transcending traditional pipelines, STAnalyzer employs a Human-in-the-Loop collaborative intelligence architecture that translates natural language queries into rigorous bioinformatics workflows, performs multimodal self-refinement, and conducts evidence-based cross-validation to bridge data-driven correlations with biological causation."
+      },
+      "coreFeatures": {
+        "title": "Core Features",
+        "projectManagement": {
+          "title": "Project & Data Management",
+          "description": "Organize files, execution records, and results by project, supporting parallel management of multiple projects"
+        },
+        "dagVisualization": {
+          "title": "Execution DAG Visualization",
+          "description": "Automatically generate and display execution graphs (DAG), showing files, execution steps, and their dependencies"
+        },
+        "multiPerspective": {
+          "title": "Multi-perspective Data Analysis",
+          "description": "Support file perspective, execution perspective, and visualization analysis for specific data types"
+        },
+        "intelligentAgent": {
+          "title": "Intelligent Agent Dialogue",
+          "description": "Interact with Agent through natural language, automatically generate analysis plans, execute services, and explain results"
+        },
+        "serviceManagement": {
+          "title": "Service Management",
+          "description": "Provide service information queries and relationship graphs to help understand the support relationships between services and file types"
+        }
+      },
+      "architecture": {
+        "title": "System Architecture"
+      },
+      "advantages": {
+        "title": "Main Advantages",
+        "automation": {
+          "title": "Automation",
+          "description": "Automatically execute complex analysis workflows through intelligent Agent, reducing manual operations"
+        },
+        "integration": {
+          "title": "Integration",
+          "description": "Integrate project management, data management, visualization, and intelligent dialogue in one platform"
+        },
+        "intelligent": {
+          "title": "Intelligence",
+          "description": "Interact with Agent through natural language, automatically generate analysis plans and explain results"
+        },
+        "visualization": {
+          "title": "Visualization",
+          "description": "Rich visualization components supporting multiple data types and analysis perspectives"
+        }
+      },
+      "frameworkImage": "STAnalyzer System Architecture Diagram",
+      "overview": {
+        "title": "Overview & Core Concept",
+        "systemIdentity": {
+          "title": "System Identity",
+          "description": "STAnalyzer (Spatial Transcriptomics Analyzer by Multi-agent Analysis System)"
+        },
+        "primaryFunction": {
+          "title": "Primary Function",
+          "description": "End-to-end automated analysis lifecycle for Spatial Transcriptomics (ST) data"
+        },
+        "architecturalParadigm": {
+          "title": "Architectural Paradigm",
+          "description": "Collaborative Intelligence Architecture"
+        },
+        "mission": {
+          "title": "Mission",
+          "description": "Bridge the gap between complex raw data and verifiable biological insights by eliminating manual coordination bottlenecks"
+        }
+      },
+      "keyFeatures": {
+        "title": "Key Technological Features",
+        "intentDriven": {
+          "title": "Intent-Driven Orchestration",
+          "description": "Natural Language Interface (NLI) converts user queries into rigorous bioinformatics workflows"
+        },
+        "multiModal": {
+          "title": "Multi-Modal Self-Optimization",
+          "description": "Closed-loop validation combining visual patterns (e.g., UMAP) and statistical metrics"
+        },
+        "evidenceBased": {
+          "title": "Evidence-Based Cross-Validation",
+          "description": "Anchors data-driven correlations in causal biological explanations via literature and structured databases (UniProt, PubMed)"
+        },
+        "fullTraceability": {
+          "title": "Full Traceability",
+          "description": "DAG (Directed Acyclic Graph) visualization of execution flow and data lineage"
+        }
+      },
+      "multiAgent": {
+        "title": "Multi-Agent Collaborative Engine",
+        "orchestrator": {
+          "title": "Orchestrator Agent (OA)",
+          "description": "User-centric coordinator translating natural language requests into structured actions while maintaining global analytical consistency."
+        },
+        "servicePlanner": {
+          "title": "Service Planner Agent (SPA)",
+          "description": "Addresses bioinformatics complexity in tool matching, configuration, and execution via a robust closed-loop containerized framework."
+        },
+        "dataInterpretation": {
+          "title": "Data Interpretation Agent (DIA)",
+          "description": "Multi-modal understanding of text, numerical matrices, and images to transform heterogeneous outputs into biological conclusions."
+        },
+        "knowledgeIntegration": {
+          "title": "Knowledge Integration Agent (KIA)",
+          "description": "Bridges the gap between data correlations and biological causations using external databases and literature retrieval (RAG)."
+        }
+      },
+      "ui": {
+        "title": "User Interface & Experience",
+        "interactiveVisualization": {
+          "title": "Interactive Visualization",
+          "description": "Tree-structured workflow display, Full-screen image preview, and Interactive data lists"
+        },
+        "serviceManagement": {
+          "title": "Service Management",
+          "description": "\"Private/Public/System\" service classification, Real-time status synchronization, and Parameter validation"
+        },
+        "executionMonitoring": {
+          "title": "Execution Monitoring",
+          "description": "Comprehensive log records, State tracking (Success/Failure), and Audit trails (User ID, Timestamps)"
+        }
+      },
+      "coreAdvantages": {
+        "title": "Core Advantages",
+        "lowBarrier": {
+          "title": "Low Technical Barrier",
+          "description": "Democratizes access to complex ST data analysis"
+        },
+        "highEfficiency": {
+          "title": "High Efficiency",
+          "description": "Accelerates the conversion of data into discoveries"
+        },
+        "reproducibility": {
+          "title": "Reproducibility",
+          "description": "Persistent project saving and full input/output archiving (via UUID)"
+        }
+      }
+    },
+    "sections": {
+      "gettingStarted": {
+        "title": "Getting Started",
+        "description": "Completing a complete analysis workflow with STAnalyzer typically includes the following steps",
+        "transitionText": "Next, let's further communicate with AI. Taking the following steps as an example, experience more powerful functions through Prompt!",
+        "steps": {
+          "createProject": {
+            "title": "Create Project",
+            "description": "Projects are the basic unit for organizing analysis data and execution records. Each project has its own file list, DAG view, and Agent conversation context.",
+            "point0": "Select the “Analysis” page",
+            "point1": "Click the New Project button in the left project list",
+            "point2": "Enter a meaningful project name",
+            "point3": "Click Save to create the project",
+            "tip": "Projects are the basic unit for organizing analysis data and execution records"
+          },
+          "uploadData": {
+            "title": "Upload Data",
+            "description": "Uploading data files is a prerequisite for analysis. The system supports multiple file formats, including spatial transcriptomics data, text files, configuration files, etc.",
+            "point1": "Select the target project",
+            "point2": "Click the Add Data button to open the upload dialog",
+            "point_3": "Fill in file information and select the correct file type",
+            "point3": "Select a file to upload, and the system will automatically match the file type and the file name",
+            "point4": "Click Upload to upload the file",
+            "tip": "Correct file type selection is crucial for subsequent analysis"
+          },
+          "addContext": {
+            "title": "Add to Context",
+            "description": "Adding key files to context is an important technique to improve Agent analysis quality. By providing relevant files as context, the Agent can more comprehensively understand the project background and task requirements.",
+            "point1": "Select files in the DAG panel",
+            "point2": "Click Add to Context to add files",
+            "point3": "The Agent will reference these files in subsequent conversations",
+            "tip": "Adding to context helps the Agent better understand the project background"
+          },
+          "askAgent": {
+            "title": "Chat with Agent",
+            "description": "Through natural language dialogue with the Agent, complex analysis tasks can be automatically completed. This is the core functionality of STAnalyzer.",
+            "point1": "Enter your analysis requirements in natural language",
+            "point2": "The Agent will automatically generate and execute the analysis plan",
+            "point3": "View analysis results and reports in the conversation panel",
+            "tip": "The more detailed the query, the more accurate the Agent's response"
+          },
+          "viewReport": {
+            "title": "View Report",
+            "description": "After analysis completes, the Agent will output an analysis report in the conversation panel",
+            "point1": "Key findings and important results",
+            "point2": "Biological interpretation of results",
+            "point3": "Overall research conclusions and suggestions",
+            "tip": "Reports support Markdown format for easy reading"
+          },
+          "analysis": {
+            "title": "Analysis of Downstream Applications",
+            "description": "Based on the preprocessed data, perform downstream application analysis, such as Spatial Transcriptomics Processing. Here, we use Spatial Transcriptomics Processing performed on the preprocessed_data.h5ad file as an example.",
+            "point1": "Left-click the node, then select “Spatial Transcriptomics Processing” under “Further Analysis” in the list",
+            "point2": "After entering the parameters, click “Execute Service”",
+            "point3": "Click each output node to view the execution results",
+            "tip": "This process, known as manual service execution, is the second method of execution besides “chat with agent.”"
+          },
+          "analysis2": {
+            "title": "Perform more in-depth analysis",
+            "description": "Conduct detailed cell type composition analysis and gene enrichment analysis for each of the 9 spatial domains, and summarize results in a tabular format.",
+            "prompt": "Please analyze the main cell type composition of each of the 9 spatial domains one by one（Each spatial domain contains more than one type of cell, and it is composed of multiple cell types）, and perform gene enrichment analysis for each domain. Finally, summarize the analysis results for each spatial domain in tabular form.",
+            "tip": "Comprehensive analysis of each spatial domain provides deeper insights into cellular heterogeneity."
+          },
+          "illustrations": {
+            "title": "Additional scientific illustrations",
+            "description": "Create scientific visualizations showing cell type composition and enriched terms for each spatial domain.",
+            "prompt": "Based on this result, draw the composition of cell types in each spatial domain (only the top 3 cell types need to be shown for each spatial domain) as well as the enriched terms. Please ensure that the appropriate scientific research charts are presented in a clear and understandable manner.",
+            "tip": "Clear visualizations help in better understanding complex spatial relationships and patterns."
+          },
+          "validation": {
+            "title": "Analysis and Validation",
+            "description": "Analyze and infer functional domains for each spatial region based on cell type annotations and enrichment results, providing explainable evidence.",
+            "prompt": "Based on the cell type annotations and gene enrichment analysis results of these 9 spatial domains that have been completed, please further analyze and infer the functional domains that each spatial domain may belong to (provide explainable evidence), such as the stromal region, tumor occurrence area, etc. Finally, form a summary table to clearly display the characteristics of each spatial domain.",
+            "tip": "Providing explainable evidence strengthens the validity and reliability of functional domain inferences."
+          },
+          "researchDirections": {
+            "title": "Explore Valuable Research Directions",
+            "description": "Identify significant research directions and cell communication patterns among spatial domains to guide biological discoveries.",
+            "prompt": "Utilize the platform to explore valuable research directions, guide meaningful biological discoveries, and avoid blind large-scale analysis. Perform cell communication analysis among the 9 spatial domains, identify the two spatial domains with the greatest research significance and the cell interactions between them, and provide an explanatory description as well as a summary report.",
+            "tip": "Focusing on cell communication patterns can reveal critical biological interactions and research opportunities."
+          },
+          "multiAgent": {
+            "title": "Multi-Agent Collaboration for Accelerated Biological Discoveries",
+            "description": "Leverage multi-agent collaboration to analyze subcellular interactions at the boundary between adaptive immunity and immunosuppressive domains.",
+            "prompt": "The current dataset possesses a truly accurate resolution of subcellular physical coordinates. Our previous analysis has successfully identified a crucial physical communication boundary: Domain 0 (the core of adaptive immunity dominated by T cells) and Domain 3 (the immunosuppressive barrier dominated by Tregs). Please focus on the interface where physical contact occurs between Domain 0 and Domain 3 (the boundary). From the perspective of subcellular analysis, deduce and extract potential new biological discoveries. Please conduct a deep analysis using an explainable thought chain (Chain of Thought).",
+            "tip": "Multi-agent collaboration enables more comprehensive and explainable biological discoveries at subcellular resolution.",
+            "subSteps": {
+              "automaticCodeAnalysis": {
+                "title": "Automatic Code Analysis",
+                "description": "Automatically analyze the code to extract key functional domains and cell interactions."
+              },
+              "mechanismBasedReasoning": {
+                "title": "Mechanism-Based Reasoning",
+                "description": "Synthesize all available evidence from file metadata, decision history, and established knowledge base to automatically propose deep, mechanism-based reasoning results (each hypothesis has a traceable chain of thought):"
+              },
+              "summaryReport": {
+                "title": "Summary Report",
+                "description": "Provide a summary report of the novel biological phenomena discovered:"
+              }
+            }
+          }
+        }
+      },
+      "analysisPage": {
+        "title": "Analysis Page",
+        "description": "The Analysis page is the core working area of STAnalyzer, integrating project management, data visualization, execution workflow management, and intelligent dialogue",
+        "overviewImage": "Analysis Page Overview",
+        "transitionText": "Next, we will introduce the analysis features that enable you to perform comprehensive data analysis and visualization.",
+        "pageStructure": {
+          "title": "Page Structure"
+        },
+        "leftPanel": {
+          "title": "Left Panel",
+          "description": "Entry point for project and data management",
+          "projectList": {
+            "title": "Project List",
+            "feature1": "Display all created projects",
+            "feature2": "Support project selection, deletion, and preview",
+            "feature3": "Quick access to project DAG view"
+          },
+          "fileList": {
+            "title": "File List",
+            "feature1": "Display all files under the current project",
+            "feature2": "Support file upload, edit, and delete operations",
+            "feature3": "View file metadata and details"
+          }
+        },
+        "middleContent": {
+          "title": "Middle Content Area",
+          "description": "Core display area of the Analysis page",
+          "dagView": {
+            "title": "DAG Visualization",
+            "description": "By default, displays the current project's execution graph (DAG - Directed Acyclic Graph)",
+            "elements": {
+              "nodes": "Nodes",
+              "nodesDetail1": "Execution step nodes: Represent service calls or analysis operations",
+              "nodesDetail2": "File nodes: Represent input or output data files",
+              "nodesDetail3": "Node colors indicate execution status",
+              "edges": "Edges",
+              "edgesDetail1": "Arrow direction represents data flow direction",
+              "edgesDetail2": "Edge styles may represent different relationship types",
+              "files": "Associated Files",
+              "filesDesc": "Each node can associate multiple files, displaying detailed file information"
+            }
+          },
+          "dataVisualization": {
+            "title": "Data Visualization",
+            "feature1": "Automatically switch to corresponding visualization component based on file type",
+            "feature2": "Support multiple visualization types: tables, charts, interactive graphics, etc.",
+            "feature3": "Click the file again to return to DAG view",
+            "image": "File Preview Interface"
+          }
+        },
+        "rightPanel": {
+          "title": "Right Agent Panel",
+          "description": "Core interaction area for intelligent analysis",
+          "feature1": "Natural language dialogue with multi-agent system",
+          "feature2": "Automatically generate analysis plans and explanations based on project context",
+          "feature3": "Support adding files to context and triggering specific analysis components"
+        },
+        "naturalLanguageExecution":{
+          "title": "Natural Language Execution",
+          "description": "Using Agent for natural language dialogue, users can input analysis questions or requests in plain language, and the system will automatically generate analysis plans and explanations based on project context"
+        },
+        "manualExecution": {
+          "title": "Manual Service Execution",
+          "description": "In addition to using Agent for automatic analysis, the system also supports manual service execution, giving users more control",
+          "step1": {
+            "title": "Open Manual Execution Page",
+            "description": "In DAG view or file list, find the service to execute and click the execute button"
+          },
+          "step2": {
+            "title": "Fill Execution Parameters",
+            "description": "The system will automatically fill in the file ID and validate whether the file type matches service requirements"
+          },
+          "step3": {
+            "title": "Execute Service",
+            "description": "Click the Execute button to start executing the service, and view execution logs"
+          },
+          "step4": {
+            "title": "View Results",
+            "description": "After execution completes, the system will automatically refresh the DAG view, and newly generated result files will be added to the file list"
+          }
+        }
+      },
+      "serviceManagement": {
+        "title": "Service Management",
+        "description": "STAnalyzer provides a definitive hub for service registration, orchestration, and visual management. It enables researchers to intuitively orchestrate robust data analysis pipelines while empowering developers to seamlessly integrate their own custom bioinformatics algorithms.",
+        "serviceInfo": {
+          "title": "Service Information Query",
+          "description": "The Service Information Query page provides detailed information about all available services in the system",
+          "functions": {
+            "title": "Function Description",
+            "function1": "List all available analysis services in the system",
+            "function2": "Display service details: name, description, input/output file types, parameters, etc.",
+            "function3": "Support search and filtering to quickly find specific services"
+          },
+          "useCases": {
+            "title": "Use Cases",
+            "case1": "Plan analysis workflow: Before uploading new type data, confirm whether there are suitable processing services",
+            "case2": "Understand service capabilities: When planning the entire analysis workflow, understand which services can be called at each step",
+            "case3": "Parameter configuration: View parameters supported by services, prepare for manual service execution"
+          },
+          "images": {
+            "list": "Service Information Query List",
+            "detail": "Service Information Details"
+          }
+        },
+        "relationshipGraph": {
+          "title": "Relationship Graph Query",
+          "description": "Relationship Graph Query displays services, file types, and their relationships in a visual way",
+          "functions": {
+            "components": {
+              "title": "Relationship Graph Components",
+              "component1": "Service nodes: Represent various analysis services in the system",
+              "component2": "File type nodes: Represent various file types supported by the system",
+              "component3": "Relationship edges: Connect service nodes and file type nodes, representing input/output/support relationships"
+            }
+          },
+          "interactions": {
+            "title": "Interactive Functions",
+            "interaction1": "Click nodes to highlight all related connections",
+            "interaction2": "Track complete paths from one file type to another file type",
+            "interaction3": "View which file types a service depends on, or which services can process a certain file type"
+          },
+          "useCases": {
+            "title": "Use Cases",
+            "case1": "Workflow planning: Understand how data flows between services from a global perspective",
+            "case2": "Dependency analysis: Understand what prerequisites a service needs, or what subsequent analyses a file type can be used for",
+            "case3": "Bottleneck identification: Discover potential workflow bottlenecks or service components that need to be supplemented"
+          },
+          "images": {
+            "overview": "Relationship Graph Overview",
+            "interaction": "Relationship Graph Interaction"
+          }
+        },
+        "serviceUpload": {
+          "title": "Service Upload & Registration Guide",
+          "description": "Learn how to integrate and register your own analysis algorithms into STAnalyzer.",
+          "downloadBanner": {
+            "title": "Example Service Template Download",
+            "description": "To help you quickly understand the service configuration structure, download the example PASTE 3D Alignment Service package.",
+            "button": "Download Example Package (.zip)",
+            "goCreateButton": "Go to Create Service →"
+          },
+          "steps": {
+            "step1": {
+              "title": "Create New Service",
+              "desc": "Go to Service Management and click \"Create Service\" in the top right corner."
+            },
+            "step2": {
+              "title": "Basic Information",
+              "desc": "Fill in the service name, description, version, and set visibility."
+            },
+            "step3": {
+              "title": "Configure API",
+              "desc": "Set the remote server Base URL and the execution/download endpoint suffixes."
+            },
+            "step4": {
+              "title": "Input Parameters",
+              "desc": "Define required parameters (e.g. thresholds, methods) and their constraints."
+            },
+            "step5": {
+              "title": "Required Files",
+              "desc": "Specify the input files required by the algorithm (e.g. h5ad matrices or images)."
+            },
+            "step6": {
+              "title": "Output Configuration",
+              "desc": "Declare the result files or text that your service will output."
+            },
+            "step7": {
+              "title": "Import Config",
+              "desc": "Optionally upload a service_config.json file to auto-fill all configurations."
+            }
+          }
+        }
+      },
+      "executionManagement": {
+        "title": "Execution Management",
+        "description": "The Execution Management page is the center for viewing and managing all execution records, providing a complete view of execution history",
+        "functions": {
+          "title": "Function Description",
+          "executionList": {
+            "title": "Execution List View",
+            "feature1": "Display all execution records in table form",
+            "feature2": "Support filtering by project, time, status, service, and other dimensions",
+            "feature3": "View execution ID, status, time, duration, and other information",
+            "feature4": "Support combined filtering, can use multiple filter conditions simultaneously"
+          },
+          "executionDetails": {
+            "title": "Execution Details View",
+            "feature1": "View execution parameters and input files",
+            "feature2": "View all output files generated by the execution",
+            "feature3": "View complete execution logs",
+            "feature4": "Highlight the execution's path in the DAG"
+          },
+          "images": {
+            "list": "Execution Management List",
+            "detail": "Execution Management Details"
+          }
+        },
+        "keyInfo": {
+          "title": "Key Information",
+          "status": {
+            "label": "Status",
+            "value": "Execution status: success, failure, running, waiting"
+          },
+          "time": {
+            "label": "Time",
+            "value": "Start time, end time, and duration"
+          },
+          "service": {
+            "label": "Service",
+            "value": "Analysis service used"
+          },
+          "files": {
+            "label": "Files",
+            "value": "Input files and output files"
+          }
+        }
+      }
+    }
+  },
+  "project": {
+    "management": "Project Management",
+    "manageProjects": "Manage Projects",
+    "create": "Create Project",
+    "edit": "Edit Project",
+    "delete": "Delete Project",
+    "config": "Project Configuration",
+    "createFirst": "Create First Project",
+    "noProjects": "No projects",
+    "projectList": "Project List",
+    "filesHeader": "Interactive Data",
+    "backToProjects": "Back to Projects",
+    "backToAnalysis": "Back to Analysis",
+    "selectProjectPrompt": "Please select a project to start analysis",
+    "projectSelected": "Project selected: {name}",
+    "loadProjectFailed": "Failed to load project: {error}",
+    "name": "Project Name",
+    "description": "Project Description",
+    "basicInfo": "Basic Information",
+    "knowledgeConfig": "Knowledge Configuration",
+    "serviceConfig": "Service Configuration",
+    "knowledgeMode": "Knowledge Mode",
+    "serviceMode": "Service Mode",
+    "modeAll": "All Visible",
+    "modeWhitelist": "Whitelist",
+    "selectKnowledge": "Select Knowledge",
+    "selectService": "Select Service",
+    "noKnowledge": "No knowledge",
+    "noServices": "No services",
+    "fileCount": "File Count",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "deleteProject": "Delete Project",
+    "deleteProjectConfirm": "Are you sure you want to delete this project? This action cannot be undone.",
+    "projectDeleted": "Project deleted",
+    "projectDeleteFailed": "Failed to delete project",
+    "searchService": "Search service...",
+    "noServiceData": "No service data",
+    "serviceLabel": "Service",
+    "searchKnowledge": "Search knowledge...",
+    "noKnowledgeData": "No knowledge data",
+    "knowledgeLabel": "Knowledge",
+    "noDescription": "No description",
+    "knowledgePromptConfig": "Knowledge Prompt Config",
+    "searchConfig": "Search config...",
+    "pleaseSelect": "-- Please select --",
+    "default": "Default",
+    "actions": {
+      "confirmDelete": "Are you sure you want to delete project \"{name}\"? This action cannot be undone.",
+      "deleteSuccess": "Project \"{name}\" deleted successfully",
+      "deleteFailed": "Failed to delete project: {error}",
+      "saveSuccess": "Project saved successfully",
+      "saveFailed": "Failed to save project",
+      "menu": "Action Menu"
+    },
+    "servicesHeader": "Services",
+    "showH5adOnly": "Show h5ad Only",
+    "showAllFiles": "Show All"
+  },
+  "knowledgeSearch": {
+    "title": "Knowledge Search",
+    "project": "Project",
+    "selectProject": "Select Project",
+    "selectProjectFirst": "Please select a project first",
+    "createSearch": "New Search",
+    "startSearch": "Start Search",
+    "searchResults": "Search Results",
+    "noDocuments": "No documents",
+    "noResults": "No search results",
+    "documents": "documents",
+    "query": "Query",
+    "queryPlaceholder": "Enter your query statement, e.g., What are the latest advances in machine learning?",
+    "queryRequired": "Please enter query content",
+    "queryMinLength": "Query content must be at least 1 character",
+    "projectRequired": "Please select a project",
+    "topK": "Top K",
+    "topKPlaceholder": "Enter number of results",
+    "topKHint": "Range: 1-100, default 20",
+    "sources": "Data Sources",
+    "sourcesHint": "Optional: PubMed, ArXiv, CrossRef, leave empty to use all",
+    "rewrite": "Query Rewrite",
+    "rewriteHint": "Enable to automatically optimize query statements",
+    "trace": "Debug Info",
+    "traceHint": "Enable to return detailed debug information",
+    "rewriteQuery": "Rewritten Query",
+    "datasourcesUsed": "Data Sources Used",
+    "totalDocuments": "Total Documents",
+    "authors": "Authors",
+    "journal": "Journal/Conference",
+    "publisher": "Publisher",
+    "publishedAt": "Published At",
+    "doi": "DOI",
+    "source": "Source",
+    "snippet": "Snippet",
+    "noSnippet": "No snippet",
+    "score": "Relevance Score",
+    "saveDocument": "Save Document",
+    "saved": "Saved",
+    "saveSuccess": "Document saved successfully",
+    "deleteSuccess": "Document deleted successfully",
+    "searchSuccess": "Search completed successfully",
+    "confirmDelete": "Are you sure you want to delete document \"{title}\"?",
+    "errors": {
+      "loadProjectsFailed": "Failed to load project list",
+      "loadDocumentsFailed": "Failed to load document list",
+      "searchFailed": "Search failed",
+      "saveFailed": "Failed to save document",
+      "deleteFailed": "Failed to delete document"
+    },
+    "common": {
+      "back": "Back",
+      "reset": "Reset"
+    }
+  },
+  "spatialCoexpression": {
+    "title": "Spatial Coexpression Network Visualization",
+    "subtitle": "Integrated analysis tool for gene expression networks and spatial distribution",
+    "loadSample": "Load Sample Data",
+    "export": "Export Image",
+    "dataControl": {
+      "title": "Data Control",
+      "dataset": "Dataset Selection",
+      "genes": "Gene Selection",
+      "runAnalysis": "Run Coexpression Analysis"
+    },
+    "visualization": {
+      "title": "Visualization Parameters",
+      "layout": "Network Layout Algorithm",
+      "nodeSize": "Node Size (Expression)",
+      "threshold": "Connection Threshold",
+      "colorScheme": "Color Scheme"
+    },
+    "filter": {
+      "title": "Filter & Search",
+      "search": "Search Gene",
+      "searchPlaceholder": "Enter gene name...",
+      "expressionRange": "Expression Range",
+      "min": "Min value",
+      "max": "Max value",
+      "apply": "Apply Filter"
+    },
+    "tabs": {
+      "network": "Coexpression Network",
+      "spatial": "Spatial Distribution",
+      "heatmap": "Expression Heatmap"
+    },
+    "legend": {
+      "low": "Low Expression",
+      "medium": "Medium Expression",
+      "high": "High Expression"
+    },
+    "tooltip": {
+      "expression": "Expression",
+      "weight": "Weight"
+    },
+    "datasets": {
+      "sample1": "Mouse Brain Cortex (Sample)",
+      "sample2": "Human Heart Tissue",
+      "sample3": "Zebrafish Embryo"
+    },
+    "layouts": {
+      "force": "Force-Directed Layout",
+      "circular": "Circular Layout",
+      "grid": "Grid Layout"
+    },
+    "messages": {
+      "datasetChanged": "Dataset changed",
+      "analysisStarted": "Coexpression analysis started",
+      "filterApplied": "Filter applied",
+      "sampleLoaded": "Sample data loaded successfully",
+      "exported": "Image exported successfully"
+    }
+  },
+  "spatial": {
+    "visualizationMode": "Visualization Mode",
+    "scatterPlot": "Scatter Plot",
+    "heatmap": "Heatmap",
+    "geneExpression": "Gene Expression Visualization",
+    "selectGene": "Select Gene",
+    "geneSearchPlaceholder": "Enter gene name...",
+    "noGenesFound": "No matching genes found",
+    "expressionRange": "Expression Range",
+    "grouping": {
+      "title": "Grouping",
+      "attribute": "Group By Attribute",
+      "selectPlaceholder": "Select grouping attribute"
+    },
+    "visualizationParams": "Visualization Parameters",
+    "spotSize": "Spot Size",
+    "spotOpacity": "Spot Opacity",
+    "imageOpacity": "Slice Opacity",
+    "heatmapResolution": "Heatmap Resolution",
+    "colorScheme": "Color Scheme",
+    "redBlue": "Red-Blue Gradient",
+    "displayOptions": "Display Options",
+    "showSpots": "Show Spots",
+    "showStatistics": "Show Statistical Analysis",
+    "spatialTranscriptomics": "Spatial Transcriptomics Visualization",
+    "currentGene": "Current Gene",
+    "loadingData": "Loading data...",
+    "missingFileId": "File ID missing",
+    "sliceImage": "Slice Image",
+    "expression": "Expression",
+    "position": "Position",
+    "expressionValue": "Expression Value",
+    "statisticalAnalysis": "Statistical Analysis",
+    "expressionDistribution": "Expression Distribution",
+    "expressionByCluster": "Expression by Cluster",
+    "clusterDistribution": "Cluster Distribution",
+    "clusterStatistics": "Cluster Statistics"
+  },
+  "spatialTranscriptomics": {
+    "title": "Spatial Transcriptomics Data Analysis Platform",
+    "subtitle": "Clustering and visualization tool for spatial transcriptomics data",
+    "loadSample": "Load Sample Data",
+    "export": "Export Image",
+    "dataSlice": "Data Slice",
+    "sliceSelection": "Slice Selection:",
+    "displayMode": "Display Mode:",
+    "visualizationParams": "Visualization Parameters",
+    "spotSize": "Spot Size:",
+    "opacity": "Opacity:",
+    "visualizationType": "Visualization Type",
+    "geneFeatureSelection": "Gene/Feature Selection",
+    "searchGene": "Search Gene:",
+    "geneSearchPlaceholder": "Enter gene name...",
+    "adjustParamsHint": "Use the left control panel to adjust parameters",
+    "coordinate": "Coordinate",
+    "topGenes": "Top Genes",
+    "spots": "Spots",
+    "genes": "Genes",
+    "clusters": "Clusters",
+    "cluster": "Cluster",
+    "slice1": "Slice 1",
+    "slice2": "Slice 2",
+    "slice3": "Slice 3",
+    "spatialDistribution": "Spatial Distribution",
+    "violinPlot": "Violin Plot",
+    "spatialVisualization": "Spatial Transcriptomics Visualization",
+    "algorithm": {
+      "title": "Clustering Algorithm",
+      "method": "Algorithm Selection",
+      "clusterCount": "Cluster Count",
+      "resolution": "Resolution",
+      "runClustering": "Run Clustering Analysis"
+    },
+    "visualization": {
+      "title": "Visualization Parameters",
+      "colorScheme": "Color Scheme",
+      "pointSize": "Point Size",
+      "opacity": "Opacity",
+      "showLabels": "Show Labels",
+      "showOutlines": "Show Outlines"
+    },
+    "filter": {
+      "title": "Gene Expression Filter",
+      "searchGene": "Search Gene",
+      "searchPlaceholder": "Enter gene name...",
+      "selectedGenes": "Selected Genes",
+      "noGenesSelected": "No genes selected"
+    },
+    "tabs": {
+      "spatial": "Spatial Distribution",
+      "network": "Cluster Network",
+      "heatmap": "Expression Heatmap",
+      "dendrogram": "Dendrogram",
+      "umap": "Dimensionality Reduction"
+    },
+    "heatmap": {
+      "expression": "Expression"
+    },
+    "sliceImage": "Slice Image",
+    "expression": "Expression",
+    "position": "Position",
+    "expressionValue": "Expression Value",
+    "totalSpots": "({count} spots total)",
+    "sameClusterSpots": "Same Cluster Spots",
+    "showingFirst10": "Showing first 10...",
+    "stats": {
+      "title": "Statistics",
+      "totalCells": "Total Cells",
+      "clusterCount": "Cluster Count",
+      "silhouetteScore": "Silhouette Score",
+      "daviesBouldin": "Davies-Bouldin Index"
+    },
+    "tooltip": {
+      "cell": "Cell",
+      "cluster": "Cluster",
+      "cells": "Cell Count",
+      "similarity": "Similarity"
+    },
+    "messages": {
+      "sampleLoaded": "Sample data loaded successfully",
+      "exported": "Image exported successfully",
+      "algorithmChanged": "Algorithm changed",
+      "clusteringCompleted": "Clustering analysis completed"
+    }
+  },
+  "dge": {
+    "title": "Differential Gene Expression Analysis",
+    "subtitle": "Differential Gene Expression Analysis",
+    "log2fcThreshold": "log2FC Threshold",
+    "fdrThreshold": "FDR Threshold",
+    "topN": "Top N",
+    "showThresholdLines": "Show Threshold Lines",
+    "showGeneLabels": "Show Gene Labels",
+    "totalGenes": "Total Genes",
+    "significantGenes": "Significant Genes",
+    "upregulated": "Upregulated",
+    "downregulated": "Downregulated",
+    "loading": "Loading...",
+    "refreshData": "Refresh Data",
+    "loadingData": "Loading data...",
+    "retry": "Retry",
+    "noData": "No data",
+    "missingFileId": "File ID missing",
+    "loadFailed": "Data loading failed",
+    "tabs": {
+      "volcano": "Volcano Plot",
+      "topGenes": "Top Genes",
+      "heatmap": "Heatmap"
+    },
+    "table": {
+      "gene": "Gene",
+      "group": "Group",
+      "log2fc": "log2FC",
+      "pvalue": "p-value",
+      "fdr": "FDR"
+    },
+    "legend": {
+      "upregulated": "Upregulated",
+      "downregulated": "Downregulated",
+      "notSignificant": "Not Significant"
+    }
+  },
+  "cellComm": {
+    "title": "Cell Communication",
+    "subtitle": "Ligand-Receptor Interaction Visualization",
+    "visualizationTitle": "Cell Communication Visualization",
+    "visualizationSubtitle": "Based on ligand-receptor interaction scores",
+    "filter": "Filter",
+    "minScore": "Min Score",
+    "minNormScore": "Min Normalized Score",
+    "senderCells": "Sender Cells",
+    "receiverCells": "Receiver Cells",
+    "ligandReceptorContains": "Ligand/Receptor Contains",
+    "ligandReceptorPlaceholder": "APOE / LRP2...",
+    "loading": "Loading...",
+    "reload": "Reload",
+    "reset": "Reset",
+    "interactions": "Interactions",
+    "uniqueLRPairs": "Unique LR Pairs",
+    "noData": "No data",
+    "missingFileId": "File ID missing",
+    "loadFailed": "Data loading failed",
+    "tabs": {
+      "network": "Network",
+      "heatmap": "Heatmap",
+      "distribution": "Distribution",
+      "table": "Table"
+    },
+    "networkTitle": "Communication Network",
+    "networkHint": "Nodes: cells; Edges: ligand-receptor interactions, width ~ normalized score",
+    "heatmapTitle": "Sender × Receiver Heatmap",
+    "heatmapHint": "Color represents cumulative score",
+    "distributionTitle": "Score Distribution",
+    "distributionHint": "score / normalized_score histogram",
+    "tableTitle": "Detail Table",
+    "tableHint": "Sorted by score",
+    "score": "score",
+    "chordChart": "Communication Chord",
+    "frequency": "Frequency",
+    "unknown": "Unknown",
+    "table": {
+      "sender": "Sender",
+      "receiver": "Receiver",
+      "ligand": "Ligand",
+      "receptor": "Receptor",
+      "distance": "Distance",
+      "score": "Score",
+      "normScore": "Norm Score"
+    }
+  },
+  "agentMessage": {
+    "extra": {
+      "textContent": "Text Content",
+      "data": "Data",
+      "code": "Code",
+      "copyJson": "Copy JSON",
+      "copyCode": "Copy Code",
+      "relatedFiles": "Related Files",
+      "file": "File",
+      "download": "Download",
+      "downloadFile": "Download File",
+      "downloading": "Downloading...",
+      "executionDetails": "Execution Details",
+      "serviceInfo": "Service Information",
+      "service": "Service",
+      "serviceId": "Service ID",
+      "executionId": "Execution ID",
+      "duration": "Duration",
+      "startTime": "Start Time",
+      "completionTime": "Completion Time",
+      "description": "Description",
+      "inputFiles": "Input Files",
+      "outputFiles": "Output Files",
+      "fileDownloadFailed": "File download failed",
+      "unknownError": "Unknown error",
+      "copyFailed": "Copy failed, please copy manually",
+      "seconds": "seconds",
+      "minutes": "minutes",
+      "literatureHeader": "Related Literature",
+      "doiLabel": "DOI",
+      "link": "Link"
+    }
+  },
+  "auth": {
+    "tokenDialog": {
+      "title": "Token Authentication",
+      "hasToken": "I have an existing Token",
+      "createToken": "Create a new Token",
+      "inputPlaceholder": "Please enter your Token",
+      "newTokenLabel": "New Token",
+      "copyButton": "Copy",
+      "copied": "Copied",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "warning": "Please keep your Token safe. It cannot be recovered if lost",
+      "error": {
+        "invalidToken": "Invalid Token, please check and try again",
+        "networkError": "Network error, please try again later",
+        "createFailed": "Failed to create, please try again",
+        "copyFailed": "Copy failed, please copy manually"
+      }
+    },
+    "cookieDialog": {
+      "title": "Cookie Authentication",
+      "description": "Please confirm the Cookie authentication",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "accept": "Accept"
+    }
+  }
+}

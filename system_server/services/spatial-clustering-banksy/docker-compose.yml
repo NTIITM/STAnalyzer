@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  banksy:
+    image: banksy-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: banksy
+    ports:
+      - "42592:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+    volumes:
+      - ./outputs:/app/outputs
+      - .:/app
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge
+

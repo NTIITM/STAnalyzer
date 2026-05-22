@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  spatial-clustering-graphst:
+    image: spatial-clustering-graphst:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spatial-clustering-graphst
+    # Use NVIDIA runtime for GPU support (required for non-Swarm mode)
+    runtime: nvidia
+    ports:
+      # Container service runs on port 8080, exposed as 46725, consistent with service_config.json
+      - "46725:8080"
+    # deploy section only works in Docker Swarm mode
+    # For regular docker-compose, use runtime: nvidia above
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+      # GPU visibility: use all GPUs by default, or specify specific GPU IDs (e.g., "0,1,2")
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./outputs:/app/outputs
+      - /home/common/hwluo/project/Data:/app/data:ro
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge
+
+

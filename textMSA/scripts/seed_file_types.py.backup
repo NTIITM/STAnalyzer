@@ -1,0 +1,160 @@
+#!/usr/bin/env python
+"""
+Seed default file types into MongoDB.
+
+Usage:
+    poetry run python scripts/seed_file_types.py
+    poetry run python scripts/seed_file_types.py --dry-run
+"""
+from __future__ import annotations
+
+import argparse
+import logging
+import sys
+from pathlib import Path
+from typing import Dict, List
+
+# Ensure project root is on sys.path when executed via `python scripts/...`
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from textmsa.services.data.user_data_manager_mongodb import UserDataManagerMongoDB
+
+logger = logging.getLogger("textmsa.seed_file_types")
+
+# 默认类型列表，来源于 docs/file-type-plan.md
+DEFAULT_FILE_TYPES: List[Dict[str, object]] = [
+    {
+        "file_type_id": "spatial_rna_seq_data",
+        "name": "spatial_rna_seq_data",
+        "display_name": "空间转录组原始数据",
+        "description": "包含空间转录组计数矩阵、spot/cell 坐标与 HE 染色图等原始数据",
+        "category": "spatial_transcriptomics",
+        "extensions": [".h5ad", ".h5", ".loom"],
+    },
+    {
+        "file_type_id": "clustered_spatial_rna_seq_data",
+        "name": "clustered_spatial_rna_seq_data",
+        "display_name": "空间转录组聚类结果",
+        "description": "包含聚类标签、降维坐标与表达矩阵的空间结果",
+        "category": "spatial_transcriptomics",
+        "extensions": [".h5ad"],
+    },
+    {
+        "file_type_id": "gwas_genotype_raw",
+        "name": "gwas_genotype_raw",
+        "display_name": "GWAS 原始基因型",
+        "description": "PLINK/VCF/BCF 等格式的 GWAS 原始基因型文件",
+        "category": "genomics",
+        "extensions": [".raw", ".vcf", ".bcf"],
+    },
+    {
+        "file_type_id": "csv",
+        "name": "csv",
+        "display_name": "CSV 表格",
+        "description": "逗号分隔的表格数据",
+        "category": "generic",
+        "extensions": [".csv"],
+    },
+    {
+        "file_type_id": "tsv",
+        "name": "tsv",
+        "display_name": "TSV 表格",
+        "description": "制表符分隔的表格数据",
+        "category": "generic",
+        "extensions": [".tsv", ".txt"],
+    },
+    {
+        "file_type_id": "png",
+        "name": "png",
+        "display_name": "PNG 图像",
+        "description": "PNG 位图图像",
+        "category": "image",
+        "extensions": [".png"],
+    },
+    {
+        "file_type_id": "jpg",
+        "name": "jpg",
+        "display_name": "JPEG 图像",
+        "description": "JPEG/JPG 位图图像",
+        "category": "image",
+        "extensions": [".jpg", ".jpeg"],
+    },
+    {
+        "file_type_id": "pdf",
+        "name": "pdf",
+        "display_name": "PDF 文档",
+        "description": "便携式文档格式",
+        "category": "document",
+        "extensions": [".pdf"],
+    },
+    {
+        "file_type_id": "unknown",
+        "name": "unknown",
+        "display_name": "未知文件类型",
+        "description": "用于历史数据迁移或无法识别的文件",
+        "category": "generic",
+        "extensions": [".unknown"],
+    },
+]
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Seed default file types into MongoDB.")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show which records would be created without writing to MongoDB.",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable debug logging.",
+    )
+    return parser.parse_args()
+
+
+def configure_logging(verbose: bool) -> None:
+    level = logging.DEBUG if verbose else logging.INFO
+    logging.basicConfig(level=level, format="[%(levelname)s] %(message)s")
+
+
+def ensure_default_types(manager: UserDataManagerMongoDB, dry_run: bool = False) -> None:
+    created, skipped = [], []
+    for payload in DEFAULT_FILE_TYPES:
+        name = payload["name"]
+        existing = manager.get_file_type_by_name(name)
+        if existing:
+            skipped.append(name)
+            logger.debug("File type '%s' already exists (id=%s)", name, existing.get("file_type_id"))
+            continue
+        if dry_run:
+            created.append(name)
+            logger.info("[DRY-RUN] would create file type '%s'", name)
+            continue
+        created_doc = manager.create_file_type(payload)
+        created.append(name)
+        logger.info(
+            "Created file type '%s' (id=%s)",
+            name,
+            created_doc.get("file_type_id"),
+        )
+    logger.info("Seed summary: created=%d, skipped=%d", len(created), len(skipped))
+    if skipped:
+        logger.info("Skipped names: %s", ", ".join(skipped))
+    if dry_run and created:
+        logger.info("Dry-run pending creations: %s", ", ".join(created))
+
+
+def main() -> None:
+    args = parse_args()
+    configure_logging(args.verbose)
+    manager = UserDataManagerMongoDB()
+    ensure_default_types(manager, dry_run=args.dry_run)
+
+
+if __name__ == "__main__":
+    main()
+
+

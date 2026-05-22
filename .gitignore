@@ -1,0 +1,51 @@
+# Global
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+dist/
+
+# Logs and runtime outputs
+*.log
+logs/
+outputs/
+runtime/
+test_output/
+test_outputs/
+/data/
+/outputs/
+system_server/data/
+system_server/outputs/
+textMSA/runtime/
+textMSA/data/
+textMSA/uploads/
+textMSA/outputs/
+
+# Local env/config
+.env
+.env.*
+!.env.example
+*.pid
+
+# textMSA local config
+textMSA/textmsa/config/config.json
+
+# OS / misc
+coverage/

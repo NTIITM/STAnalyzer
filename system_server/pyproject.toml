@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "system-server"
+version = "1.0.0"
+description = "系统服务管理和 API 服务器"
+requires-python = ">=3.8"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.24.0",
+    "python-dotenv>=1.0.0",
+    "psutil>=5.9.0",
+]
+

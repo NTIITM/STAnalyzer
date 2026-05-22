@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  spatial-transcriptomics-preprocessing:
+    image: spatial-transcriptomics-preprocessing:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spatial-transcriptomics-preprocessing
+    ports:
+      - "47795:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+    volumes:
+      - ./outputs:/app/outputs
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge

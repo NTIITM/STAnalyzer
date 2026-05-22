@@ -1,0 +1,106 @@
+{
+  "service_id": "spatial-pseudotime-spatrack",
+  "name": "Spatial Pseudotime (SpaTrack) Service",
+  "description": "Infer pseudotime trajectories on spatial transcriptomics data using SpaTrack (Optimal Transport theory). Combines gene expression and spatial information to reconstruct cell dynamics. Features optimized visualizations (plasma colormap, hexbin spatial plots, violin plots) and automatic biological logic evaluation to assess trajectory quality. Based on the tutorial: https://cloud.tencent.com/developer/article/2518546",
+  "version": "1.1.0",
+  "baseurl": "http://localhost:58579",
+  "port": 58579,
+  "service_suffix": "/api/spatrack-pseudotime",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "cluster_key": "leiden",
+    "n_neigh_pos": 50,
+    "entropy_method": "auto",
+    "start_cluster": null
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Input file type (typically h5ad; should contain spatial coordinates in obsm['spatial'] or obsm['X_spatial']).",
+      "required": false
+    },
+    "cluster_key": {
+      "type": "string",
+      "default_value": "leiden",
+      "description": "obs column used as cluster / cell type for trajectory start identification. If provided, uses entropy-based method to identify the starting cluster.",
+      "required": false
+    },
+    "n_neigh_pos": {
+      "type": "discrete",
+      "default_value": 50,
+      "min_value": 10,
+      "max_value": 200,
+      "description": "Number of spatial neighbors to consider when computing velocity vector field. Controls the smoothness of the velocity field.",
+      "required": false
+    },
+    "entropy_method": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "shannon",
+        "renyi"
+      ],
+      "description": "Method for computing entropy to identify trajectory start cluster. 'auto' uses default method, 'shannon' uses Shannon entropy, 'renyi' uses Renyi entropy.",
+      "required": false
+    },
+    "start_cluster": {
+      "type": "string",
+      "default_value": null,
+      "description": "Manually specify the starting cluster name. If null, automatically selects the cluster with highest entropy (when cluster_key is provided) or uses the first cell.",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "clustered_spatial_rna_seq_data"
+      ],
+      "description": "Spatial transcriptomics data (h5ad) with expression matrix and spatial coordinates. Must contain spatial coordinates in adata.obsm['spatial'] or adata.obsm['X_spatial']. Typically the output of GraphST spatial clustering service or a similar AnnData object."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs SpaTrack-based pseudotime trajectories on spatial transcriptomics data, including an AnnData object with pseudotime, optimized spatial pseudotime plots (hexbin visualization with plasma colormap), streamplots (velocity vector field), enhanced pseudotime distribution plots (histogram + violin plots), and a comprehensive textual report with biological logic evaluation.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "spatial_pseudotime_spatrack.h5ad",
+        "description": "AnnData object (h5ad format) containing spatial transcriptomics data with SpaTrack pseudotime results. 'obs' includes 'spatrack_pseudotime'; 'obsm' keeps spatial coordinates; 'uns' may contain velocity field (E_grid, V_grid) if computed.",
+        "file_type_id": "trajectory_spatial_data"
+      },
+      {
+        "type": "file",
+        "filename": "spatial_pseudotime.png",
+        "description": "Optimized spatial pseudotime plot (PNG, 300 DPI) using hexbin visualization with plasma colormap (purple to yellow gradient) to show pseudotime progression. Includes statistical annotations (range, mean) and improved layout for better visualization of trajectory patterns.",
+        "file_type_id": "spatial_plot_png"
+      },
+      {
+        "type": "file",
+        "filename": "streamplot.png",
+        "description": "Streamplot (PNG, 300 DPI) showing velocity vector field overlaid on cell type/cluster distribution. Only generated if velocity field is successfully computed.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "pseudotime_distribution.png",
+        "description": "Enhanced pseudotime distribution plot (PNG, 300 DPI) showing histogram with plasma colormap (mean/median reference lines) and violin plots with boxplots grouped by cluster (sorted by median pseudotime). Provides comprehensive view of pseudotime distribution across clusters.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "pseudotime_report.txt",
+        "description": "Comprehensive trajectory report summarizing input data, SpaTrack parameters, start cluster identification, pseudotime statistics, and biological logic evaluation. The evaluation assesses pseudotime range, spatial continuity, cluster consistency, and trajectory directionality to provide quality assessment (excellent/good/warning/problem) with strengths, warnings, and recommendations.",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

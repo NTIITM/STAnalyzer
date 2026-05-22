@@ -1,0 +1,200 @@
+{
+  "service_id": "scdgrn-service",
+  "name": "scDGRN Gene Regulatory Network Discovery",
+  "description": "Dynamic gene regulatory network discovery from time-series single-cell transcriptomics data using scDGRN (Single-cell Dynamic Gene Regulatory Network) with GTransformer model. Supports h5ad format input with time information in obs metadata or layers. Supports automatic pseudo-time computation (DPT or PCA-based) and multiple segmentation methods: KMeans clustering, equal-width binning, equal-frequency binning, density-based binning, and Gaussian Mixture Model to segment cells into time points. Features comprehensive parameter validation and detailed error messages for better user experience.",
+  "version": "1.1.0",
+  "baseurl": "http://localhost:45959",
+  "port": 45959,
+  "service_suffix": "/api/grn-discovery",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "epochs": 5,
+    "batch_size": 512,
+    "learning_rate": 0.003,
+    "top_percent": 0.2,
+    "time_column": "time",
+    "pseudotime_method": "none",
+    "pseudotime_column": "pseudotime",
+    "max_clusters": 6,
+    "min_clusters": 2,
+    "n_bins": 6,
+    "bandwidth": null,
+    "compute_pseudotime": true,
+    "pseudotime_compute_method": "dpt",
+    "n_neighbors": 15,
+    "n_pcs": 40,
+    "time_order": null,
+    "species": "human"
+  },
+  "parameter_schema": {
+    "epochs": {
+      "type": "discrete",
+      "default_value": 5,
+      "min_value": 1,
+      "max_value": 100,
+      "description": "Number of training epochs",
+      "required": false
+    },
+    "batch_size": {
+      "type": "discrete",
+      "default_value": 512,
+      "min_value": 32,
+      "max_value": 2048,
+      "description": "Batch size for training",
+      "required": false
+    },
+    "learning_rate": {
+      "type": "continuous",
+      "default_value": 0.003,
+      "min_value": 0.0001,
+      "max_value": 0.1,
+      "description": "Learning rate for model training",
+      "required": false
+    },
+    "top_percent": {
+      "type": "continuous",
+      "default_value": 0.2,
+      "min_value": 0.01,
+      "max_value": 1.0,
+      "description": "Top percentage threshold for selecting high-scoring regulatory edges",
+      "required": false
+    },
+    "time_column": {
+      "type": "string",
+      "default_value": "time",
+      "description": "Column name in obs metadata containing time point information",
+      "required": false
+    },
+    "pseudotime_method": {
+      "type": "enum",
+      "default_value": "none",
+      "enum_values": [
+        "none",
+        "kmeans",
+        "equal_width",
+        "equal_frequency",
+        "density",
+        "gmm"
+      ],
+      "description": "Pseudo-time calculation method: 'none' to use existing time column, 'kmeans' for KMeans clustering with automatic cluster selection, 'equal_width' for equal-width binning, 'equal_frequency' for quantile-based binning, 'density' for density-based binning using KDE, 'gmm' for Gaussian Mixture Model clustering",
+      "required": false
+    },
+    "pseudotime_column": {
+      "type": "string",
+      "default_value": "pseudotime",
+      "description": "Column name in obs containing pseudo-time values (used when pseudotime_method is not 'none')",
+      "required": false
+    },
+    "max_clusters": {
+      "type": "discrete",
+      "default_value": 6,
+      "min_value": 2,
+      "max_value": 20,
+      "description": "Maximum number of clusters/components (for kmeans and gmm methods)",
+      "required": false
+    },
+    "min_clusters": {
+      "type": "discrete",
+      "default_value": 2,
+      "min_value": 2,
+      "max_value": 10,
+      "description": "Minimum number of clusters/components (for kmeans and gmm methods)",
+      "required": false
+    },
+    "n_bins": {
+      "type": "discrete",
+      "default_value": 6,
+      "min_value": 2,
+      "max_value": 20,
+      "description": "Number of bins/time points (for equal_width, equal_frequency, and density methods)",
+      "required": false
+    },
+    "bandwidth": {
+      "type": "continuous",
+      "default_value": null,
+      "min_value": 0.001,
+      "max_value": 10.0,
+      "description": "Bandwidth for KDE in density method (null/None for automatic selection)",
+      "required": false
+    },
+    "compute_pseudotime": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "If True, automatically compute pseudo-time from data if not present in obs metadata",
+      "required": false
+    },
+    "pseudotime_compute_method": {
+      "type": "enum",
+      "default_value": "dpt",
+      "enum_values": [
+        "dpt",
+        "pca_trajectory"
+      ],
+      "description": "Method to compute pseudo-time if not present: 'dpt' for Diffusion Pseudotime (DPT) using scanpy, 'pca_trajectory' for PCA-based trajectory inference",
+      "required": false
+    },
+    "n_neighbors": {
+      "type": "discrete",
+      "default_value": 15,
+      "min_value": 5,
+      "max_value": 100,
+      "description": "Number of neighbors for DPT method (used when pseudotime_compute_method is 'dpt')",
+      "required": false
+    },
+    "n_pcs": {
+      "type": "discrete",
+      "default_value": 40,
+      "min_value": 10,
+      "max_value": 200,
+      "description": "Number of principal components for DPT/PCA methods",
+      "required": false
+    },
+    "time_order": {
+      "type": "string",
+      "default_value": null,
+      "description": "Optional comma-separated string specifying the order of time points (e.g., 'E10.5,E12.5,E14.5' or 'Layer_1,Layer_2,Layer_3'). If None or empty, uses default sorting based on the time column values. All values must exist in the specified time_column.",
+      "required": false
+    },
+    "species": {
+      "type": "enum",
+      "default_value": "human",
+      "enum_values": [
+        "human",
+        "mouse"
+      ],
+      "description": "Species selection: 'human' to use human training network (network_human.csv), 'mouse' to use mouse training network (network_mouse.csv). If not specified, uses random training data.",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "single_cell_rna_seq_data"
+      ],
+      "description": "Time-series single-cell RNA-seq data in h5ad format. Time information should be in obs metadata column or in layers."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs dynamic gene regulatory network results, statistics, and network visualization graphs.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "grn_results.csv",
+        "description": "Merged GRN results for all time points with columns: TF, TF_name, Target, Target_name, score, time_point",
+        "file_type_id": "grn_network_csv"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Statistical analysis report with parameters, data statistics, and results summary",
+        "file_type_id": "generic_text"
+      },
+      {
+        "type": "file",
+        "filename": "network_graph.png",
+        "description": "Combined network visualization graph showing gene regulatory interactions across all time points in subplot layout. Node size represents connectivity, color represents interaction score (light orange/yellow to dark red), and green outline indicates high-importance nodes.",
+        "file_type_id": "generic_png"
+      }
+    ]
+  }
+}

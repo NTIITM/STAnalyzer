@@ -1,0 +1,75 @@
+{
+  "service_id": "spatialde",
+  "name": "SpatialDE Spatial Differential Expression Analysis Service",
+  "description": "Detect spatially variable genes using SpatialDE, a Gaussian process-based method for identifying genes with significant spatial variation in expression. Produces volcano plots and spatial expression visualizations for top significant genes.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:51353",
+  "port": 51353,
+  "service_suffix": "/api/analyze",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "min_counts": 1,
+    "min_cells": 10
+  },
+  "parameter_schema": {
+    "min_counts": {
+      "type": "discrete",
+      "default_value": 1,
+      "min_value": 0,
+      "max_value": 1000,
+      "description": "Minimum total counts per gene for filtering",
+      "required": false
+    },
+    "min_cells": {
+      "type": "discrete",
+      "default_value": 10,
+      "min_value": 1,
+      "max_value": 1000,
+      "description": "Minimum number of cells expressing a gene for filtering",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "preprocessed_spatial_data"
+      ],
+      "description": "Preprocessed spatial transcriptomics data (h5ad) with expression matrix and spatial coordinates"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs spatial differential expression analysis results, statistics report, and visualization plots.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "spatial_de_results.csv",
+        "description": "CSV file containing SpatialDE analysis results with columns: g (gene name), l (optimal lengthscale), LLR (log likelihood ratio), pval (p-value), qval (FDR-corrected p-value), FSV (fraction spatial variance), BIC (Bayesian Information Criterion)",
+        "file_type_id": "spatialde_results_csv"
+      },
+      {
+        "type": "file",
+        "filename": "spatial_de_data.h5ad",
+        "description": "AnnData object (h5ad format) containing processed data with SpatialDE results stored in uns['spatialde_results'] and spatialde_analyzed marker in var",
+        "file_type_id": "preprocessed_spatial_data"
+      },
+      {
+        "type": "file",
+        "filename": "volcano_plot.png",
+        "description": "Volcano plot (PNG, 300 DPI) showing Fraction Spatial Variance (FSV) vs -log10(q-value), highlighting significant genes",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "top_genes_spatial.png",
+        "description": "Spatial expression plots (PNG, 300 DPI) for top 5 most significant spatially variable genes",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing detailed statistics, analysis parameters, summary of results, and top significant genes",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

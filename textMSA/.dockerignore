@@ -1,0 +1,76 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# 测试和临时文件
+test.py
+*.tmp
+*.bak
+*.backup
+
+# 文档
+docs/
+*.md
+!README.md
+
+# 脚本（可选，如果需要可以保留）
+scripts/
+
+# 系统服务目录（通常不需要打包）
+system_server/
+
+# 数据目录（应该通过卷挂载）
+data/
+uploads/
+outputs/
+gen_code_workdir/
+
+# 配置文件（应该通过卷挂载或环境变量注入）
+# 注意：config.json 需要挂载，所以这里不忽略
+# textmsa/config/config.json
+
+# 其他
+home/
+.cache/
+

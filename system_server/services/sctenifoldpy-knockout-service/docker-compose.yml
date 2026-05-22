@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  sctenifoldpy-knockout-service:
+    image: sctenifoldpy-knockout-service:latest
+    build: .
+    ports:
+      - "40337:8080"
+    environment:
+      - OUTPUT_DIR=/app/outputs
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./outputs:/app/outputs
+    restart: unless-stopped
+

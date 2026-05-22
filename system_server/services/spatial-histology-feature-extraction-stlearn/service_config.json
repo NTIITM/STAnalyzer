@@ -1,0 +1,84 @@
+{
+  "service_id": "spatial-histology-feature-extraction-stlearn",
+  "name": "Histology Feature Extraction (stLearn)",
+  "description": "Extract deep-learning morphological features from Visium H&E histological images using a pre-trained ResNet50 model, and normalize gene expression spatially (SME normalization) for multimodal data fusion.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:53903",
+  "port": 53903,
+  "service_suffix": "/api/histology-feature-extraction",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "use_gpu": true,
+    "cnn_base": "resnet50",
+    "n_components": 50,
+    "physical_distance": 1.0
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": ["auto", "h5ad"],
+      "description": "Input file type",
+      "required": false
+    },
+    "use_gpu": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Use GPU for faster deep learning extraction if available.",
+      "required": false
+    },
+    "cnn_base": {
+      "type": "enum",
+      "default_value": "resnet50",
+      "enum_values": ["resnet50", "vgg16"],
+      "description": "Pre-trained Convolutional Neural Network used for morphological feature extraction.",
+      "required": false
+    },
+    "n_components": {
+      "type": "discrete",
+      "default_value": 50,
+      "min_value": 10,
+      "max_value": 200,
+      "description": "Number of Principal Components to compress the image features.",
+      "required": false
+    },
+    "physical_distance": {
+      "type": "continuous",
+      "default_value": 1.0,
+      "min_value": 0.1,
+      "max_value": 10.0,
+      "description": "Scale distance factor for constructing the morphological-spatial network.",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": ["spatial_rna_seq_data", "annotated_spatial_rna_seq_data", "clustered_spatial_rna_seq_data"],
+      "description": "10x Visium formatted spatial transcriptomics data (h5ad) containing H&E images in unstructured data (uns)."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs the multimodal fused h5ad containing spatial morphological normalized gene expression (SME).",
+    "items": [
+      {
+        "type": "file",
+        "filename": "sme_normalized_data.h5ad",
+        "description": "Updated AnnData object (h5ad format) containing deep learning extracted features in obsm['X_morphology'] and SME normalized gene expression data in the main X matrix or specific layers.",
+        "file_type_id": "preprocessed_spatial_data"
+      },
+      {
+        "type": "file",
+        "filename": "morphology_PCA_plot.png",
+        "description": "Spatial plot showing the morphological dimension reduction capturing tissue architectures purely from images.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report detailing the neural network configurations, time elapsed, and model metadata.",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  spatial-deconvolution-cell2location-service:
+    image: spatial-deconvolution-cell2location-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spatial-deconvolution-cell2location-service
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+    volumes:
+      - ./outputs:/app/outputs
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge

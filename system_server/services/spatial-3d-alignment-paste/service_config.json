@@ -1,0 +1,65 @@
+{
+  "service_id": "paste",
+  "name": "PASTE 3D Spatial Alignment",
+  "description": "Align multiple spatial transcriptomics slices into a 3D configuration using PASTE (Probabilistic Alignment of Spatial Transcriptomics Experiments).",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:51805",
+  "port": 51805,
+  "service_suffix": "/api/detect",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "alpha": 0.1,
+    "use_highly_variable": true
+  },
+  "parameter_schema": {
+    "alpha": {
+      "type": "continuous",
+      "default_value": 0.1,
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "description": "Alpha parameter for PASTE alignment, trading off expression similarity and spatial distance",
+      "required": false
+    },
+    "use_highly_variable": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Whether to use only highly variable genes for alignment",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "slice1": {
+      "file_type_ids": ["preprocessed_spatial_data"],
+      "description": "First spatial transcriptomics slice (h5ad)",
+      "param_name": "slice1"
+    },
+    "slice2": {
+      "file_type_ids": ["preprocessed_spatial_data"],
+      "description": "Second spatial transcriptomics slice (h5ad)",
+      "param_name": "slice2"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs aligned spatial slice coordinates and transformation mapping.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "aligned_data.h5ad",
+        "description": "AnnData object containing aligned spatial coordinates",
+        "file_type_id": "aligned_spatial_rna_seq_data"
+      },
+      {
+        "type": "file",
+        "filename": "alignment_plot.png",
+        "description": "Visualization of the aligned slices",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing alignment statistics and optimal transport mapping costs",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

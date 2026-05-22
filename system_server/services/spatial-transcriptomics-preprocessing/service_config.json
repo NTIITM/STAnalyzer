@@ -1,0 +1,177 @@
+{
+  "service_id": "spatial-transcriptomics-preprocessing",
+  "name": "Spatial Transcriptomics Preprocessing",
+  "description": "Full preprocessing for spatial transcriptomics: load data, perform QC, and normalize. Supports h5ad/10x_h5/csv/tsv, computes QC metrics (genes, UMIs, mitochondrial %), filters low-quality cells/genes, normalizes, selects highly variable genes, and generates detailed reports and plots (QC distributions, scatter, filtering comparison).",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:37699",
+  "port": 37699,
+  "service_suffix": "/api/preprocess",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "min_genes": 1,
+    "min_cells": 1,
+    "max_mito_percent": 100.0,
+    "mito_prefix": "MT-",
+    "normalization_method": "log1p",
+    "target_sum": 10000,
+    "highly_variable_genes": true,
+    "n_top_genes": 3000,
+    "hvg_flavor": "seurat_v3",
+    "scale": true,
+    "scale_zero_center": false,
+    "scale_max_value": 10.0
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "File type: auto (detect), h5ad, 10x_h5, csv, tsv",
+      "required": false
+    },
+    "min_genes": {
+      "type": "discrete",
+      "default_value": 1,
+      "min_value": 1,
+      "max_value": 1000,
+      "description": "Minimum genes per cell; cells below are filtered (default: 1, no filtering)",
+      "required": false
+    },
+    "min_cells": {
+      "type": "discrete",
+      "default_value": 1,
+      "min_value": 1,
+      "max_value": 100,
+      "description": "Minimum cells expressing a gene; genes below are filtered (default: 1, no filtering)",
+      "required": false
+    },
+    "max_mito_percent": {
+      "type": "continuous",
+      "default_value": 100.0,
+      "min_value": 0.0,
+      "max_value": 100.0,
+      "description": "Maximum mitochondrial percentage; cells above are filtered (default: 100.0, no filtering)",
+      "required": false
+    },
+    "mito_prefix": {
+      "type": "string",
+      "default_value": "MT-",
+      "description": "Prefix for mitochondrial genes (e.g., human: MT-, mouse: mt-)",
+      "required": false
+    },
+    "normalization_method": {
+      "type": "enum",
+      "default_value": "log1p",
+      "enum_values": [
+        "log1p",
+        "sqrt",
+        "none"
+      ],
+      "description": "Normalization: log1p (log(x+1)), sqrt, or none",
+      "required": false
+    },
+    "target_sum": {
+      "type": "continuous",
+      "default_value": 10000,
+      "min_value": 1000,
+      "max_value": 100000,
+      "description": "Target sum for per-cell normalization",
+      "required": false
+    },
+    "highly_variable_genes": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Select highly variable genes",
+      "required": false
+    },
+    "n_top_genes": {
+      "type": "discrete",
+      "default_value": 3000,
+      "min_value": 100,
+      "max_value": 5000,
+      "description": "Number of highly variable genes to keep",
+      "required": false
+    },
+    "hvg_flavor": {
+      "type": "enum",
+      "default_value": "seurat_v3",
+      "enum_values": [
+        "seurat",
+        "seurat_v3",
+        "cell_ranger"
+      ],
+      "description": "Method for highly variable genes selection: seurat, seurat_v3, or cell_ranger",
+      "required": false
+    },
+    "scale": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Apply scale normalization (zero-mean unit-variance scaling)",
+      "required": false
+    },
+    "scale_zero_center": {
+      "type": "boolean",
+      "default_value": false,
+      "description": "Zero-center data when scaling",
+      "required": false
+    },
+    "scale_max_value": {
+      "type": "continuous",
+      "default_value": 10.0,
+      "min_value": 0.0,
+      "max_value": 100.0,
+      "description": "Maximum value for clipping after scaling",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "spatial_rna_seq_data"
+      ],
+      "description": "Raw spatial transcriptomics data with expression matrix and spatial coordinates (h5ad/h5/loom, etc.)"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs preprocessed spatial data, detailed preprocessing stats, and plots.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "preprocessed_data.h5ad",
+        "description": "AnnData object (h5ad format) containing preprocessed spatial transcriptomics data. Attributes: 'X' (normalized expression matrix, spots/cells x genes, after library size normalization and log1p/sqrt transformation), 'obs' (spot/cell metadata with QC metrics including 'n_genes_by_counts', 'total_counts', 'pct_counts_mt' (mitochondrial percentage), and filtering flags), 'var' (gene metadata with 'highly_variable' (boolean indicating HVG selection), 'means' (mean expression), 'dispersions' (dispersion values), 'dispersions_norm' (normalized dispersions)), 'obsm' (spatial coordinates in 'spatial' or 'X_spatial' key if available), 'layers' (raw counts in 'counts' layer if preserved), 'uns' (unsupervised annotations including 'log1p' (normalization parameters), 'hvg' (highly variable genes selection parameters and statistics))",
+        "file_type_id": "preprocessed_spatial_data"
+      },
+      {
+        "type": "file",
+        "filename": "qc_violin.png",
+        "description": "QC violin plots (PNG, 300 DPI) for total UMIs, genes, mitochondrial %, with mean/median annotations",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "qc_scatter.png",
+        "description": "QC scatter (PNG, 300 DPI) showing genes vs UMIs colored by mitochondrial %",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "qc_filtering.png",
+        "description": "Filtering comparison (PNG, 300 DPI) showing cell/gene counts before vs after filtering",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing detailed preprocessing statistics including initial data dimensions, quality control statistics (cell/gene filtering, mitochondrial percentage), normalization parameters, highly variable genes selection, and final data dimensions",
+        "file_type_id": "generic_text"
+      }
+    ]
+  }
+}

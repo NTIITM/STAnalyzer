@@ -1,0 +1,107 @@
+{
+  "service_id": "banksy",
+  "name": "BANKSY Spatial Domain Detection Service",
+  "description": "Detect spatial domains using BANKSY (BANKSY: Spatial Clustering with Neighbor-Aware Gene Expression), which combines spatial neighborhood information with gene expression for improved domain identification. Produces UMAP and spatial distribution plots.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:53721",
+  "port": 53721,
+  "service_suffix": "/api/detect",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "n_neighbors": 6,
+    "lambda_adj": 0.2,
+    "resolution": 0.8,
+    "algorithm": "leiden",
+    "random_state": 0,
+    "n_pcs": 30
+  },
+  "parameter_schema": {
+    "n_neighbors": {
+      "type": "discrete",
+      "default_value": 6,
+      "min_value": 2,
+      "max_value": 100,
+      "description": "Number of spatial neighbors for computing neighborhood-weighted expression",
+      "required": false
+    },
+    "lambda_adj": {
+      "type": "continuous",
+      "default_value": 0.2,
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "description": "Neighbor weight parameter (0-1). Higher values give more weight to neighbor expression",
+      "required": false
+    },
+    "resolution": {
+      "type": "continuous",
+      "default_value": 0.8,
+      "min_value": 0.1,
+      "max_value": 5.0,
+      "description": "Clustering resolution (leiden/louvain). Higher values yield more domains",
+      "required": false
+    },
+    "algorithm": {
+      "type": "enum",
+      "default_value": "leiden",
+      "enum_values": [
+        "leiden",
+        "louvain"
+      ],
+      "description": "Clustering algorithm",
+      "required": false
+    },
+    "random_state": {
+      "type": "discrete",
+      "default_value": 0,
+      "min_value": -1,
+      "max_value": 999999,
+      "description": "Random seed (-1 for non-deterministic)",
+      "required": false
+    },
+    "n_pcs": {
+      "type": "discrete",
+      "default_value": 30,
+      "min_value": 10,
+      "max_value": 100,
+      "description": "Number of principal components for dimensionality reduction",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "preprocessed_spatial_data"
+      ],
+      "description": "Preprocessed spatial transcriptomics data (h5ad) with expression matrix and spatial coordinates"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs spatial domain detection results and visualization plots.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "spatial_domain_data.h5ad",
+        "description": "AnnData object (h5ad format) containing spatial domain detection results. Attributes: 'X' (expression matrix), 'obs' (metadata with 'banksy' domain labels), 'var' (gene metadata), 'obsm' (spatial coordinates, UMAP coordinates if computed, BANKSY PCA embeddings), 'layers' (banksy_neighbor: neighborhood-weighted expression), 'uns' (neighbor graph and clustering information)",
+        "file_type_id": "clustered_spatial_rna_seq_data"
+      },
+      {
+        "type": "file",
+        "filename": "domain_umap.png",
+        "description": "UMAP domain plot (PNG, 300 DPI) colored by detected spatial domains; generated when UMAP coordinates are computed",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "domain_spatial.png",
+        "description": "Spatial domain plot (PNG, 300 DPI) showing detected domains on spatial coordinates; generated when spatial coordinates are available",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing service statistics and summary information",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

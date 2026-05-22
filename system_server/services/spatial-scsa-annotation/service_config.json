@@ -1,0 +1,124 @@
+{
+  "service_id": "spatial-scsa-annotation",
+  "name": "Spatial Transcriptomics Cell Type Annotation (SCSA)",
+  "description": "Spatial transcriptomics cell type annotation service based on the SCSA (Single Cell Signature Annotation) method. Uses the pySCSA implementation from omicverse and supports CellMarker and PanglaoDB reference databases. Performs differential expression analysis per cluster, matches marker genes to reference signatures, and outputs an AnnData object with cell_type labels, SCSA Z-scores, and accompanying statistics and visualizations.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:49729",
+  "port": 49729,
+  "service_suffix": "/api/annotate",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "cluster_key": "cluster",
+    "foldchange": 1.5,
+    "pvalue": 0.01,
+    "celltype": "normal",
+    "target": "cellmarker",
+    "tissue": "All",
+    "rank_rep": true
+  },
+  "parameter_schema": {
+    "cluster_key": {
+      "type": "string",
+      "default_value": "cluster",
+      "description": "Column name in obs containing cluster labels. If not found, will try common names automatically.",
+      "required": false
+    },
+    "foldchange": {
+      "type": "continuous",
+      "default_value": 1.5,
+      "min_value": 1.0,
+      "max_value": 10.0,
+      "description": "Fold change threshold for identifying marker genes in differential expression analysis",
+      "required": false
+    },
+    "pvalue": {
+      "type": "continuous",
+      "default_value": 0.01,
+      "min_value": 0.0001,
+      "max_value": 0.1,
+      "description": "P-value threshold for statistical significance in differential expression analysis",
+      "required": false
+    },
+    "celltype": {
+      "type": "enum",
+      "default_value": "normal",
+      "enum_values": [
+        "normal",
+        "cancer"
+      ],
+      "description": "Cell type category: 'normal' for normal cells, 'cancer' for cancer cells",
+      "required": false
+    },
+    "target": {
+      "type": "enum",
+      "default_value": "cellmarker",
+      "enum_values": [
+        "cellmarker",
+        "panglaodb"
+      ],
+      "description": "Annotation database: 'cellmarker' for CellMarker database, 'panglaodb' for PanglaoDB database",
+      "required": false
+    },
+    "tissue": {
+      "type": "string",
+      "default_value": "All",
+      "description": "Tissue type filter. Use 'All' to search across all tissues, or specify a specific tissue name (e.g., 'Brain', 'Liver', 'Kidney')",
+      "required": false
+    },
+    "rank_rep": {
+      "type": "boolean",
+      "default_value": true,
+      "description": "Whether to use rank-based representation for gene expression data",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "clustered_spatial_rna_seq_data"
+      ],
+      "description": "Clustered spatial transcriptomics data in AnnData/h5ad format. Must contain cluster labels in obs (specified by cluster_key parameter) and gene expression matrix. Optional: spatial coordinates in obsm['spatial'] or obsm['X_spatial'], UMAP coordinates in obsm['X_umap']."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs annotated AnnData with cell_type labels, annotation statistics, and visualization plots.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "annotated_data.h5ad",
+        "description": "Annotated AnnData file with cell_type labels added to obs['cell_type'] and SCSA Z-scores in obs['scsa_z_score']. Contains original data plus annotation results.",
+        "file_type_id": "annotated_spatial_rna_seq_data"
+      },
+      {
+        "type": "file",
+        "filename": "scsa_annotation_statistics.csv",
+        "description": "CSV file containing cluster-level annotation results with columns: cluster, assigned_cell_type, z_score, alternative_types",
+        "file_type_id": "generic_csv"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Detailed text report containing data statistics, SCSA parameters, annotation results summary, and per-cluster annotation details",
+        "file_type_id": "generic_text"
+      },
+      {
+        "type": "file",
+        "filename": "annotation_umap.png",
+        "description": "UMAP visualization colored by cell_type (PNG, 300 DPI). Only generated if UMAP coordinates are present in obsm['X_umap'].",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "annotation_spatial.png",
+        "description": "Spatial distribution plot colored by cell_type (PNG, 300 DPI). Only generated if spatial coordinates are present in obsm['spatial'] or obsm['X_spatial'].",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "cell_type_composition.png",
+        "description": "Bar plot showing the number of spots per cell type (PNG, 300 DPI)",
+        "file_type_id": "generic_png"
+      }
+    ]
+  }
+}

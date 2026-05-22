@@ -1,0 +1,115 @@
+{
+  "service_id": "sctenifoldpy-knockout-service",
+  "name": "scTenifoldpy Virtual Gene Knockout",
+  "description": "Virtual gene knockout analysis using scTenifoldpy (scTenifoldKnk) to estimate downstream transcriptional perturbations from single-cell RNA-seq data. Accepts h5ad inputs, performs basic QC, builds manifold-aligned GRNs, and reports perturbation scores for the specified knockout genes.",
+  "version": "0.1.0",
+  "baseurl": "http://localhost:56049",
+  "port": 56049,
+  "service_suffix": "/api/virtual-knockout",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "ko_genes": "TP53",
+    "n_components": 20,
+    "n_iter": 3,
+    "knn": 5,
+    "qc_min_lib_size": 10,
+    "qc_min_percent": 0.001,
+    "max_genes": 3000,
+    "random_seed": 1
+  },
+  "parameter_schema": {
+    "ko_genes": {
+      "type": "string",
+      "default_value": "TP53",
+      "description": "Comma-separated gene symbols to virtually knock out (e.g., 'TP53,EGFR')",
+      "required": true
+    },
+    "n_components": {
+      "type": "discrete",
+      "default_value": 20,
+      "min_value": 5,
+      "max_value": 200,
+      "description": "Number of manifold components used by scTenifoldpy tensor decomposition",
+      "required": false
+    },
+    "n_iter": {
+      "type": "discrete",
+      "default_value": 3,
+      "min_value": 1,
+      "max_value": 20,
+      "description": "Number of alignment iterations",
+      "required": false
+    },
+    "knn": {
+      "type": "discrete",
+      "default_value": 5,
+      "min_value": 2,
+      "max_value": 50,
+      "description": "k-nearest neighbors for manifold construction",
+      "required": false
+    },
+    "qc_min_lib_size": {
+      "type": "discrete",
+      "default_value": 10,
+      "min_value": 1,
+      "max_value": 1000,
+      "description": "Minimum library size used in QC filters",
+      "required": false
+    },
+    "qc_min_percent": {
+      "type": "continuous",
+      "default_value": 0.001,
+      "min_value": 0.0001,
+      "max_value": 0.1,
+      "description": "Minimum percent expression threshold for QC filtering",
+      "required": false
+    },
+    "max_genes": {
+      "type": "discrete",
+      "default_value": 3000,
+      "min_value": 500,
+      "max_value": 20000,
+      "description": "Maximum number of highly variable genes to keep (top variance)",
+      "required": false
+    },
+    "random_seed": {
+      "type": "discrete",
+      "default_value": 1,
+      "min_value": 0,
+      "max_value": 999999,
+      "description": "Random seed passed to scTenifoldpy",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "single_cell_rna_seq_data"
+      ],
+      "description": "Single-cell RNA-seq data in h5ad format. Expression matrix should be counts or normalized values in X."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs virtual knockout perturbation scores, ranked gene changes, top 10 up/down-regulated genes visualization, detailed statistics summary, and run diagnostics.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "knockout_results.csv",
+        "description": "Per-gene perturbation scores produced by scTenifoldpy for the requested knockout genes. Columns include 'Gene', 'Distance', 'boxcox-transformed distance', 'Z' (Z-score), 'FC' (fold change), 'p-value', and 'adjusted p-value'.",
+        "file_type_id": "generic_csv"
+      },
+      {
+        "type": "file",
+        "filename": "top_genes_plot.png",
+        "description": "Horizontal bar chart visualization showing top 10 up-regulated (red bars, positive Z-score) and top 10 down-regulated (blue bars, negative Z-score) genes, excluding the knocked-out genes.",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "summary.txt",
+        "description": "Detailed text summary report containing analysis parameters, dataset information, knocked-out genes, top 10 up/down-regulated genes with statistics, and summary statistics including mean/median Z-scores and significant gene counts.",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

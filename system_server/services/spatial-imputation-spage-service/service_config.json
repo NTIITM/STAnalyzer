@@ -1,0 +1,127 @@
+{
+  "service_id": "spatial-imputation-spage-service",
+  "name": "SpaGE Spatial Imputation Service",
+  "description": "Impute single-cell expression onto spatial transcriptomics using SpaGE / nearest neighbors. Outputs imputed spatial expression, mapping scores, and run metrics.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:32819",
+  "port": 32819,
+  "service_suffix": "/api/impute",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "spatial_file_type": "auto",
+    "single_cell_file_type": "auto",
+    "k_neighbors": 10,
+    "n_pcs": 30,
+    "top_genes": 3000,
+    "seed": 1234
+  },
+  "parameter_schema": {
+    "spatial_file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Spatial transcriptomics file type",
+      "required": true
+    },
+    "single_cell_file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": [
+        "auto",
+        "h5ad",
+        "10x_h5",
+        "csv",
+        "tsv"
+      ],
+      "description": "Single-cell reference file type",
+      "required": true
+    },
+    "k_neighbors": {
+      "type": "discrete",
+      "default_value": 10,
+      "min_value": 1,
+      "max_value": 200,
+      "description": "Neighbors for SpaGE/NN imputation",
+      "required": false
+    },
+    "n_pcs": {
+      "type": "discrete",
+      "default_value": 30,
+      "min_value": 5,
+      "max_value": 200,
+      "description": "PCA/SVD dimensions",
+      "required": false
+    },
+    "top_genes": {
+      "type": "discrete",
+      "default_value": 3000,
+      "min_value": 100,
+      "max_value": 20000,
+      "description": "Number of highly variable/intersection genes to use",
+      "required": false
+    },
+    "seed": {
+      "type": "discrete",
+      "default_value": 1234,
+      "min_value": 0,
+      "max_value": 999999,
+      "description": "Random seed",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "spatial_file": {
+      "file_type_ids": [
+        "preprocessed_spatial_data"
+      ],
+      "description": "Preprocessed spatial transcriptomics data (h5ad); raw spatial_rna_seq_data must be preprocessed first."
+    },
+    "single_cell_file": {
+      "file_type_ids": [
+        "preprocessed_single_cell_data"
+      ],
+      "description": "Preprocessed single-cell reference data (h5ad); raw single-cell data must go through preprocessing first."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs SpaGE/NN imputation results, mapping scores, and run metrics.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "imputed_spatial_data.h5ad",
+        "description": "AnnData object (h5ad format) containing imputed spatial transcriptomics data. Attributes: 'X' (imputed expression matrix, spots/cells x genes, where genes are from single-cell reference), 'obs' (spot/cell metadata matching spatial input with spatial coordinates and annotations), 'var' (gene metadata with gene identifiers from the intersection of spatial and single-cell data), 'obsm' (spatial coordinates preserved from input), 'uns' (unsupervised annotations including imputation parameters, gene intersection information, and mapping statistics)",
+        "file_type_id": "imputed_spatial_data"
+      },
+      {
+        "type": "file",
+        "filename": "mapping_scores.csv",
+        "description": "CSV file containing mapping scores and distances for spatial locations. Columns: 'spot_id' (spatial location identifier), 'nearest_cell_id' (identifier of nearest single-cell reference cell), 'distance' (distance in PCA space or expression space), 'mapping_score' (confidence score for the mapping), 'n_neighbors' (number of neighbors used in imputation)",
+        "file_type_id": "mapping_scores_csv"
+      },
+      {
+        "type": "file",
+        "filename": "imputation_stats.json",
+        "description": "Run statistics (parameters, gene intersections, distance summaries, etc.)",
+        "file_type_id": "qc_summary_json"
+      },
+      {
+        "type": "file",
+        "filename": "imputation_qc.png",
+        "description": "Optional QC/visualization (if generated)",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report containing service statistics and summary information",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}

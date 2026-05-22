@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  single-cell-preprocessing:
+    image: single-cell-preprocessing:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: single-cell-preprocessing
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - OUTPUT_DIR=/app/outputs
+    volumes:
+      - ./outputs:/app/outputs
+    networks:
+      - services-network
+    restart: unless-stopped
+
+networks:
+  services-network:
+    driver: bridge

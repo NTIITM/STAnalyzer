@@ -1,0 +1,98 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8000,
+    "workers": 4,
+    "dev_mode": false,
+    "dev_test_user_id": "test_user_id",
+    "dev_test_username": "test_user",
+    "dev_test_token": "test_123",
+    "jwt_secret_key": "replace_me",
+    "access_token_expire_minutes": 1440
+  },
+  "llm": {
+    "provider": "openai",
+    "model": "qwen3.6-plus",
+    "api_key": "replace_me",
+    "base_url": "https://api.openai.com/v1",
+    "timeout_seconds": 180,
+    "connect_timeout_seconds": 10,
+    "write_timeout_seconds": 30,
+    "max_retries": 3,
+    "retry_backoff_seconds": 1.5
+  },
+  "pubmed": {
+    "api_key": "",
+    "email": "your-email@example.com"
+  },
+  "langsmith": {
+    "tracing": false,
+    "endpoint": "https://api.smith.langchain.com",
+    "project": "textmsa",
+    "api_key": ""
+  },
+  "cache": {
+    "backend": "file",
+    "file_path": "",
+    "max_entries": 50000
+  },
+  "mongodb": {
+    "uri": "mongodb://mongodb:27017/",
+    "database": "textmsa",
+    "server_selection_timeout_ms": 5000,
+    "connect_timeout_ms": 5000,
+    "socket_timeout_ms": 30000,
+    "max_pool_size": 50,
+    "min_pool_size": 10,
+    "auto_init": true
+  },
+  "storage": {
+    "base_dir": "/app/runtime",
+    "upload_dir": "/app/runtime/uploads",
+    "output_dir": "/app/runtime/outputs",
+    "data_dir": "/app/runtime/data"
+  },
+  "codegen": {
+    "work_dir": "/app/runtime/gen_code_workdir"
+  },
+  "multimodal_llm": {
+    "api_url": "https://api.openai.com/v1",
+    "model": "qwen3.6-plus",
+    "api_key": "replace_me",
+    "timeout_seconds": 180,
+    "connect_timeout_seconds": 30,
+    "write_timeout_seconds": 30,
+    "max_retries": 3,
+    "retry_backoff_seconds": 1.5
+  },
+  "reranker_llm": {
+    "base_url": "https://example.com",
+    "endpoint": "/api/v1/rerank",
+    "model": "your-reranker-model",
+    "api_key": "replace_me",
+    "timeout_seconds": 60,
+    "connect_timeout_seconds": 10,
+    "write_timeout_seconds": 30,
+    "max_retries": 3,
+    "retry_backoff_seconds": 1.5,
+    "provider": "custom",
+    "instruct": "Given a query, retrieve relevant passages."
+  },
+  "codegen_llm": {
+    "base_url": "https://api.openai.com/v1",
+    "model": "qwen3.6-plus",
+    "api_key": "replace_me",
+    "timeout_seconds": 180,
+    "connect_timeout_seconds": 10,
+    "write_timeout_seconds": 30,
+    "max_retries": 3,
+    "retry_backoff_seconds": 1.5,
+    "provider": "openai"
+  },
+  "system_server": {
+    "url": "http://system-server:9000",
+    "timeout": 10.0,
+    "retry_count": 3,
+    "enable_registration": false
+  }
+}

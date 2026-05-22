@@ -1,0 +1,147 @@
+{
+  "service_id": "gene-enrichment-analysis",
+  "name": "Cluster-based Gene Enrichment Analysis Service",
+  "description": "Run functional enrichment analysis on clustered spatial transcriptomics data. Performs enrichment analysis for each cluster separately by extracting cluster-specific genes (highly expressed or marker genes) and identifying enriched pathways/functions. Uses gseapy Enrichr, supports many gene set libraries (GO, KEGG, etc.) and organisms. Results include cluster information for each enrichment result. Computes rich stats (total/ significant pathways, p-value/FDR distributions, per-pathway gene counts, odds ratio, combined score, overlap counts) and produces multiple plots (top pathways bar, enrichment dot, gene ratio, p-value histogram, volcano) with cluster annotations.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:45209",
+  "port": 45209,
+  "service_suffix": "/api/enrich",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "cluster_key": "cluster",
+    "gene_selection_method": "top_expressed",
+    "top_n_genes": 200,
+    "library": "GO_Biological_Process_2021",
+    "organism": "Human",
+    "engine": "enrichr"
+  },
+  "parameter_schema": {
+    "cluster_key": {
+      "type": "string",
+      "default_value": "cluster",
+      "description": "Column name in obs containing cluster labels (e.g., 'cluster', 'leiden', 'louvain')",
+      "required": false
+    },
+    "gene_selection_method": {
+      "type": "enum",
+      "default_value": "top_expressed",
+      "enum_values": [
+        "top_expressed",
+        "marker_genes"
+      ],
+      "description": "Method to select genes for each cluster: 'top_expressed' (top N highly expressed genes) or 'marker_genes' (cluster-specific marker genes using fold change)",
+      "required": false
+    },
+    "top_n_genes": {
+      "type": "discrete",
+      "default_value": 200,
+      "description": "Number of top genes to select per cluster (used when gene_selection_method='top_expressed')",
+      "required": false
+    },
+    "library": {
+      "type": "enum",
+      "default_value": "GO_Biological_Process_2021",
+      "enum_values": [
+        "GO_Biological_Process_2021",
+        "GO_Biological_Process_2023",
+        "GO_Molecular_Function_2021",
+        "GO_Molecular_Function_2023",
+        "GO_Cellular_Component_2021",
+        "GO_Cellular_Component_2023",
+        "KEGG_2019_Human",
+        "KEGG_2019_Mouse",
+        "KEGG_2021_Human",
+        "KEGG_2021_Mouse",
+        "Reactome_2022",
+        "WikiPathways_2019_Human",
+        "WikiPathways_2019_Mouse",
+        "MSigDB_Hallmark_2020",
+        "MSigDB_Oncogenic_Signatures",
+        "BioPlanet_2019",
+        "ChEA_2016",
+        "ChEA_2022",
+        "ENCODE_and_ChEA_Consensus_TFs_from_ChIP-X",
+        "ENCODE_TF_ChIP-seq_2015",
+        "ARCHS4_TFs_Coexp",
+        "Transcription_Factor_PPIs",
+        "TF_Perturbations_Followed_by_Expression",
+        "TF-LOF_Expression_from_GEO",
+        "DisGeNET",
+        "Human_Phenotype_Ontology",
+        "MGI_Mammalian_Phenotype_Level_4_2021",
+        "GWAS_Catalog_2019",
+        "Jensen_DISEASES",
+        "Jensen_COMPARTMENTS",
+        "Jensen_TISSUES",
+        "Human_Gene_Atlas",
+        "Disease_Perturbations_from_GEO_up",
+        "Disease_Perturbations_from_GEO_down",
+        "Drug_Perturbations_from_GEO_2014",
+        "Drug_Perturbations_from_GEO_up",
+        "Drug_Perturbations_from_GEO_down",
+        "Virus_Perturbations_from_GEO_up",
+        "Virus_Perturbations_from_GEO_down",
+        "LINCS_L1000_Chem_Pert_up",
+        "LINCS_L1000_Chem_Pert_down",
+        "LINCS_L1000_Chem_Pert_Consensus_Sigs",
+        "LINCS_L1000_Ligand_Perturbations_up",
+        "LINCS_L1000_Ligand_Perturbations_down"
+      ],
+      "description": "Enrichment library name (common Enrichr libraries; must be one of the listed values)",
+      "required": false
+    },
+    "organism": {
+      "type": "string",
+      "default_value": "Human",
+      "description": "Organism (Human/Mouse, etc.)",
+      "required": false
+    },
+    "engine": {
+      "type": "enum",
+      "default_value": "enrichr",
+      "enum_values": [
+        "enrichr",
+        "kegg"
+      ],
+      "description": "Enrichment engine: enrichr or kegg (kegg auto-selects KEGG_2021_* or the provided KEGG_* name)",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": [
+        "clustered_spatial_rna_seq_data"
+      ],
+      "description": "Clustered spatial transcriptomics data in AnnData/h5ad format. Must contain cluster labels in obs (specified by cluster_key parameter) and gene expression matrix."
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs enrichment result CSVs, detailed stats, and multiple visualizations.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "enrichment_results.csv",
+        "description": "CSV file containing functional enrichment analysis results from gseapy Enrichr, with one row per cluster-pathway combination. Columns: 'cluster' (cluster ID), 'Term' (pathway/term name), 'Overlap' (overlap between input genes and term genes, e.g., '50/200'), 'P-value' (statistical p-value for enrichment), 'Adjusted P-value' (adjusted p-value using multiple testing correction), 'Odds Ratio' (odds ratio for enrichment), 'Combined Score' (combined score combining p-value and odds ratio), 'Genes' (comma-separated list of overlapping genes), 'gene_count' (number of overlapping genes), 'total_genes' (total genes in the term)",
+        "file_type_id": "pathway_enrichment_csv"
+      },
+      {
+        "type": "file",
+        "filename": "enrichment_bar.png",
+        "description": "Top pathways bar plot (PNG, 300 DPI) showing -log10 p-values for the top 20 enriched items per cluster, with cluster annotations",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "enrichment_volcano.png",
+        "description": "Enrichment volcano plot (PNG, 300 DPI) showing -log10 adjusted p-value vs odds ratio for pathways",
+        "file_type_id": "generic_png"
+      },
+      {
+        "type": "file",
+        "filename": "enrichment_summary.txt",
+        "description": "Detailed text report containing comprehensive enrichment analysis statistics including analysis parameters, basic statistics, p-value distributions, combined score distributions, overlap gene counts, gene count per pathway statistics, odds ratio distributions, and per-cluster statistics with top enriched terms",
+        "file_type_id": "generic_text"
+      }
+    ]
+  }
+}

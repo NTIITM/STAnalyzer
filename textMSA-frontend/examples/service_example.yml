@@ -1,0 +1,59 @@
+service_id: spatial_preprocessing
+name: 空间转录组预处理
+description: 对空间转录组数据进行预处理和质量控制
+version: 1.0.0
+url: http://remote-server:8080/api/preprocess
+tags:
+  - preprocessing
+  - quality_control
+  - normalization
+visibility: private
+status: pending
+request_config:
+  http_method: POST
+  headers:
+    Content-Type: multipart/form-data
+  timeout_seconds: 600
+  retry_count: 2
+  retry_delay_seconds: 5
+parameter_template:
+  normalize: true
+  qc_threshold: 0.3
+  min_genes: 200
+  max_genes: 5000
+parameter_schema:
+  normalize:
+    type: boolean
+    default_value: true
+    description: 是否进行标准化
+    required: false
+  qc_threshold:
+    type: continuous
+    default_value: 0.3
+    min_value: 0.0
+    max_value: 1.0
+    description: 质量控制阈值
+    required: true
+  min_genes:
+    type: discrete
+    default_value: 200
+    min_value: 0
+    max_value: 10000
+    description: 最小基因数
+    required: true
+  max_genes:
+    type: discrete
+    default_value: 5000
+    min_value: 0
+    max_value: 50000
+    description: 最大基因数
+    required: true
+  method:
+    type: enum
+    default_value: standard
+    enum_values:
+      - standard
+      - robust
+    description: 标准化方法
+    required: true
+

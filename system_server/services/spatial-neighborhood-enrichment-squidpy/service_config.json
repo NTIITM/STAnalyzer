@@ -1,0 +1,107 @@
+{
+  "service_id": "spatial-neighborhood-enrichment-squidpy",
+  "name": "Spatial Neighborhood Enrichment (Squidpy)",
+  "description": "Calculate neighborhood enrichment between cluster categories using Squidpy. Identifies microenvironments by finding which cell types or spatial domains tend to co-locate or repel each other in the physical tissue space.",
+  "version": "1.0.0",
+  "baseurl": "http://localhost:53901",
+  "port": 53901,
+  "service_suffix": "/api/neighborhood-enrichment",
+  "download_suffix": "/api/download",
+  "parameter_template": {
+    "file_type": "auto",
+    "spatial_key": "spatial",
+    "cluster_key": "leiden",
+    "n_neighbors": 6,
+    "radius": null,
+    "n_perms": 1000,
+    "seed": 0
+  },
+  "parameter_schema": {
+    "file_type": {
+      "type": "enum",
+      "default_value": "auto",
+      "enum_values": ["auto", "h5ad"],
+      "description": "Input file type",
+      "required": false
+    },
+    "spatial_key": {
+      "type": "string",
+      "default_value": "spatial",
+      "description": "obsm key containing spatial coordinates",
+      "required": false
+    },
+    "cluster_key": {
+      "type": "string",
+      "default_value": "leiden",
+      "description": "obs key containing discrete cluster/category labels",
+      "required": true
+    },
+    "n_neighbors": {
+      "type": "discrete",
+      "default_value": 6,
+      "min_value": 2,
+      "max_value": 100,
+      "description": "Number of nearest neighbors to compute the spatial graph (used if radius is null)",
+      "required": false
+    },
+    "radius": {
+      "type": "continuous",
+      "default_value": null,
+      "min_value": 0.0,
+      "max_value": 1000.0,
+      "description": "Distance radius to compute the spatial graph (overrides n_neighbors if provided)",
+      "required": false
+    },
+    "n_perms": {
+      "type": "discrete",
+      "default_value": 1000,
+      "min_value": 100,
+      "max_value": 10000,
+      "description": "Number of permutations for computing the z-score",
+      "required": false
+    },
+    "seed": {
+      "type": "discrete",
+      "default_value": 0,
+      "min_value": 0,
+      "max_value": 999999,
+      "description": "Random seed for reproducible permutations",
+      "required": false
+    }
+  },
+  "accepted_files": {
+    "file": {
+      "file_type_ids": ["clustered_spatial_rna_seq_data", "annotated_spatial_rna_seq_data"],
+      "description": "Spatial transcriptomics data (h5ad format) containing cluster/cell type labels in obs and spatial coordinates in obsm"
+    }
+  },
+  "output_config": {
+    "collection_description": "Outputs neighborhood enrichment z-scores indicating spatial co-localization or repulsion, along with visualization and data objects.",
+    "items": [
+      {
+        "type": "file",
+        "filename": "neighborhood_enrichment_zscores.csv",
+        "description": "CSV file containing the neighborhood enrichment z-scores matrix. Rows and columns represent unique cluster labels from the provided cluster_key. Positive z-scores indicate spatial co-localization (enrichment) between the two cell types, while negative scores indicate spatial avoidance (depletion).",
+        "file_type_id": "spatial_neighborhood_enrichment_csv"
+      },
+      {
+        "type": "file",
+        "filename": "neighborhood_enrichment_heatmap.png",
+        "description": "Heatmap image (PNG, 300 DPI) visualizing the neighborhood enrichment z-scores. Warmer colors indicate co-localization and cooler colors indicate avoidance.",
+        "file_type_id": "heatmap_png"
+      },
+      {
+        "type": "file",
+        "filename": "enriched_spatial_data.h5ad",
+        "description": "AnnData object (h5ad format) storing the spatial neighborhood graph in `uns['spatial_neighbors']` and the computed enrichment metrics in `uns[cluster_key + '_nhood_enrichment']`. Useful for downstream Squidpy processing.",
+        "file_type_id": "clustered_spatial_rna_seq_data"
+      },
+      {
+        "type": "file",
+        "filename": "statistics.txt",
+        "description": "Text report summarizing the analysis parameters, number of clusters analyzed, spatial graph construction metrics, and execution time.",
+        "file_type_id": "txt_report"
+      }
+    ]
+  }
+}
