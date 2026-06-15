@@ -199,14 +199,14 @@ Recommended startup order for local development:
 - `system_server`: `/api/v1/services`, `/api/v1/services/{service_name}`, `/api/v1/services/{service_name}/start`, `/api/v1/services/{service_name}/stop`
 - Frontend base path: `/STAnalyzer/`
 
+## License
+
+STAnalyzer code developed by the authors is released under the Apache License 2.0. See [`LICENSE`](LICENSE).
+
+Bundled third-party components retain their original licenses and are not relicensed by this repository. See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and the license files in the relevant component directories. Use of a hosted STAnalyzer service may also be subject to separate service-access terms and to the terms of third-party software, APIs, databases, LLM providers, and hosted model providers used during analysis.
+
 ## Open-Source Release Notes
 
 This monorepo was prepared from three existing project directories. The original `.git` histories, runtime logs, generated outputs, local caches, virtual environments, and large local datasets were excluded.
 
-Before publishing publicly:
-
-1. Add a project license.
-2. Review `system_server/services` for third-party code and dataset redistribution terms.
-3. Rotate any API keys that ever existed in local unredacted config files.
-4. Replace deployment placeholders with public-safe defaults.
-5. Run a final secret scan before pushing to a remote repository.
+The checked-in configuration uses placeholders only. Operators should configure deployment-specific credentials, review third-party software and data redistribution terms, and run secret scans before publishing deployment-specific configuration.
